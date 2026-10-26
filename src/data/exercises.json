@@ -1,0 +1,1073 @@
+[
+  {
+    "id": "ab-wheel-rollout",
+    "name": "Ab Wheel Rollout",
+    "equipment": "other",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": true,
+    "level": "intermediate",
+    "aliases": [
+      "ab roller",
+      "ab wheel",
+      "rollout"
+    ],
+    "source": "Ab_Roller"
+  },
+  {
+    "id": "back-extension",
+    "name": "Back Extension",
+    "equipment": "bodyweight",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": true,
+    "level": "beginner",
+    "aliases": [
+      "45 degree back extension",
+      "hyper",
+      "hyperextension"
+    ],
+    "source": "Hyperextensions_Back_Extensions"
+  },
+  {
+    "id": "barbell-back-squat",
+    "name": "Barbell Back Squat",
+    "equipment": "barbell",
+    "force": "legs",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "aliases": [
+      "back squat",
+      "barbell squat",
+      "bb squat",
+      "squat"
+    ],
+    "source": "Barbell_Full_Squat"
+  },
+  {
+    "id": "barbell-bench-press",
+    "name": "Barbell Bench Press",
+    "equipment": "barbell",
+    "force": "push",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "bb bench",
+      "bench",
+      "bench press",
+      "flat bench"
+    ],
+    "source": "Barbell_Bench_Press_-_Medium_Grip"
+  },
+  {
+    "id": "barbell-hack-squat",
+    "name": "Barbell Hack Squat",
+    "equipment": "barbell",
+    "force": "legs",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "aliases": [
+      "rear hack squat"
+    ],
+    "source": "Barbell_Hack_Squat"
+  },
+  {
+    "id": "barbell-lunge",
+    "name": "Barbell Lunge",
+    "equipment": "barbell",
+    "force": "legs",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "aliases": [
+      "barbell walking lunge"
+    ],
+    "source": "Barbell_Lunge"
+  },
+  {
+    "id": "barbell-row",
+    "name": "Barbell Row",
+    "equipment": "barbell",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "bb row",
+      "bent over row",
+      "bent-over row",
+      "pendlay row"
+    ],
+    "source": "Bent_Over_Barbell_Row"
+  },
+  {
+    "id": "barbell-shrug",
+    "name": "Barbell Shrug",
+    "equipment": "barbell",
+    "force": "pull",
+    "mechanic": "isolation",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "shrug",
+      "shrugs",
+      "trap shrug"
+    ],
+    "source": "Barbell_Shrug"
+  },
+  {
+    "id": "bodyweight-lunge",
+    "name": "Bodyweight Lunge",
+    "equipment": "bodyweight",
+    "force": "legs",
+    "mechanic": "compound",
+    "isBodyweight": true,
+    "level": "beginner",
+    "aliases": [
+      "bodyweight walking lunge",
+      "walking lunges"
+    ],
+    "source": "Bodyweight_Walking_Lunge"
+  },
+  {
+    "id": "bodyweight-squat",
+    "name": "Bodyweight Squat",
+    "equipment": "bodyweight",
+    "force": "legs",
+    "mechanic": "compound",
+    "isBodyweight": true,
+    "level": "beginner",
+    "aliases": [
+      "air squat",
+      "squat bodyweight"
+    ],
+    "source": "Bodyweight_Squat"
+  },
+  {
+    "id": "cable-chest-press",
+    "name": "Cable Chest Press",
+    "equipment": "cable",
+    "force": "push",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "cable press",
+      "standing cable press"
+    ],
+    "source": "Cable_Chest_Press"
+  },
+  {
+    "id": "cable-crunch",
+    "name": "Cable Crunch",
+    "equipment": "cable",
+    "force": "pull",
+    "mechanic": "isolation",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "kneeling cable crunch",
+      "rope crunch"
+    ],
+    "source": "Cable_Crunch"
+  },
+  {
+    "id": "cable-pull-through",
+    "name": "Cable Pull-Through",
+    "equipment": "cable",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "cable pullthrough",
+      "pull through"
+    ],
+    "source": "Pull_Through"
+  },
+  {
+    "id": "cable-wood-chop",
+    "name": "Cable Wood Chop",
+    "equipment": "cable",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "cable chop",
+      "wood chop",
+      "woodchop"
+    ],
+    "source": "Standing_Cable_Wood_Chop"
+  },
+  {
+    "id": "chin-up",
+    "name": "Chin-Up",
+    "equipment": "bodyweight",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": true,
+    "level": "beginner",
+    "aliases": [
+      "chin up",
+      "chinup",
+      "underhand pull-up"
+    ],
+    "source": "Chin-Up"
+  },
+  {
+    "id": "close-grip-bench-press",
+    "name": "Close-Grip Bench Press",
+    "equipment": "barbell",
+    "force": "push",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "cgbp",
+      "close grip bench"
+    ],
+    "source": "Close-Grip_Barbell_Bench_Press"
+  },
+  {
+    "id": "close-grip-lat-pulldown",
+    "name": "Close-Grip Lat Pulldown",
+    "equipment": "cable",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "neutral grip pulldown",
+      "v-bar pulldown"
+    ],
+    "source": "Close-Grip_Front_Lat_Pulldown"
+  },
+  {
+    "id": "crunch",
+    "name": "Crunch",
+    "equipment": "bodyweight",
+    "force": "pull",
+    "mechanic": "isolation",
+    "isBodyweight": true,
+    "level": "beginner",
+    "aliases": [
+      "ab crunch",
+      "crunches"
+    ],
+    "source": "Crunches"
+  },
+  {
+    "id": "dead-bug",
+    "name": "Dead Bug",
+    "equipment": "bodyweight",
+    "force": "static",
+    "mechanic": "compound",
+    "isBodyweight": true,
+    "level": "beginner",
+    "aliases": [
+      "deadbug"
+    ],
+    "source": "Dead_Bug"
+  },
+  {
+    "id": "deadlift",
+    "name": "Deadlift",
+    "equipment": "barbell",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "aliases": [
+      "barbell deadlift",
+      "conventional deadlift",
+      "dl"
+    ],
+    "source": "Barbell_Deadlift"
+  },
+  {
+    "id": "decline-dumbbell-bench-press",
+    "name": "Decline Dumbbell Bench Press",
+    "equipment": "dumbbell",
+    "force": "push",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "decline bench",
+      "decline press"
+    ],
+    "source": "Decline_Dumbbell_Bench_Press"
+  },
+  {
+    "id": "dip",
+    "name": "Dip",
+    "equipment": "bodyweight",
+    "force": "push",
+    "mechanic": "compound",
+    "isBodyweight": true,
+    "level": "intermediate",
+    "aliases": [
+      "chest dip",
+      "dips",
+      "parallel bar dip",
+      "tricep dip"
+    ],
+    "source": "Dips_-_Triceps_Version"
+  },
+  {
+    "id": "dumbbell-bench-press",
+    "name": "Dumbbell Bench Press",
+    "equipment": "dumbbell",
+    "force": "push",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "db bench",
+      "db press"
+    ],
+    "source": "Dumbbell_Bench_Press"
+  },
+  {
+    "id": "dumbbell-bent-over-row",
+    "name": "Dumbbell Bent-Over Row",
+    "equipment": "dumbbell",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "db bent over row",
+      "two dumbbell row"
+    ],
+    "source": "Bent_Over_Two-Dumbbell_Row"
+  },
+  {
+    "id": "dumbbell-floor-press",
+    "name": "Dumbbell Floor Press",
+    "equipment": "dumbbell",
+    "force": "push",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "aliases": [
+      "floor press"
+    ],
+    "source": "Dumbbell_Floor_Press"
+  },
+  {
+    "id": "dumbbell-lateral-raise",
+    "name": "Dumbbell Lateral Raise",
+    "equipment": "dumbbell",
+    "force": "push",
+    "mechanic": "isolation",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "lat raise",
+      "lateral raise",
+      "side lateral raise",
+      "side raise"
+    ],
+    "source": "Side_Lateral_Raise"
+  },
+  {
+    "id": "dumbbell-lunge",
+    "name": "Dumbbell Lunge",
+    "equipment": "dumbbell",
+    "force": "legs",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "db lunge",
+      "lunge",
+      "lunges",
+      "walking lunge"
+    ],
+    "source": "Dumbbell_Lunges"
+  },
+  {
+    "id": "dumbbell-pullover",
+    "name": "Dumbbell Pullover",
+    "equipment": "dumbbell",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "aliases": [
+      "db pullover",
+      "pullover"
+    ],
+    "source": "Straight-Arm_Dumbbell_Pullover"
+  },
+  {
+    "id": "dumbbell-reverse-fly",
+    "name": "Dumbbell Reverse Fly",
+    "equipment": "dumbbell",
+    "force": "pull",
+    "mechanic": "isolation",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "bent over fly",
+      "rear delt fly",
+      "rear delt raise",
+      "reverse flyes"
+    ],
+    "source": "Reverse_Flyes"
+  },
+  {
+    "id": "dumbbell-reverse-lunge",
+    "name": "Dumbbell Reverse Lunge",
+    "equipment": "dumbbell",
+    "force": "legs",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "aliases": [
+      "back lunge",
+      "rear lunge",
+      "reverse lunge"
+    ],
+    "source": "Dumbbell_Rear_Lunge"
+  },
+  {
+    "id": "dumbbell-shoulder-press",
+    "name": "Dumbbell Shoulder Press",
+    "equipment": "dumbbell",
+    "force": "push",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "db ohp",
+      "db shoulder press",
+      "seated dumbbell press"
+    ],
+    "source": "Dumbbell_Shoulder_Press"
+  },
+  {
+    "id": "dumbbell-split-squat",
+    "name": "Dumbbell Split Squat",
+    "equipment": "dumbbell",
+    "force": "legs",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "bss",
+      "bulgarian split squat",
+      "split squat"
+    ],
+    "source": "Split_Squat_with_Dumbbells"
+  },
+  {
+    "id": "dumbbell-step-up",
+    "name": "Dumbbell Step-Up",
+    "equipment": "dumbbell",
+    "force": "legs",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "aliases": [
+      "box step up",
+      "step up",
+      "step-ups"
+    ],
+    "source": "Dumbbell_Step_Ups"
+  },
+  {
+    "id": "face-pull",
+    "name": "Face Pull",
+    "equipment": "cable",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "aliases": [
+      "face pulls",
+      "rope face pull"
+    ],
+    "source": "Face_Pull"
+  },
+  {
+    "id": "farmers-walk",
+    "name": "Farmer's Walk",
+    "equipment": "dumbbell",
+    "force": "static",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "aliases": [
+      "farmer carry",
+      "farmer walk",
+      "farmers carry",
+      "loaded carry"
+    ],
+    "source": "Farmers_Walk"
+  },
+  {
+    "id": "front-squat",
+    "name": "Front Squat",
+    "equipment": "barbell",
+    "force": "legs",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "aliases": [
+      "barbell front squat"
+    ],
+    "source": "Front_Barbell_Squat"
+  },
+  {
+    "id": "glute-bridge",
+    "name": "Glute Bridge",
+    "equipment": "bodyweight",
+    "force": "push",
+    "mechanic": "compound",
+    "isBodyweight": true,
+    "level": "beginner",
+    "aliases": [
+      "bridge",
+      "butt lift",
+      "hip bridge"
+    ],
+    "source": "Butt_Lift_Bridge"
+  },
+  {
+    "id": "goblet-squat",
+    "name": "Goblet Squat",
+    "equipment": "dumbbell",
+    "force": "legs",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "db goblet squat",
+      "kettlebell goblet squat"
+    ],
+    "source": "Goblet_Squat"
+  },
+  {
+    "id": "good-morning",
+    "name": "Good Morning",
+    "equipment": "barbell",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "aliases": [
+      "barbell good morning",
+      "gm"
+    ],
+    "source": "Good_Morning"
+  },
+  {
+    "id": "hack-squat",
+    "name": "Hack Squat",
+    "equipment": "machine",
+    "force": "legs",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "machine hack squat"
+    ],
+    "source": "Hack_Squat"
+  },
+  {
+    "id": "hanging-leg-raise",
+    "name": "Hanging Leg Raise",
+    "equipment": "bodyweight",
+    "force": "pull",
+    "mechanic": "isolation",
+    "isBodyweight": true,
+    "level": "intermediate",
+    "aliases": [
+      "hanging knee raise",
+      "hanging leg raises",
+      "knee raise",
+      "toes to bar"
+    ],
+    "source": "Hanging_Leg_Raise"
+  },
+  {
+    "id": "hip-thrust",
+    "name": "Barbell Hip Thrust",
+    "equipment": "barbell",
+    "force": "push",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "aliases": [
+      "barbell glute bridge",
+      "hip thrusts"
+    ],
+    "source": "Barbell_Hip_Thrust"
+  },
+  {
+    "id": "incline-barbell-bench-press",
+    "name": "Incline Barbell Bench Press",
+    "equipment": "barbell",
+    "force": "push",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "incline bench",
+      "incline press"
+    ],
+    "source": "Barbell_Incline_Bench_Press_-_Medium_Grip"
+  },
+  {
+    "id": "incline-dumbbell-press",
+    "name": "Incline Dumbbell Press",
+    "equipment": "dumbbell",
+    "force": "push",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "incline db press",
+      "incline dumbbell bench"
+    ],
+    "source": "Incline_Dumbbell_Press"
+  },
+  {
+    "id": "inverted-row",
+    "name": "Inverted Row",
+    "equipment": "bodyweight",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": true,
+    "level": "beginner",
+    "aliases": [
+      "australian pull-up",
+      "bodyweight row",
+      "ring row"
+    ],
+    "source": "Inverted_Row"
+  },
+  {
+    "id": "kettlebell-swing",
+    "name": "Kettlebell Swing",
+    "equipment": "kettlebell",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "aliases": [
+      "kb swing",
+      "russian swing",
+      "swing"
+    ],
+    "source": "One-Arm_Kettlebell_Swings"
+  },
+  {
+    "id": "lat-pulldown",
+    "name": "Lat Pulldown",
+    "equipment": "cable",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "lat pull down",
+      "pulldown",
+      "wide grip pulldown"
+    ],
+    "source": "Wide-Grip_Lat_Pulldown"
+  },
+  {
+    "id": "leg-press",
+    "name": "Leg Press",
+    "equipment": "machine",
+    "force": "legs",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "45 degree leg press",
+      "machine leg press"
+    ],
+    "source": "Leg_Press"
+  },
+  {
+    "id": "machine-chest-press",
+    "name": "Machine Chest Press",
+    "equipment": "machine",
+    "force": "push",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "chest press",
+      "seated chest press"
+    ],
+    "source": "Machine_Bench_Press"
+  },
+  {
+    "id": "machine-row",
+    "name": "Machine Row",
+    "equipment": "machine",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "chest supported row",
+      "leverage row",
+      "plate loaded row"
+    ],
+    "source": "Leverage_Iso_Row"
+  },
+  {
+    "id": "machine-shoulder-press",
+    "name": "Machine Shoulder Press",
+    "equipment": "machine",
+    "force": "push",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "military press machine",
+      "shoulder press machine"
+    ],
+    "source": "Machine_Shoulder_Military_Press"
+  },
+  {
+    "id": "one-arm-dumbbell-row",
+    "name": "One-Arm Dumbbell Row",
+    "equipment": "dumbbell",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "db row",
+      "dumbbell row",
+      "single arm row"
+    ],
+    "source": "One-Arm_Dumbbell_Row"
+  },
+  {
+    "id": "overhead-press",
+    "name": "Overhead Press",
+    "equipment": "barbell",
+    "force": "push",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "barbell press",
+      "military press",
+      "ohp",
+      "shoulder press",
+      "standing press"
+    ],
+    "source": "Standing_Military_Press"
+  },
+  {
+    "id": "pallof-press",
+    "name": "Pallof Press",
+    "equipment": "cable",
+    "force": "static",
+    "mechanic": "isolation",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "anti-rotation press",
+      "pallof"
+    ],
+    "source": "Pallof_Press"
+  },
+  {
+    "id": "plank",
+    "name": "Plank",
+    "equipment": "bodyweight",
+    "force": "static",
+    "mechanic": "isolation",
+    "isBodyweight": true,
+    "level": "beginner",
+    "aliases": [
+      "forearm plank",
+      "front plank"
+    ],
+    "source": "Plank"
+  },
+  {
+    "id": "power-clean",
+    "name": "Power Clean",
+    "equipment": "barbell",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "aliases": [
+      "barbell clean",
+      "clean",
+      "hang clean"
+    ],
+    "source": "Power_Clean"
+  },
+  {
+    "id": "pull-up",
+    "name": "Pull-Up",
+    "equipment": "bodyweight",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": true,
+    "level": "beginner",
+    "aliases": [
+      "pull up",
+      "pullup",
+      "pullups"
+    ],
+    "source": "Pullups"
+  },
+  {
+    "id": "push-press",
+    "name": "Push Press",
+    "equipment": "barbell",
+    "force": "push",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "aliases": [
+      "barbell push press"
+    ],
+    "source": "Push_Press"
+  },
+  {
+    "id": "push-up",
+    "name": "Push-Up",
+    "equipment": "bodyweight",
+    "force": "push",
+    "mechanic": "compound",
+    "isBodyweight": true,
+    "level": "beginner",
+    "aliases": [
+      "press up",
+      "press-up",
+      "pushup"
+    ],
+    "source": "Pushups"
+  },
+  {
+    "id": "reverse-grip-barbell-row",
+    "name": "Reverse-Grip Barbell Row",
+    "equipment": "barbell",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "aliases": [
+      "supinated row",
+      "underhand row",
+      "yates row"
+    ],
+    "source": "Reverse_Grip_Bent-Over_Rows"
+  },
+  {
+    "id": "romanian-deadlift",
+    "name": "Romanian Deadlift",
+    "equipment": "barbell",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "aliases": [
+      "rdl",
+      "romanian dl",
+      "stiff leg deadlift"
+    ],
+    "source": "Romanian_Deadlift"
+  },
+  {
+    "id": "russian-twist",
+    "name": "Russian Twist",
+    "equipment": "bodyweight",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": true,
+    "level": "intermediate",
+    "aliases": [
+      "twist",
+      "weighted russian twist"
+    ],
+    "source": "Russian_Twist"
+  },
+  {
+    "id": "seated-cable-row",
+    "name": "Seated Cable Row",
+    "equipment": "cable",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "cable row",
+      "low row",
+      "seated row"
+    ],
+    "source": "Seated_Cable_Rows"
+  },
+  {
+    "id": "seated-calf-raise",
+    "name": "Seated Calf Raise",
+    "equipment": "machine",
+    "force": "legs",
+    "mechanic": "isolation",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "seated calf",
+      "soleus raise"
+    ],
+    "source": "Seated_Calf_Raise"
+  },
+  {
+    "id": "seated-dumbbell-press",
+    "name": "Seated Dumbbell Press",
+    "equipment": "dumbbell",
+    "force": "push",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "seated db press"
+    ],
+    "source": "Seated_Dumbbell_Press"
+  },
+  {
+    "id": "side-plank",
+    "name": "Side Plank",
+    "equipment": "bodyweight",
+    "force": "static",
+    "mechanic": "isolation",
+    "isBodyweight": true,
+    "level": "beginner",
+    "aliases": [
+      "side bridge"
+    ],
+    "source": "Side_Bridge"
+  },
+  {
+    "id": "single-leg-romanian-deadlift",
+    "name": "Single-Leg Romanian Deadlift",
+    "equipment": "dumbbell",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "aliases": [
+      "one leg rdl",
+      "single leg rdl",
+      "sl rdl"
+    ],
+    "source": "Kettlebell_One-Legged_Deadlift"
+  },
+  {
+    "id": "smith-machine-squat",
+    "name": "Smith Machine Squat",
+    "equipment": "machine",
+    "force": "legs",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "smith squat"
+    ],
+    "source": "Smith_Machine_Squat"
+  },
+  {
+    "id": "standing-calf-raise",
+    "name": "Standing Calf Raise",
+    "equipment": "machine",
+    "force": "legs",
+    "mechanic": "isolation",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "calf raise",
+      "calf raises",
+      "machine calf raise"
+    ],
+    "source": "Standing_Calf_Raises"
+  },
+  {
+    "id": "sumo-deadlift",
+    "name": "Sumo Deadlift",
+    "equipment": "barbell",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "aliases": [
+      "sumo dl",
+      "sumo pull"
+    ],
+    "source": "Sumo_Deadlift"
+  },
+  {
+    "id": "sumo-squat",
+    "name": "Sumo Squat",
+    "equipment": "dumbbell",
+    "force": "legs",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "dumbbell sumo squat",
+      "plie squat",
+      "wide stance squat"
+    ],
+    "source": "Plie_Dumbbell_Squat"
+  },
+  {
+    "id": "t-bar-row",
+    "name": "T-Bar Row",
+    "equipment": "barbell",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "landmine row",
+      "tbar row"
+    ],
+    "source": "T-Bar_Row_with_Handle"
+  },
+  {
+    "id": "trap-bar-deadlift",
+    "name": "Trap Bar Deadlift",
+    "equipment": "other",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "hex bar deadlift",
+      "trap bar dl"
+    ],
+    "source": "Trap_Bar_Deadlift"
+  },
+  {
+    "id": "upright-row",
+    "name": "Upright Row",
+    "equipment": "barbell",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "barbell upright row"
+    ],
+    "source": "Upright_Barbell_Row"
+  }
+]

@@ -1,0 +1,1432 @@
+[
+  {
+    "exerciseId": "ab-wheel-rollout",
+    "muscleId": "abs",
+    "weight": 1
+  },
+  {
+    "exerciseId": "ab-wheel-rollout",
+    "muscleId": "front_delts",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "ab-wheel-rollout",
+    "muscleId": "lats",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "ab-wheel-rollout",
+    "muscleId": "lower_back",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "back-extension",
+    "muscleId": "glutes",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "back-extension",
+    "muscleId": "hamstrings",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "back-extension",
+    "muscleId": "lower_back",
+    "weight": 1
+  },
+  {
+    "exerciseId": "barbell-back-squat",
+    "muscleId": "adductors",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "barbell-back-squat",
+    "muscleId": "glutes",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "barbell-back-squat",
+    "muscleId": "hamstrings",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "barbell-back-squat",
+    "muscleId": "lower_back",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "barbell-back-squat",
+    "muscleId": "quads",
+    "weight": 1
+  },
+  {
+    "exerciseId": "barbell-bench-press",
+    "muscleId": "chest",
+    "weight": 1
+  },
+  {
+    "exerciseId": "barbell-bench-press",
+    "muscleId": "front_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "barbell-bench-press",
+    "muscleId": "triceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "barbell-hack-squat",
+    "muscleId": "forearms",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "barbell-hack-squat",
+    "muscleId": "glutes",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "barbell-hack-squat",
+    "muscleId": "hamstrings",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "barbell-hack-squat",
+    "muscleId": "quads",
+    "weight": 1
+  },
+  {
+    "exerciseId": "barbell-lunge",
+    "muscleId": "adductors",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "barbell-lunge",
+    "muscleId": "glutes",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "barbell-lunge",
+    "muscleId": "hamstrings",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "barbell-lunge",
+    "muscleId": "quads",
+    "weight": 1
+  },
+  {
+    "exerciseId": "barbell-row",
+    "muscleId": "biceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "barbell-row",
+    "muscleId": "forearms",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "barbell-row",
+    "muscleId": "lats",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "barbell-row",
+    "muscleId": "lower_back",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "barbell-row",
+    "muscleId": "rear_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "barbell-row",
+    "muscleId": "upper_back",
+    "weight": 1
+  },
+  {
+    "exerciseId": "barbell-shrug",
+    "muscleId": "forearms",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "barbell-shrug",
+    "muscleId": "upper_back",
+    "weight": 1
+  },
+  {
+    "exerciseId": "bodyweight-lunge",
+    "muscleId": "glutes",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "bodyweight-lunge",
+    "muscleId": "hamstrings",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "bodyweight-lunge",
+    "muscleId": "quads",
+    "weight": 1
+  },
+  {
+    "exerciseId": "bodyweight-squat",
+    "muscleId": "adductors",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "bodyweight-squat",
+    "muscleId": "glutes",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "bodyweight-squat",
+    "muscleId": "hamstrings",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "bodyweight-squat",
+    "muscleId": "quads",
+    "weight": 1
+  },
+  {
+    "exerciseId": "cable-chest-press",
+    "muscleId": "chest",
+    "weight": 1
+  },
+  {
+    "exerciseId": "cable-chest-press",
+    "muscleId": "front_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "cable-chest-press",
+    "muscleId": "triceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "cable-crunch",
+    "muscleId": "abs",
+    "weight": 1
+  },
+  {
+    "exerciseId": "cable-crunch",
+    "muscleId": "obliques",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "cable-pull-through",
+    "muscleId": "glutes",
+    "weight": 1
+  },
+  {
+    "exerciseId": "cable-pull-through",
+    "muscleId": "hamstrings",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "cable-pull-through",
+    "muscleId": "lower_back",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "cable-wood-chop",
+    "muscleId": "abs",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "cable-wood-chop",
+    "muscleId": "front_delts",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "cable-wood-chop",
+    "muscleId": "glutes",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "cable-wood-chop",
+    "muscleId": "obliques",
+    "weight": 1
+  },
+  {
+    "exerciseId": "chin-up",
+    "muscleId": "biceps",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "chin-up",
+    "muscleId": "forearms",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "chin-up",
+    "muscleId": "lats",
+    "weight": 1
+  },
+  {
+    "exerciseId": "chin-up",
+    "muscleId": "upper_back",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "close-grip-bench-press",
+    "muscleId": "chest",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "close-grip-bench-press",
+    "muscleId": "front_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "close-grip-bench-press",
+    "muscleId": "triceps",
+    "weight": 1
+  },
+  {
+    "exerciseId": "close-grip-lat-pulldown",
+    "muscleId": "biceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "close-grip-lat-pulldown",
+    "muscleId": "lats",
+    "weight": 1
+  },
+  {
+    "exerciseId": "close-grip-lat-pulldown",
+    "muscleId": "upper_back",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "crunch",
+    "muscleId": "abs",
+    "weight": 1
+  },
+  {
+    "exerciseId": "crunch",
+    "muscleId": "obliques",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "dead-bug",
+    "muscleId": "abs",
+    "weight": 1
+  },
+  {
+    "exerciseId": "dead-bug",
+    "muscleId": "adductors",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "dead-bug",
+    "muscleId": "obliques",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "deadlift",
+    "muscleId": "forearms",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "deadlift",
+    "muscleId": "glutes",
+    "weight": 1
+  },
+  {
+    "exerciseId": "deadlift",
+    "muscleId": "hamstrings",
+    "weight": 1
+  },
+  {
+    "exerciseId": "deadlift",
+    "muscleId": "lats",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "deadlift",
+    "muscleId": "lower_back",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "deadlift",
+    "muscleId": "quads",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "deadlift",
+    "muscleId": "upper_back",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "decline-dumbbell-bench-press",
+    "muscleId": "chest",
+    "weight": 1
+  },
+  {
+    "exerciseId": "decline-dumbbell-bench-press",
+    "muscleId": "front_delts",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "decline-dumbbell-bench-press",
+    "muscleId": "triceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "dip",
+    "muscleId": "chest",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "dip",
+    "muscleId": "front_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "dip",
+    "muscleId": "triceps",
+    "weight": 1
+  },
+  {
+    "exerciseId": "dumbbell-bench-press",
+    "muscleId": "chest",
+    "weight": 1
+  },
+  {
+    "exerciseId": "dumbbell-bench-press",
+    "muscleId": "front_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "dumbbell-bench-press",
+    "muscleId": "triceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "dumbbell-bent-over-row",
+    "muscleId": "biceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "dumbbell-bent-over-row",
+    "muscleId": "lats",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "dumbbell-bent-over-row",
+    "muscleId": "lower_back",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "dumbbell-bent-over-row",
+    "muscleId": "rear_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "dumbbell-bent-over-row",
+    "muscleId": "upper_back",
+    "weight": 1
+  },
+  {
+    "exerciseId": "dumbbell-floor-press",
+    "muscleId": "chest",
+    "weight": 1
+  },
+  {
+    "exerciseId": "dumbbell-floor-press",
+    "muscleId": "front_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "dumbbell-floor-press",
+    "muscleId": "triceps",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "dumbbell-lateral-raise",
+    "muscleId": "front_delts",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "dumbbell-lateral-raise",
+    "muscleId": "side_delts",
+    "weight": 1
+  },
+  {
+    "exerciseId": "dumbbell-lateral-raise",
+    "muscleId": "upper_back",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "dumbbell-lunge",
+    "muscleId": "adductors",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "dumbbell-lunge",
+    "muscleId": "glutes",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "dumbbell-lunge",
+    "muscleId": "hamstrings",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "dumbbell-lunge",
+    "muscleId": "quads",
+    "weight": 1
+  },
+  {
+    "exerciseId": "dumbbell-pullover",
+    "muscleId": "chest",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "dumbbell-pullover",
+    "muscleId": "front_delts",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "dumbbell-pullover",
+    "muscleId": "lats",
+    "weight": 1
+  },
+  {
+    "exerciseId": "dumbbell-pullover",
+    "muscleId": "triceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "dumbbell-reverse-fly",
+    "muscleId": "rear_delts",
+    "weight": 1
+  },
+  {
+    "exerciseId": "dumbbell-reverse-fly",
+    "muscleId": "upper_back",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "dumbbell-reverse-lunge",
+    "muscleId": "glutes",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "dumbbell-reverse-lunge",
+    "muscleId": "hamstrings",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "dumbbell-reverse-lunge",
+    "muscleId": "quads",
+    "weight": 1
+  },
+  {
+    "exerciseId": "dumbbell-shoulder-press",
+    "muscleId": "front_delts",
+    "weight": 1
+  },
+  {
+    "exerciseId": "dumbbell-shoulder-press",
+    "muscleId": "side_delts",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "dumbbell-shoulder-press",
+    "muscleId": "triceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "dumbbell-split-squat",
+    "muscleId": "adductors",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "dumbbell-split-squat",
+    "muscleId": "glutes",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "dumbbell-split-squat",
+    "muscleId": "hamstrings",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "dumbbell-split-squat",
+    "muscleId": "quads",
+    "weight": 1
+  },
+  {
+    "exerciseId": "dumbbell-step-up",
+    "muscleId": "calves",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "dumbbell-step-up",
+    "muscleId": "glutes",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "dumbbell-step-up",
+    "muscleId": "hamstrings",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "dumbbell-step-up",
+    "muscleId": "quads",
+    "weight": 1
+  },
+  {
+    "exerciseId": "face-pull",
+    "muscleId": "rear_delts",
+    "weight": 1
+  },
+  {
+    "exerciseId": "face-pull",
+    "muscleId": "side_delts",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "face-pull",
+    "muscleId": "upper_back",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "farmers-walk",
+    "muscleId": "abs",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "farmers-walk",
+    "muscleId": "calves",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "farmers-walk",
+    "muscleId": "forearms",
+    "weight": 1
+  },
+  {
+    "exerciseId": "farmers-walk",
+    "muscleId": "glutes",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "farmers-walk",
+    "muscleId": "hamstrings",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "farmers-walk",
+    "muscleId": "obliques",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "farmers-walk",
+    "muscleId": "quads",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "farmers-walk",
+    "muscleId": "upper_back",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "front-squat",
+    "muscleId": "abs",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "front-squat",
+    "muscleId": "adductors",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "front-squat",
+    "muscleId": "glutes",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "front-squat",
+    "muscleId": "lower_back",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "front-squat",
+    "muscleId": "quads",
+    "weight": 1
+  },
+  {
+    "exerciseId": "front-squat",
+    "muscleId": "upper_back",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "glute-bridge",
+    "muscleId": "glutes",
+    "weight": 1
+  },
+  {
+    "exerciseId": "glute-bridge",
+    "muscleId": "hamstrings",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "glute-bridge",
+    "muscleId": "lower_back",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "goblet-squat",
+    "muscleId": "abs",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "goblet-squat",
+    "muscleId": "adductors",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "goblet-squat",
+    "muscleId": "glutes",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "goblet-squat",
+    "muscleId": "quads",
+    "weight": 1
+  },
+  {
+    "exerciseId": "good-morning",
+    "muscleId": "abs",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "good-morning",
+    "muscleId": "glutes",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "good-morning",
+    "muscleId": "hamstrings",
+    "weight": 1
+  },
+  {
+    "exerciseId": "good-morning",
+    "muscleId": "lower_back",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "hack-squat",
+    "muscleId": "adductors",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "hack-squat",
+    "muscleId": "glutes",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "hack-squat",
+    "muscleId": "quads",
+    "weight": 1
+  },
+  {
+    "exerciseId": "hanging-leg-raise",
+    "muscleId": "abs",
+    "weight": 1
+  },
+  {
+    "exerciseId": "hanging-leg-raise",
+    "muscleId": "forearms",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "hanging-leg-raise",
+    "muscleId": "obliques",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "hip-thrust",
+    "muscleId": "adductors",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "hip-thrust",
+    "muscleId": "glutes",
+    "weight": 1
+  },
+  {
+    "exerciseId": "hip-thrust",
+    "muscleId": "hamstrings",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "hip-thrust",
+    "muscleId": "quads",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "incline-barbell-bench-press",
+    "muscleId": "chest",
+    "weight": 1
+  },
+  {
+    "exerciseId": "incline-barbell-bench-press",
+    "muscleId": "front_delts",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "incline-barbell-bench-press",
+    "muscleId": "triceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "incline-dumbbell-press",
+    "muscleId": "chest",
+    "weight": 1
+  },
+  {
+    "exerciseId": "incline-dumbbell-press",
+    "muscleId": "front_delts",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "incline-dumbbell-press",
+    "muscleId": "triceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "inverted-row",
+    "muscleId": "abs",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "inverted-row",
+    "muscleId": "biceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "inverted-row",
+    "muscleId": "lats",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "inverted-row",
+    "muscleId": "rear_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "inverted-row",
+    "muscleId": "upper_back",
+    "weight": 1
+  },
+  {
+    "exerciseId": "kettlebell-swing",
+    "muscleId": "abs",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "kettlebell-swing",
+    "muscleId": "calves",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "kettlebell-swing",
+    "muscleId": "front_delts",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "kettlebell-swing",
+    "muscleId": "glutes",
+    "weight": 1
+  },
+  {
+    "exerciseId": "kettlebell-swing",
+    "muscleId": "hamstrings",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "kettlebell-swing",
+    "muscleId": "lower_back",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "lat-pulldown",
+    "muscleId": "biceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "lat-pulldown",
+    "muscleId": "lats",
+    "weight": 1
+  },
+  {
+    "exerciseId": "lat-pulldown",
+    "muscleId": "rear_delts",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "lat-pulldown",
+    "muscleId": "upper_back",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "leg-press",
+    "muscleId": "adductors",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "leg-press",
+    "muscleId": "calves",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "leg-press",
+    "muscleId": "glutes",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "leg-press",
+    "muscleId": "hamstrings",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "leg-press",
+    "muscleId": "quads",
+    "weight": 1
+  },
+  {
+    "exerciseId": "machine-chest-press",
+    "muscleId": "chest",
+    "weight": 1
+  },
+  {
+    "exerciseId": "machine-chest-press",
+    "muscleId": "front_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "machine-chest-press",
+    "muscleId": "triceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "machine-row",
+    "muscleId": "biceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "machine-row",
+    "muscleId": "lats",
+    "weight": 1
+  },
+  {
+    "exerciseId": "machine-row",
+    "muscleId": "rear_delts",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "machine-row",
+    "muscleId": "upper_back",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "machine-shoulder-press",
+    "muscleId": "front_delts",
+    "weight": 1
+  },
+  {
+    "exerciseId": "machine-shoulder-press",
+    "muscleId": "side_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "machine-shoulder-press",
+    "muscleId": "triceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "one-arm-dumbbell-row",
+    "muscleId": "biceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "one-arm-dumbbell-row",
+    "muscleId": "lats",
+    "weight": 1
+  },
+  {
+    "exerciseId": "one-arm-dumbbell-row",
+    "muscleId": "rear_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "one-arm-dumbbell-row",
+    "muscleId": "upper_back",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "overhead-press",
+    "muscleId": "front_delts",
+    "weight": 1
+  },
+  {
+    "exerciseId": "overhead-press",
+    "muscleId": "side_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "overhead-press",
+    "muscleId": "triceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "overhead-press",
+    "muscleId": "upper_back",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "pallof-press",
+    "muscleId": "abs",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "pallof-press",
+    "muscleId": "front_delts",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "pallof-press",
+    "muscleId": "obliques",
+    "weight": 1
+  },
+  {
+    "exerciseId": "plank",
+    "muscleId": "abs",
+    "weight": 1
+  },
+  {
+    "exerciseId": "plank",
+    "muscleId": "front_delts",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "plank",
+    "muscleId": "glutes",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "plank",
+    "muscleId": "obliques",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "power-clean",
+    "muscleId": "calves",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "power-clean",
+    "muscleId": "forearms",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "power-clean",
+    "muscleId": "front_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "power-clean",
+    "muscleId": "glutes",
+    "weight": 1
+  },
+  {
+    "exerciseId": "power-clean",
+    "muscleId": "hamstrings",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "power-clean",
+    "muscleId": "lower_back",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "power-clean",
+    "muscleId": "quads",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "power-clean",
+    "muscleId": "upper_back",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "pull-up",
+    "muscleId": "biceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "pull-up",
+    "muscleId": "forearms",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "pull-up",
+    "muscleId": "lats",
+    "weight": 1
+  },
+  {
+    "exerciseId": "pull-up",
+    "muscleId": "rear_delts",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "pull-up",
+    "muscleId": "upper_back",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "push-press",
+    "muscleId": "front_delts",
+    "weight": 1
+  },
+  {
+    "exerciseId": "push-press",
+    "muscleId": "glutes",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "push-press",
+    "muscleId": "quads",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "push-press",
+    "muscleId": "side_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "push-press",
+    "muscleId": "triceps",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "push-up",
+    "muscleId": "abs",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "push-up",
+    "muscleId": "chest",
+    "weight": 1
+  },
+  {
+    "exerciseId": "push-up",
+    "muscleId": "front_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "push-up",
+    "muscleId": "triceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "reverse-grip-barbell-row",
+    "muscleId": "biceps",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "reverse-grip-barbell-row",
+    "muscleId": "lats",
+    "weight": 1
+  },
+  {
+    "exerciseId": "reverse-grip-barbell-row",
+    "muscleId": "lower_back",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "reverse-grip-barbell-row",
+    "muscleId": "rear_delts",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "reverse-grip-barbell-row",
+    "muscleId": "upper_back",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "romanian-deadlift",
+    "muscleId": "forearms",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "romanian-deadlift",
+    "muscleId": "glutes",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "romanian-deadlift",
+    "muscleId": "hamstrings",
+    "weight": 1
+  },
+  {
+    "exerciseId": "romanian-deadlift",
+    "muscleId": "lower_back",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "russian-twist",
+    "muscleId": "abs",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "russian-twist",
+    "muscleId": "lower_back",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "russian-twist",
+    "muscleId": "obliques",
+    "weight": 1
+  },
+  {
+    "exerciseId": "seated-cable-row",
+    "muscleId": "biceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "seated-cable-row",
+    "muscleId": "lats",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "seated-cable-row",
+    "muscleId": "rear_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "seated-cable-row",
+    "muscleId": "upper_back",
+    "weight": 1
+  },
+  {
+    "exerciseId": "seated-calf-raise",
+    "muscleId": "calves",
+    "weight": 1
+  },
+  {
+    "exerciseId": "seated-dumbbell-press",
+    "muscleId": "front_delts",
+    "weight": 1
+  },
+  {
+    "exerciseId": "seated-dumbbell-press",
+    "muscleId": "side_delts",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "seated-dumbbell-press",
+    "muscleId": "triceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "side-plank",
+    "muscleId": "abs",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "side-plank",
+    "muscleId": "glutes",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "side-plank",
+    "muscleId": "obliques",
+    "weight": 1
+  },
+  {
+    "exerciseId": "side-plank",
+    "muscleId": "side_delts",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "single-leg-romanian-deadlift",
+    "muscleId": "abs",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "single-leg-romanian-deadlift",
+    "muscleId": "adductors",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "single-leg-romanian-deadlift",
+    "muscleId": "glutes",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "single-leg-romanian-deadlift",
+    "muscleId": "hamstrings",
+    "weight": 1
+  },
+  {
+    "exerciseId": "single-leg-romanian-deadlift",
+    "muscleId": "lower_back",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "smith-machine-squat",
+    "muscleId": "glutes",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "smith-machine-squat",
+    "muscleId": "hamstrings",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "smith-machine-squat",
+    "muscleId": "quads",
+    "weight": 1
+  },
+  {
+    "exerciseId": "standing-calf-raise",
+    "muscleId": "calves",
+    "weight": 1
+  },
+  {
+    "exerciseId": "sumo-deadlift",
+    "muscleId": "adductors",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "sumo-deadlift",
+    "muscleId": "forearms",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "sumo-deadlift",
+    "muscleId": "glutes",
+    "weight": 1
+  },
+  {
+    "exerciseId": "sumo-deadlift",
+    "muscleId": "hamstrings",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "sumo-deadlift",
+    "muscleId": "lower_back",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "sumo-deadlift",
+    "muscleId": "quads",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "sumo-deadlift",
+    "muscleId": "upper_back",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "sumo-squat",
+    "muscleId": "adductors",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "sumo-squat",
+    "muscleId": "glutes",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "sumo-squat",
+    "muscleId": "hamstrings",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "sumo-squat",
+    "muscleId": "quads",
+    "weight": 1
+  },
+  {
+    "exerciseId": "t-bar-row",
+    "muscleId": "biceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "t-bar-row",
+    "muscleId": "lats",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "t-bar-row",
+    "muscleId": "lower_back",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "t-bar-row",
+    "muscleId": "rear_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "t-bar-row",
+    "muscleId": "upper_back",
+    "weight": 1
+  },
+  {
+    "exerciseId": "trap-bar-deadlift",
+    "muscleId": "forearms",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "trap-bar-deadlift",
+    "muscleId": "glutes",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "trap-bar-deadlift",
+    "muscleId": "hamstrings",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "trap-bar-deadlift",
+    "muscleId": "lower_back",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "trap-bar-deadlift",
+    "muscleId": "quads",
+    "weight": 1
+  },
+  {
+    "exerciseId": "trap-bar-deadlift",
+    "muscleId": "upper_back",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "upright-row",
+    "muscleId": "biceps",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "upright-row",
+    "muscleId": "front_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "upright-row",
+    "muscleId": "side_delts",
+    "weight": 1
+  },
+  {
+    "exerciseId": "upright-row",
+    "muscleId": "upper_back",
+    "weight": 0.75
+  }
+]
