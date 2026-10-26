@@ -45,7 +45,12 @@ export function alternatives(
   const done = new Set(exercisesDoneThisWeek);
 
   return exercises
-    .filter((e) => e.id !== exerciseId && isAvailable(e, available))
+    .filter(
+      (e) =>
+        e.id !== exerciseId &&
+        (e as { deletedAt?: number }).deletedAt === undefined &&
+        isAvailable(e, available),
+    )
     .map((e): AlternativeScore => {
       const similarity = cosineSimilarity(sourceVec, vectors.get(e.id) ?? {});
       const sameForce = e.force === source.force;

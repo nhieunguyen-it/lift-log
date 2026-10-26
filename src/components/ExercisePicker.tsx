@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { CustomBadge, ExercisePlaceholder } from '@/components/custom';
 import { useExercisesWithMuscles, useMuscles, useRecentExerciseIds } from '@/db';
 import { filterExercises } from '@/lib/exerciseFilter';
 import type { Equipment } from '@/data';
@@ -122,7 +123,7 @@ export default function ExercisePicker({ open, onOpenChange, onPick }: Props) {
                 }}
               >
                 <span className="flex items-center gap-2 font-medium">
-                  {exercise.images[0] && (
+                  {exercise.images[0] ? (
                     <img
                       src={exercise.images[0]}
                       alt=""
@@ -131,8 +132,11 @@ export default function ExercisePicker({ open, onOpenChange, onPick }: Props) {
                       height={40}
                       className="bg-muted size-10 rounded object-cover"
                     />
+                  ) : (
+                    <ExercisePlaceholder size={40} className="rounded" />
                   )}
                   {exercise.name}
+                  {exercise.isCustom && <CustomBadge />}
                   {recentSet.has(exercise.id) && <Badge variant="secondary">Recent</Badge>}
                 </span>
                 <span className="text-muted-foreground text-xs">

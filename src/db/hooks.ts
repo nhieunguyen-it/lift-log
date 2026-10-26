@@ -35,3 +35,8 @@ export const useAlternatives = (exerciseId: string | undefined) =>
 export const useWeekStartsOn = () => useLiveQuery(() => getWeekStartsOn(), []);
 export const useTargetOverrides = () => useLiveQuery(() => getTargetOverrides(), []);
 export const useEquipment = () => useLiveQuery(() => getEquipment(), []);
+
+// Phase 3 hooks live next to their repos; re-exported so UI imports one place.
+export * from './programHooks';
+export * from './progressHooks';
+export * from './customHooks';

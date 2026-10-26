@@ -5,6 +5,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import SessionEditor from '@/components/SessionEditor';
 import SummaryStats from '@/components/SummaryStats';
 import { sessionsRepo, useHistory, useSessionDetail, useUnit } from '@/db';
+import { isCustomId } from '@/data/merged';
+import { nameFor, useExerciseLookup } from '@/db/customHooks';
 import { formatDuration, formatVolume } from '@/lib/weight';
 
 const fmtDate = (ms: number) =>
@@ -18,6 +20,7 @@ const fmtDate = (ms: number) =>
 export function HistoryPage() {
   const items = useHistory();
   const unit = useUnit();
+  const lookup = useExerciseLookup();
   if (!items || !unit) {
     return (
       <section className="space-y-4" aria-busy="true">
@@ -49,7 +52,9 @@ export function HistoryPage() {
                     {formatVolume(summary.volumeKg, unit)}
                   </p>
                   <p className="text-muted-foreground truncate text-xs">
-                    {exerciseNames.join(', ') || 'No exercises'}
+                    {exerciseNames
+                      .map((n) => (isCustomId(n) ? nameFor(lookup, n) : n))
+                      .join(', ') || 'No exercises'}
                   </p>
                 </CardContent>
               </Card>

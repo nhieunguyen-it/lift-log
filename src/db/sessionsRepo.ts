@@ -89,7 +89,9 @@ export async function getSessionDetail(sessionId: string): Promise<SessionDetail
   const exercises = await Promise.all(
     ses.map(async (sessionExercise) => {
       const [exercise, sets] = await Promise.all([
-        db.exercises.get(sessionExercise.exerciseId),
+        db.exercises
+          .get(sessionExercise.exerciseId)
+          .then((e) => e ?? db.customExercises.get(sessionExercise.exerciseId)),
         db.sets.where('sessionExerciseId').equals(sessionExercise.id).toArray(),
       ]);
       sets.sort((a, b) => a.order - b.order);

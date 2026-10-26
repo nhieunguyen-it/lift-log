@@ -11,8 +11,18 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import ExportPassphraseFields, {
+  validatePassphrase,
+} from '@/components/backup/ExportPassphraseFields';
+import ImportPassphraseDialog from '@/components/backup/ImportPassphraseDialog';
 import { backup, settingsRepo, useUnit } from '@/db';
-import type { Backup } from '@/db/backup';
+import {
+  BackupCryptoError,
+  decryptBackup,
+  encryptBackup,
+  isEncryptedEnvelope,
+} from '@/db/backupCrypto';
+import type { Backup, EncryptedBackupEnvelope } from '@/db/backup';
 import type { WeightUnit } from '@/lib/units';
 import { cn } from '@/lib/utils';
 
@@ -22,24 +32,52 @@ export default function SettingsPage() {
   const [pending, setPending] = useState<Backup | null>(null);
   const [message, setMessage] = useState<{ kind: 'ok' | 'error'; text: string } | null>(null);
 
+  const [passphrase, setPassphrase] = useState('');
+  const [confirmPass, setConfirmPass] = useState('');
+  const [passError, setPassError] = useState<string | null>(null);
+  const [encrypted, setEncrypted] = useState<EncryptedBackupEnvelope | null>(null);
+
   async function doExport() {
+    const err = validatePassphrase(passphrase, confirmPass);
+    setPassError(err);
+    if (err) return;
     const data = await backup.exportData();
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const json = JSON.stringify(data, null, 2);
+    const payload = passphrase
+      ? JSON.stringify(await encryptBackup(json, passphrase), null, 2)
+      : json;
+    const blob = new Blob([payload], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `lift-log-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `lift-log-${new Date().toISOString().slice(0, 10)}${passphrase ? '-encrypted' : ''}.json`;
     document.body.appendChild(a);
     a.click();
     a.remove();
     URL.revokeObjectURL(url);
-    setMessage({ kind: 'ok', text: 'Export downloaded.' });
+    setMessage({
+      kind: 'ok',
+      text: passphrase ? 'Encrypted export downloaded.' : 'Export downloaded.',
+    });
   }
 
   async function onFile(file: File | undefined) {
     if (!file) return;
-    const res = backup.parseBackup(await file.text());
+    const text = await file.text();
     if (fileRef.current) fileRef.current.value = '';
+    let raw: unknown;
+    try {
+      raw = JSON.parse(text);
+    } catch {
+      raw = undefined;
+    }
+    if (isEncryptedEnvelope(raw)) {
+      setPending(null);
+      setMessage(null);
+      setEncrypted(raw);
+      return;
+    }
+    const res = backup.parseBackup(text);
     if (!res.ok) {
       setPending(null);
       setMessage({ kind: 'error', text: res.error });
@@ -47,6 +85,20 @@ export default function SettingsPage() {
     }
     setMessage(null);
     setPending(res.data);
+  }
+
+  async function decryptSelected(pass: string): Promise<string | null> {
+    if (!encrypted) return null;
+    try {
+      const res = backup.parseBackup(await decryptBackup(encrypted, pass));
+      if (!res.ok) return res.error;
+      setEncrypted(null);
+      setMessage(null);
+      setPending(res.data);
+      return null;
+    } catch (e) {
+      return e instanceof BackupCryptoError ? e.message : 'Could not decrypt this file.';
+    }
   }
 
   async function confirmImport() {
@@ -95,7 +147,19 @@ export default function SettingsPage() {
 
       <div className="space-y-2">
         <h2 className="text-lg font-medium">Your data</h2>
-        <Button variant="outline" className="w-full" data-testid="export-json" onClick={doExport}>
+        <ExportPassphraseFields
+          passphrase={passphrase}
+          confirm={confirmPass}
+          onPassphrase={setPassphrase}
+          onConfirm={setConfirmPass}
+          error={passError}
+        />
+        <Button
+          variant="outline"
+          className="w-full"
+          data-testid="export-json"
+          onClick={() => void doExport()}
+        >
           <Download /> Export JSON
         </Button>
         <Button
@@ -135,6 +199,12 @@ export default function SettingsPage() {
           Suggestions are general training heuristics, not medical advice.
         </p>
       </div>
+
+      <ImportPassphraseDialog
+        open={encrypted !== null}
+        onSubmit={decryptSelected}
+        onCancel={() => setEncrypted(null)}
+      />
 
       <Dialog open={pending !== null} onOpenChange={(o) => !o && setPending(null)}>
         <DialogContent data-testid="import-dialog">

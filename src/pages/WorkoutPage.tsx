@@ -8,6 +8,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import DeloadCard from '@/components/progress/DeloadCard';
+import StartFromProgram from '@/components/program/StartFromProgram';
 import SessionEditor from '@/components/SessionEditor';
 import SummaryStats from '@/components/SummaryStats';
 import StaleSessionPrompt, { isStale } from '@/components/StaleSessionPrompt';
@@ -60,6 +62,8 @@ export default function WorkoutPage() {
         >
           Start workout
         </Button>
+        <StartFromProgram />
+        <DeloadCard />
       </section>
     );
   }
