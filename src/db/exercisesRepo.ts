@@ -1,16 +1,15 @@
-import type { Exercise, ExerciseMuscle } from '@/data';
+import type { ExerciseMuscle } from '@/data';
+import type { MergedExercise } from '@/data/merged';
 import { db } from './db';
+import { loadMergedExercises } from './customExercisesRepo';
 
 export interface ExerciseWithMuscles {
-  exercise: Exercise;
+  exercise: MergedExercise;
   muscles: ExerciseMuscle[];
 }
 
 export async function listExercisesWithMuscles(): Promise<ExerciseWithMuscles[]> {
-  const [exercises, links] = await Promise.all([
-    db.exercises.toArray(),
-    db.exerciseMuscles.toArray(),
-  ]);
+  const { exercises, exerciseMuscles: links } = await loadMergedExercises();
   const byEx = new Map<string, ExerciseMuscle[]>();
   for (const l of links) {
     const arr = byEx.get(l.exerciseId) ?? [];
@@ -45,8 +44,9 @@ export async function recentExerciseIds(limit = 30): Promise<string[]> {
 }
 
 export async function getExerciseWithMuscles(id: string): Promise<ExerciseWithMuscles | null> {
-  const exercise = await db.exercises.get(id);
+  const exercise = (await db.exercises.get(id)) ?? (await db.customExercises.get(id));
   if (!exercise) return null;
-  const links = await db.exerciseMuscles.where('exerciseId').equals(id).toArray();
+  const table = exercise.id.startsWith('custom-') ? db.customExerciseMuscles : db.exerciseMuscles;
+  const links = await table.where('exerciseId').equals(id).toArray();
   return { exercise, muscles: links.sort((a, b) => b.weight - a.weight) };
 }

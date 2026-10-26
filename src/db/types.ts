@@ -1,4 +1,16 @@
 import type { WeightUnit } from '@/lib/units';
+import type { MergedExercise } from '@/data/merged';
+import type { ExerciseMuscle } from '@/data';
+import type { Program } from '@/program/types';
+
+/** Phase 3 (schema v2): user-created exercise; id is `custom-<uuid>`. */
+export type CustomExerciseRow = MergedExercise & {
+  isCustom: true;
+  createdAt: number;
+  updatedAt: number;
+};
+export type CustomExerciseMuscleRow = ExerciseMuscle;
+export type ProgramRow = Program;
 
 export interface Session {
   id: string;

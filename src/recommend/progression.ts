@@ -6,6 +6,7 @@ import { kgToLbs, lbsToKg, roundKg, roundLbs } from '@/lib/units';
 import type { WeightUnit } from '@/lib/units';
 import { kgToDisplay } from '@/lib/weight';
 import type { ProgressionTarget } from './types';
+import type { MergedExercise } from '@/data/merged';
 
 const LOWER_BODY_MUSCLES: readonly MuscleId[] = [
   'glutes',
@@ -16,6 +17,8 @@ const LOWER_BODY_MUSCLES: readonly MuscleId[] = [
 ];
 
 export function repRangeFor(ex: Exercise, config: TrainingConfig = TRAINING): RepRange {
+  const own = (ex as MergedExercise).repRange;
+  if (own) return own;
   const override = config.repRangeOverrides[ex.id];
   if (override) return override;
   if (ex.isBodyweight) return config.repRanges.bodyweight;

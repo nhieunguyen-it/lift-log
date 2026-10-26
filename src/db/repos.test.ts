@@ -280,7 +280,7 @@ describe('backup', () => {
     await settingsRepo.setTargetOverrides({ chest: { mev: 6, mavLow: 10, mavHigh: 14, mrv: 18 } });
     await settingsRepo.setEquipment(['dumbbell']);
     const exported = await backup.exportData(1);
-    expect(exported.version).toBe(2);
+    expect(exported.version).toBe(backup.BACKUP_VERSION);
     await settingsRepo.setWeekStartsOn(1);
     await settingsRepo.setTargetOverrides({});
     await settingsRepo.setEquipment(['barbell']);

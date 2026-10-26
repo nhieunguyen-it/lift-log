@@ -1,0 +1,126 @@
+{
+  "app": "lift-log",
+  "version": 3,
+  "exportedAt": 1761000000000,
+  "settings": {
+    "unit": "kg",
+    "weekStartsOn": 0,
+    "targetOverrides": {
+      "chest": {
+        "mev": 6,
+        "mavLow": 10,
+        "mavHigh": 16,
+        "mrv": 20
+      }
+    },
+    "equipment": ["barbell", "dumbbell", "bodyweight"],
+    "activeProgramId": "p1",
+    "deloadDismissals": {
+      "k1": 1761000000000
+    }
+  },
+  "sessions": [
+    {
+      "id": "s1",
+      "startedAt": 1760950000000,
+      "finishedAt": 1760953600000
+    }
+  ],
+  "sessionExercises": [
+    {
+      "id": "se1",
+      "sessionId": "s1",
+      "exerciseId": "barbell-bench-press",
+      "order": 0
+    },
+    {
+      "id": "se-c",
+      "sessionId": "s1",
+      "exerciseId": "custom-0b6f3c1e-1111-4a2b-9c3d-123456789abc",
+      "order": 9
+    }
+  ],
+  "sets": [
+    {
+      "id": "w1",
+      "sessionExerciseId": "se1",
+      "order": 0,
+      "weightKg": 40,
+      "reps": 8,
+      "isWarmup": true,
+      "completedAt": 1760950100000
+    },
+    {
+      "id": "t1",
+      "sessionExerciseId": "se1",
+      "order": 1,
+      "weightKg": 80,
+      "reps": 6,
+      "rir": 2,
+      "isWarmup": false,
+      "completedAt": 1760950400000
+    }
+  ],
+  "customExercises": [
+    {
+      "id": "custom-0b6f3c1e-1111-4a2b-9c3d-123456789abc",
+      "name": "Landmine Press",
+      "equipment": "barbell",
+      "force": "push",
+      "mechanic": "compound",
+      "isBodyweight": false,
+      "level": "beginner",
+      "aliases": [],
+      "source": "custom",
+      "images": [],
+      "isCustom": true,
+      "repRange": {
+        "min": 6,
+        "max": 12
+      },
+      "createdAt": 1760000000000,
+      "updatedAt": 1760000000000
+    }
+  ],
+  "customExerciseMuscles": [
+    {
+      "exerciseId": "custom-0b6f3c1e-1111-4a2b-9c3d-123456789abc",
+      "muscleId": "front_delts",
+      "weight": 1
+    },
+    {
+      "exerciseId": "custom-0b6f3c1e-1111-4a2b-9c3d-123456789abc",
+      "muscleId": "chest",
+      "weight": 0.5
+    }
+  ],
+  "programs": [
+    {
+      "id": "p1",
+      "name": "My plan",
+      "builtIn": false,
+      "createdAt": 1760000000000,
+      "updatedAt": 1760000000000,
+      "days": [
+        {
+          "id": "d1",
+          "name": "Day 1",
+          "exercises": [
+            {
+              "exerciseId": "custom-0b6f3c1e-1111-4a2b-9c3d-123456789abc",
+              "targetSets": 3
+            },
+            {
+              "exerciseId": "barbell-bench-press",
+              "targetSets": 4,
+              "repRange": {
+                "min": 6,
+                "max": 8
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

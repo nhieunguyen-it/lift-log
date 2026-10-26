@@ -73,3 +73,38 @@ export async function getEquipment(): Promise<Equipment[]> {
 export async function setEquipment(list: Equipment[]): Promise<void> {
   await db.settings.put({ key: 'equipment', value: EquipmentListSchema.parse(list) });
 }
+
+// Phase 3 settings.
+
+/** Dismissed deload suggestions: signal key -> dismissed-at epoch ms. */
+export const DeloadDismissalsSchema = z.record(z.string(), z.number());
+export type DeloadDismissals = z.infer<typeof DeloadDismissalsSchema>;
+
+export async function getDeloadDismissals(): Promise<DeloadDismissals> {
+  const res = DeloadDismissalsSchema.safeParse((await db.settings.get('deloadDismissals'))?.value);
+  return res.success ? res.data : {};
+}
+
+export async function setDeloadDismissals(d: DeloadDismissals): Promise<void> {
+  await db.settings.put({ key: 'deloadDismissals', value: DeloadDismissalsSchema.parse(d) });
+}
+
+export async function getActiveProgramId(): Promise<string | null> {
+  const v = (await db.settings.get('activeProgramId'))?.value;
+  return typeof v === 'string' ? v : null;
+}
+
+export async function setActiveProgramId(id: string | null): Promise<void> {
+  await db.settings.put({ key: 'activeProgramId', value: id });
+}
+
+/** Generic boolean flags: 'onboardingDone', 'whatsNewPhase3Seen'. */
+export type SettingFlag = 'onboardingDone' | 'whatsNewPhase3Seen';
+
+export async function getFlag(flag: SettingFlag): Promise<boolean> {
+  return (await db.settings.get(flag))?.value === true;
+}
+
+export async function setFlag(flag: SettingFlag, value: boolean): Promise<void> {
+  await db.settings.put({ key: flag, value });
+}

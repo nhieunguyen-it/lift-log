@@ -67,3 +67,24 @@ export interface AlternativesInput {
   availableEquipment: readonly Equipment[];
   exercisesDoneThisWeek: readonly string[];
 }
+
+/** Phase 3: fatigue / deload detection. */
+export type DeloadReason = 'e1rm_drop' | 'rir_and_reps_down' | 'repeated_misses';
+
+export interface ExerciseFatigue {
+  exerciseId: string;
+  reasons: DeloadReason[];
+  /** Human one-liner, e.g. "e1RM down 7% over 4 sessions". */
+  detail: string;
+}
+
+export interface DeloadSignal {
+  /** True when enough exercises are flagged to suggest a full deload week. */
+  overall: boolean;
+  exercises: ExerciseFatigue[];
+  /** Deload prescription: fraction of sets to keep and an easy RIR. */
+  setsFraction: number;
+  targetRir: RepRange;
+  /** Stable key for dismissal: sorted flagged ids + latest session id. */
+  key: string;
+}

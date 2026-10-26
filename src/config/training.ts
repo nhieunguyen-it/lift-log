@@ -60,6 +60,37 @@ export interface TrainingConfig {
   };
   /** An active session older than this prompts finish/discard. */
   staleSessionMs: number;
+  /** Phase 3: previous weeks shown in the long (Analyze) volume trend; 11 + current = 12. */
+  longTrendWeeks: number;
+  deload: {
+    /** Sessions of one exercise considered by fatigue detection. */
+    lookbackSessions: number;
+    /** e1RM drop (fraction, 0.1 = 10%) from the window's peak to the latest session. */
+    e1rmDropFraction: number;
+    /** Minimum sessions before any signal fires. */
+    minSessions: number;
+    /** Average RIR drop (first vs last session of the window) that counts as "trending down". */
+    rirDrop: number;
+    /** Exercises that must be flagged before an overall deload is suggested. */
+    exercisesForOverall: number;
+    /** Deload week: fraction of normal working sets kept. */
+    setsFraction: number;
+    /** Deload week target RIR (easy). */
+    targetRir: RepRange;
+    /** A dismissed suggestion stays hidden this long. */
+    dismissMs: number;
+  };
+  programs: {
+    /** Default rep range shown for program exercises without an override. */
+    defaultTargetSets: number;
+  };
+  backup: {
+    pbkdf2Iterations: number;
+  };
+  charts: {
+    /** Fewer sessions than this shows an empty state instead of a chart. */
+    minSessions: number;
+  };
 }
 
 /*
@@ -128,6 +159,20 @@ export const TRAINING: TrainingConfig = {
   },
   volumeSuggestions: { exercisesPerMuscle: 3 },
   staleSessionMs: 12 * 60 * 60 * 1000,
+  longTrendWeeks: 11,
+  deload: {
+    lookbackSessions: 4,
+    e1rmDropFraction: 0.05,
+    minSessions: 3,
+    rirDrop: 1,
+    exercisesForOverall: 2,
+    setsFraction: 0.5,
+    targetRir: { min: 3, max: 4 },
+    dismissMs: 7 * 24 * 60 * 60 * 1000,
+  },
+  programs: { defaultTargetSets: 3 },
+  backup: { pbkdf2Iterations: 310_000 },
+  charts: { minSessions: 2 },
 };
 
 /** Equipment treated as "barbell or machine" for load steps. */

@@ -6,6 +6,7 @@ import { TRAINING } from '@/config/training';
 import { alternatives, nextTarget, volumeSuggestions } from '@/recommend';
 import type { AlternativeScore, ProgressionTarget, VolumeSuggestion } from '@/recommend';
 import { db } from './db';
+import { loadMergedExercises } from './customExercisesRepo';
 import {
   getEquipment,
   getTargetOverrides,
@@ -18,16 +19,24 @@ import {
 export async function loadTrainingData(): Promise<TrainingData> {
   return db.transaction(
     'r',
-    [db.sessions, db.sessionExercises, db.sets, db.exercises, db.exerciseMuscles],
+    [
+      db.sessions,
+      db.sessionExercises,
+      db.sets,
+      db.exercises,
+      db.exerciseMuscles,
+      db.customExercises,
+      db.customExerciseMuscles,
+    ],
     async () => {
-      const [sessions, sessionExercises, sets, exercises, exerciseMuscles] = await Promise.all([
+      // Tombstoned customs are included so logged history still counts toward volume.
+      const [sessions, sessionExercises, sets, merged] = await Promise.all([
         db.sessions.toArray(),
         db.sessionExercises.toArray(),
         db.sets.toArray(),
-        db.exercises.toArray(),
-        db.exerciseMuscles.toArray(),
+        loadMergedExercises(true),
       ]);
-      return { sessions, sessionExercises, sets, exercises, exerciseMuscles };
+      return { sessions, sessionExercises, sets, ...merged };
     },
   );
 }
