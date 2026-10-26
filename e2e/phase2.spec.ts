@@ -1,4 +1,5 @@
-import { expect, test, type Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
+import { expect, test } from './fixtures';
 
 const nav = (page: Page) => page.getByRole('navigation', { name: 'Primary' });
 const HOUR = 3_600_000;

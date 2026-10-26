@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Pencil, Plus } from 'lucide-react';
+import HelpButton from '@/components/guide/HelpButton';
 import ExerciseDetailDialog from '@/components/ExerciseDetailDialog';
 import { CustomBadge, CustomExerciseDialog, ExercisePlaceholder } from '@/components/custom';
 import { Button } from '@/components/ui/button';
@@ -30,7 +31,10 @@ export default function ExercisesPage() {
   return (
     <section className="space-y-4">
       <div className="flex items-center justify-between gap-2">
-        <h1 className="text-2xl font-semibold">Exercises</h1>
+        <div className="flex items-center gap-1">
+          <h1 className="text-2xl font-semibold">Exercises</h1>
+          <HelpButton anchor="custom-exercises" label="exercises and custom exercises" />
+        </div>
         <Button
           size="sm"
           data-testid="new-exercise"

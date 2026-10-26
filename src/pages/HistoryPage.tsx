@@ -1,5 +1,6 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
+import HelpButton from '@/components/guide/HelpButton';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import SessionEditor from '@/components/SessionEditor';
@@ -24,13 +25,19 @@ export function HistoryPage() {
   if (!items || !unit) {
     return (
       <section className="space-y-4" aria-busy="true">
-        <h1 className="text-2xl font-semibold">History</h1>
+        <div className="flex items-center gap-1">
+          <h1 className="text-2xl font-semibold">History</h1>
+          <HelpButton anchor="logging-history" label="history" />
+        </div>
       </section>
     );
   }
   return (
     <section className="space-y-4">
-      <h1 className="text-2xl font-semibold">History</h1>
+      <div className="flex items-center gap-1">
+        <h1 className="text-2xl font-semibold">History</h1>
+        <HelpButton anchor="logging-history" label="history" />
+      </div>
       {items.length === 0 && (
         <p className="text-muted-foreground text-sm" data-testid="history-empty">
           No finished workouts yet. Finish a workout and it will show up here.

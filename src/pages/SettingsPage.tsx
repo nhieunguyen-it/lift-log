@@ -1,8 +1,11 @@
 import { useRef, useState } from 'react';
-import { Download, Upload } from 'lucide-react';
+import { ChevronRight, Download, Upload } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import HelpButton from '@/components/guide/HelpButton';
 import EquipmentSettings from '@/components/recommend/EquipmentSettings';
 import TrainingSettings from '@/components/analyze/TrainingSettings';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -110,7 +113,10 @@ export default function SettingsPage() {
 
   return (
     <section className="space-y-6">
-      <h1 className="text-2xl font-semibold">Settings</h1>
+      <div className="flex items-center gap-1">
+        <h1 className="text-2xl font-semibold">Settings</h1>
+        <HelpButton anchor="settings" label="settings" />
+      </div>
 
       <div className="space-y-2">
         <h2 className="text-lg font-medium">Weight unit</h2>
@@ -192,6 +198,22 @@ export default function SettingsPage() {
           </p>
         )}
       </div>
+
+      <Card className="p-4">
+        <Link
+          to="/guide"
+          data-testid="settings-guide-link"
+          className="flex min-h-11 items-center justify-between gap-2 font-medium"
+        >
+          <span>
+            Guide
+            <span className="text-muted-foreground block text-sm font-normal">
+              How Lift Log works, searchable and offline
+            </span>
+          </span>
+          <ChevronRight aria-hidden="true" className="size-4 shrink-0" />
+        </Link>
+      </Card>
 
       <div className="space-y-1">
         <h2 className="text-lg font-medium">About</h2>

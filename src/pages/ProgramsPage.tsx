@@ -1,4 +1,5 @@
 import { Copy, Plus } from 'lucide-react';
+import HelpButton from '@/components/guide/HelpButton';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -23,7 +24,10 @@ function ProgramDetail({ id }: { id: string }) {
         >
           All programs
         </Link>
-        <h1 className="text-2xl font-semibold">Program</h1>
+        <div className="flex items-center gap-1">
+          <h1 className="text-2xl font-semibold">Program</h1>
+          <HelpButton anchor="programs" label="programs" />
+        </div>
       </div>
       <ProgramEditor programId={id} />
     </section>
@@ -38,7 +42,10 @@ function ProgramList() {
   if (programs === undefined) {
     return (
       <section className="space-y-4" aria-busy="true">
-        <h1 className="text-2xl font-semibold">Programs</h1>
+        <div className="flex items-center gap-1">
+          <h1 className="text-2xl font-semibold">Programs</h1>
+          <HelpButton anchor="programs" label="programs" />
+        </div>
         <div className="bg-muted h-24 animate-pulse rounded-md" aria-hidden />
       </section>
     );
@@ -54,7 +61,10 @@ function ProgramList() {
   return (
     <section className="space-y-6" data-testid="programs-page">
       <div className="flex items-center justify-between gap-2">
-        <h1 className="text-2xl font-semibold">Programs</h1>
+        <div className="flex items-center gap-1">
+          <h1 className="text-2xl font-semibold">Programs</h1>
+          <HelpButton anchor="programs" label="programs" />
+        </div>
         <Button data-testid="new-program" onClick={() => void create()}>
           <Plus /> New program
         </Button>

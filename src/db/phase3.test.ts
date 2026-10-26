@@ -28,16 +28,14 @@ describe('Dexie v1 -> v2 migration', () => {
     await old
       .table('sessionExercises')
       .add({ id: 'se1', sessionId: 's1', exerciseId: 'squat', order: 0 });
-    await old
-      .table('sets')
-      .add({
-        id: 'x',
-        sessionExerciseId: 'se1',
-        order: 0,
-        reps: 5,
-        weightKg: 100,
-        isWarmup: false,
-      });
+    await old.table('sets').add({
+      id: 'x',
+      sessionExerciseId: 'se1',
+      order: 0,
+      reps: 5,
+      weightKg: 100,
+      isWarmup: false,
+    });
     await old.table('settings').bulkAdd([
       { key: 'unit', value: 'lbs' },
       { key: 'seedVersion', value: 2 },

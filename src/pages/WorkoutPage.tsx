@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import HelpButton from '@/components/guide/HelpButton';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -31,7 +32,10 @@ export default function WorkoutPage() {
   if (active === undefined || unit === undefined) {
     return (
       <section className="space-y-4" aria-busy="true">
-        <h1 className="text-2xl font-semibold">Workout</h1>
+        <div className="flex items-center gap-1">
+          <h1 className="text-2xl font-semibold">Workout</h1>
+          <HelpButton anchor="logging" label="logging a workout" />
+        </div>
         <div className="bg-muted h-12 animate-pulse rounded-md" aria-hidden="true" />
       </section>
     );
@@ -40,7 +44,10 @@ export default function WorkoutPage() {
   if (done) {
     return (
       <section className="space-y-4">
-        <h1 className="text-2xl font-semibold">Workout</h1>
+        <div className="flex items-center gap-1">
+          <h1 className="text-2xl font-semibold">Workout</h1>
+          <HelpButton anchor="logging" label="logging a workout" />
+        </div>
         <h2 className="text-lg font-medium">Nice work!</h2>
         <SummaryStats summary={done} unit={unit} />
         <Button className="w-full" data-testid="summary-done" onClick={() => setDone(null)}>
@@ -53,7 +60,10 @@ export default function WorkoutPage() {
   if (!active) {
     return (
       <section className="space-y-4">
-        <h1 className="text-2xl font-semibold">Workout</h1>
+        <div className="flex items-center gap-1">
+          <h1 className="text-2xl font-semibold">Workout</h1>
+          <HelpButton anchor="logging" label="logging a workout" />
+        </div>
         <Button
           size="lg"
           className="w-full"
@@ -74,7 +84,10 @@ export default function WorkoutPage() {
     <section className="space-y-4">
       <div className="flex items-center justify-between gap-2">
         <div>
-          <h1 className="text-2xl font-semibold">Workout</h1>
+          <div className="flex items-center gap-1">
+            <h1 className="text-2xl font-semibold">Workout</h1>
+            <HelpButton anchor="logging" label="logging a workout" />
+          </div>
           <p className="text-muted-foreground text-xs" data-testid="session-status">
             In progress · started{' '}
             {new Date(active.startedAt).toLocaleTimeString([], {

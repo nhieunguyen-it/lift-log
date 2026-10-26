@@ -1,5 +1,6 @@
 import { Suspense, lazy, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import HelpButton from '@/components/guide/HelpButton';
 import { shiftWeek, weekWindow } from '@/analyzer';
 import type { MuscleId } from '@/data';
 import { Card } from '@/components/ui/card';
@@ -34,7 +35,10 @@ export default function AnalyzePage() {
 
   return (
     <section className="space-y-5">
-      <h1 className="text-2xl font-semibold">Analyze</h1>
+      <div className="flex items-center gap-1">
+        <h1 className="text-2xl font-semibold">Analyze</h1>
+        <HelpButton anchor="analyze-statuses" label="reading Analyze" />
+      </div>
       <DeloadCard />
       <WeekSwitcher
         window={analysis?.result.current.window ?? win}

@@ -1,6 +1,8 @@
 import { Activity, Dumbbell, History, ListChecks, Settings } from 'lucide-react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import GuideOverlays from '@/components/guide/GuideOverlays';
+import OnboardingProgramChooser from '@/components/program/OnboardingProgramChooser';
 
 const tabs = [
   { to: '/', label: 'Workout', icon: Dumbbell, end: true },
@@ -16,6 +18,7 @@ export default function AppShell() {
       <main className="flex-1 px-4 pt-[calc(env(safe-area-inset-top)+1rem)] pb-[calc(env(safe-area-inset-bottom)+5.5rem)]">
         <Outlet />
       </main>
+      <GuideOverlays programChooser={<OnboardingProgramChooser />} />
       <nav
         aria-label="Primary"
         className="bg-background/95 border-border fixed inset-x-0 bottom-0 z-40 border-t pb-[env(safe-area-inset-bottom)] backdrop-blur"
