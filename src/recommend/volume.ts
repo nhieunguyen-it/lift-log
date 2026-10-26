@@ -51,7 +51,8 @@ export function volumeSuggestions(args: {
         muscleId,
         current: sets,
         mev: target.mev,
-        setsToAdd: Math.ceil(target.mev - sets),
+        // Epsilon guards float sums of fractional weights (7.0000001 must not round up).
+        setsToAdd: Math.ceil(target.mev - sets - 1e-9),
         exercises: candidates.map((c) => ({ exerciseId: c.ex.id, muscleWeight: c.em.weight })),
       });
     } else if (sets > target.mrv) {

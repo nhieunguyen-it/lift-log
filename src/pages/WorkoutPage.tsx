@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/dialog';
 import SessionEditor from '@/components/SessionEditor';
 import SummaryStats from '@/components/SummaryStats';
+import StaleSessionPrompt, { isStale } from '@/components/StaleSessionPrompt';
 import {
   sessionsRepo,
   useActiveSession,
@@ -25,7 +26,14 @@ export default function WorkoutPage() {
   const [finishOpen, setFinishOpen] = useState(false);
   const [done, setDone] = useState<SessionSummary | null>(null);
 
-  if (active === undefined || unit === undefined) return null;
+  if (active === undefined || unit === undefined) {
+    return (
+      <section className="space-y-4" aria-busy="true">
+        <h1 className="text-2xl font-semibold">Workout</h1>
+        <div className="bg-muted h-12 animate-pulse rounded-md" aria-hidden="true" />
+      </section>
+    );
+  }
 
   if (done) {
     return (
@@ -75,6 +83,7 @@ export default function WorkoutPage() {
           Finish
         </Button>
       </div>
+      {detail && isStale(active.startedAt) && <StaleSessionPrompt detail={detail} />}
       {detail && <SessionEditor detail={detail} unit={unit} />}
       <Button
         variant="ghost"

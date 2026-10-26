@@ -18,12 +18,20 @@ const fmtDate = (ms: number) =>
 export function HistoryPage() {
   const items = useHistory();
   const unit = useUnit();
-  if (!items || !unit) return null;
+  if (!items || !unit) {
+    return (
+      <section className="space-y-4" aria-busy="true">
+        <h1 className="text-2xl font-semibold">History</h1>
+      </section>
+    );
+  }
   return (
     <section className="space-y-4">
       <h1 className="text-2xl font-semibold">History</h1>
       {items.length === 0 && (
-        <p className="text-muted-foreground text-sm">No finished workouts yet.</p>
+        <p className="text-muted-foreground text-sm" data-testid="history-empty">
+          No finished workouts yet. Finish a workout and it will show up here.
+        </p>
       )}
       <ul className="space-y-3">
         {items.map(({ session, summary, exerciseNames }) => (

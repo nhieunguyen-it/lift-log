@@ -109,11 +109,9 @@ function MuscleTargetEditor({
               aria-invalid={error ? true : undefined}
               placeholder={String(def[k])}
               className="px-2 text-foreground"
-              onChange={(e) => {
-                const next = { ...draft, [k]: e.target.value };
-                setDraft(next);
-                void save(next);
-              }}
+              onChange={(e) => setDraft({ ...draft, [k]: e.target.value })}
+              // Save on blur: saving per keystroke would store half-typed values.
+              onBlur={() => void save(draft)}
             />
           </label>
         ))}
@@ -158,14 +156,14 @@ export default function TrainingSettings() {
           Weekly volume targets (sets per muscle)
         </summary>
         <p className="text-muted-foreground px-3 pb-2 text-xs">
-          MEV = minimum effective, MAV = adaptive range, MRV = max recoverable. Changes save
-          automatically when valid.
+          MEV = minimum effective, MAV = adaptive range, MRV = max recoverable. Changes save when
+          you leave a field.
         </p>
         {overrides && (
           <ul className="divide-border divide-y border-t">
             {MUSCLES.map((m) => (
               <MuscleTargetEditor
-                key={`${m.id}-${JSON.stringify(overrides[m.id] ?? null)}`}
+                key={m.id}
                 id={m.id}
                 name={m.name}
                 current={overrides[m.id] ?? DEFAULT_TARGETS[m.id]}

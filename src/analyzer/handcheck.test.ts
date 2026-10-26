@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { analyzeWeek, defaultAnalyzerOptions, weekWindow } from './index';
 import { makeData, makeSession } from './fixtures';
-import { nextTarget } from '@/recommend';
-import { exercises } from '@/data';
+import { nextTarget, volumeSuggestions } from '@/recommend';
+import { exerciseMuscles, exercises } from '@/data';
 
 // Orchestrator hand-calculated scenarios (independent of the agents' tests).
 const MON = new Date(2026, 9, 19, 18, 0).getTime(); // Mon 19 Oct 2026, 18:00 local
@@ -76,5 +76,26 @@ describe('hand-checked scenarios', () => {
     });
     expect(t.action).toBe('increase_weight');
     expect(t.label).toBe('Target: 82.5 kg × 5–10');
+  });
+  it('review fixes: 0-rep completed set not counted; float gap does not over-round', () => {
+    const d = makeData(
+      makeSession('a', MON, [
+        { exerciseId: 'barbell-bench-press', sets: [set(80, 0), set(80, 8)] },
+        // Push-ups add chest volume; abs total is forced below to a float just under 5.
+        { exerciseId: 'push-up', sets: Array.from({ length: 28 }, () => set(0, 12)) },
+      ]),
+    );
+    const week = analyzeWeek(d, w, opts);
+    expect(week.muscles.chest.sets).toBe(29);
+    const s = volumeSuggestions({
+      week: {
+        ...week,
+        muscles: { ...week.muscles, abs: { ...week.muscles.abs, sets: 4.999999999999999 } },
+      },
+      exercises,
+      exerciseMuscles,
+      availableEquipment: ['bodyweight'],
+    }).find((x) => x.muscleId === 'abs');
+    expect(s?.kind === 'add' && s.setsToAdd).toBe(1);
   });
 });

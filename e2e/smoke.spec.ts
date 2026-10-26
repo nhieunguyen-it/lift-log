@@ -65,7 +65,26 @@ test('works offline after service worker activation', async ({ page, context }) 
   await expect(page.getByRole('heading', { name: 'History' })).toBeVisible();
   await nav(page).getByRole('link', { name: 'Exercises' }).click();
   await expect(page.getByRole('heading', { name: 'Exercises' })).toBeVisible();
+  await nav(page).getByRole('link', { name: 'Analyze' }).click();
+  await expect(page.getByRole('heading', { name: 'Analyze' })).toBeVisible();
+  // Deep link to a client route also works offline (navigateFallback).
+  await page.goto('/analyze');
+  await expect(page.getByRole('heading', { name: 'Analyze' })).toBeVisible();
   await context.setOffline(false);
+});
+
+test('manifest meets installability basics', async ({ page }) => {
+  await page.goto('/');
+  const href = await page.locator('link[rel="manifest"]').getAttribute('href');
+  expect(href).toBeTruthy();
+  const m = await (await page.request.get(href!)).json();
+  expect(m.name).toBe('Lift Log');
+  expect(m.display).toBe('standalone');
+  expect(m.start_url).toBe('/');
+  const sizes = m.icons.map((i: { sizes: string }) => i.sizes);
+  expect(sizes).toEqual(expect.arrayContaining(['192x192', '512x512']));
+  expect(m.icons.some((i: { purpose?: string }) => i.purpose === 'maskable')).toBe(true);
+  for (const i of m.icons) expect((await page.request.get(i.src)).ok()).toBe(true);
 });
 
 test('exercise detail shows two loaded images', async ({ page }) => {

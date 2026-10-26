@@ -19,16 +19,26 @@ export default function TargetChip({ exerciseId, sessionId, sessionExerciseId, s
     : target.label;
 
   async function fill() {
-    let row = sets.find(
-      (s) => s.completedAt === undefined && s.weightKg === undefined && s.reps === 0,
+    const weight = target.weightKg !== undefined && !noHistory ? target.weightKg : undefined;
+    // First open row with an empty field; only empty fields are filled.
+    const row = sets.find(
+      (s) =>
+        s.completedAt === undefined &&
+        (s.reps === 0 || (weight !== undefined && s.weightKg === undefined)),
     );
-    if (!row) row = await setsRepo.addSet(sessionExerciseId);
-    const patch: { weightKg?: number; reps?: number } = {};
-    if (target.weightKg !== undefined && row.weightKg === undefined && !noHistory) {
-      patch.weightKg = target.weightKg;
+    if (row) {
+      const patch: { weightKg?: number; reps?: number } = {};
+      if (weight !== undefined && row.weightKg === undefined) patch.weightKg = weight;
+      if (row.reps === 0) patch.reps = target.targetReps;
+      if (Object.keys(patch).length > 0) await setsRepo.updateSet(row.id, patch);
+      return;
     }
-    if (row.reps === 0) patch.reps = target.targetReps;
-    if (Object.keys(patch).length > 0) await setsRepo.updateSet(row.id, patch);
+    // A new row is prefilled from earlier sets; nothing was typed yet, so the target replaces it.
+    const added = await setsRepo.addSet(sessionExerciseId);
+    await setsRepo.updateSet(added.id, {
+      reps: target.targetReps,
+      ...(weight !== undefined ? { weightKg: weight } : {}),
+    });
   }
 
   return (

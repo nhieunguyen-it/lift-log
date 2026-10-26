@@ -39,6 +39,7 @@ export function isCountedSet(set: SetRow, maxCountedRir: number): boolean {
   return (
     set.completedAt !== undefined &&
     !set.isWarmup &&
+    set.reps > 0 &&
     (set.rir === undefined || set.rir <= maxCountedRir)
   );
 }

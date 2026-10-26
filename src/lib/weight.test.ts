@@ -37,3 +37,26 @@ describe('formatVolume rounding', () => {
     expect(formatVolume(1000.3, 'lbs')).toBe('2,205 lbs');
   });
 });
+
+describe('display/parse round trips', () => {
+  it('every typed lbs value 0..600 is stable', () => {
+    for (let lbs = 0; lbs <= 600; lbs++) {
+      const kg = parseWeightInput(String(lbs), 'lbs')!;
+      expect(weightInputText(kg, 'lbs')).toBe(String(lbs));
+    }
+  });
+  it('every typed kg value 0..300 in 0.5 steps is stable', () => {
+    for (let i = 0; i <= 600; i++) {
+      const text = String(i / 2);
+      const kg = parseWeightInput(text, 'kg')!;
+      expect(weightInputText(kg, 'kg')).toBe(text);
+    }
+  });
+  it('displays target-chip style values consistently', () => {
+    expect(weightInputText(82.5, 'kg')).toBe('82.5');
+    expect(weightInputText(82.5, 'lbs')).toBe('182');
+    const kg = parseWeightInput(weightInputText(82.5, 'lbs'), 'lbs')!;
+    expect(weightInputText(kg, 'lbs')).toBe('182');
+    expect(weightInputText(kg, 'lbs')).toBe(weightInputText(82.5, 'lbs'));
+  });
+});
