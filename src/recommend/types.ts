@@ -28,6 +28,8 @@ export interface ProgressionTarget {
   label: string;
   /** Optional one-line reason, e.g. "All sets hit 10 reps at RIR ≤ 3". */
   reason?: string;
+  /** Bodyweight at top of range: the next-harder exercise in its variant chain, if any. */
+  nextVariantId?: string;
 }
 
 export interface ExerciseSuggestion {

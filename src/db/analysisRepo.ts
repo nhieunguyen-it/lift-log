@@ -93,6 +93,7 @@ export async function getExerciseInsight(
     primaryMuscleIds: primaryMuscles(exerciseId, data),
     history,
     unit,
+    exercises: data.exercises,
   });
   return { stats: { ...stats, history, lastSession: history[0] }, target };
 }

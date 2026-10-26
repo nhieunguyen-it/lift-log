@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { Suspense, lazy, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { shiftWeek, weekWindow } from '@/analyzer';
 import type { MuscleId } from '@/data';
@@ -9,6 +9,9 @@ import MuscleList from '@/components/analyze/MuscleList';
 import StatusLegend from '@/components/analyze/StatusLegend';
 import VolumeSuggestionList from '@/components/recommend/VolumeSuggestionList';
 import WeekSwitcher from '@/components/analyze/WeekSwitcher';
+import DeloadCard from '@/components/progress/DeloadCard';
+
+const VolumeTrendChart = lazy(() => import('@/components/progress/VolumeTrendChart'));
 import { useAnalysis, useExercisesWithMuscles, useWeekStartsOn } from '@/db';
 
 export default function AnalyzePage() {
@@ -32,6 +35,7 @@ export default function AnalyzePage() {
   return (
     <section className="space-y-5">
       <h1 className="text-2xl font-semibold">Analyze</h1>
+      <DeloadCard />
       <WeekSwitcher
         window={analysis?.result.current.window ?? win}
         isCurrent={isCurrent}
@@ -70,6 +74,13 @@ export default function AnalyzePage() {
               onSelect={setSelected}
               limit={4}
             />
+            <Suspense
+              fallback={
+                <div className="bg-muted h-48 animate-pulse rounded-md" aria-hidden="true" />
+              }
+            >
+              <VolumeTrendChart />
+            </Suspense>
           </Card>
 
           <MuscleList muscles={analysis.result.current.muscles} onSelect={setSelected} />

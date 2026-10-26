@@ -147,3 +147,16 @@ export function analyze(data: TrainingData, refTs: number, opts: AnalyzerOptions
   }
   return { current: analyses[analyses.length - 1], trend };
 }
+
+/**
+ * Weekly weighted sets per muscle over `longTrendWeeks` previous weeks plus the current one
+ * (oldest first). Same counting rules as `analyze`.
+ */
+export function longTrend(
+  data: TrainingData,
+  refTs: number,
+  opts: AnalyzerOptions,
+  weeks: number = TRAINING.longTrendWeeks,
+): Record<MuscleId, MuscleTrendPoint[]> {
+  return analyze(data, refTs, { ...opts, trendWeeks: weeks }).trend;
+}

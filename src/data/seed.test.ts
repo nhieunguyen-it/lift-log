@@ -3,10 +3,11 @@ import { exercises, exerciseMuscles, muscles, SEED_VERSION } from './index';
 import type { Exercise, ExerciseMuscle } from './index';
 import { validateSeed } from './schema';
 import { MUSCLE_IDS } from './muscles';
+import { VARIANT_CHAINS, nextVariantId } from './variantChains';
 
 describe('seed data', () => {
   it('has a numeric seed version', () => {
-    expect(SEED_VERSION).toBe(2);
+    expect(SEED_VERSION).toBe(3);
   });
 
   it('contains exactly the 17 muscle ids', () => {
@@ -164,5 +165,27 @@ describe('exercise images', () => {
         expect(files.has(`/public${img}`), img).toBe(true);
       }
     }
+  });
+});
+
+describe('variant chains', () => {
+  const ids = new Set(exercises.map((e) => e.id));
+
+  it('only references existing exercises', () => {
+    for (const chain of VARIANT_CHAINS) {
+      expect(chain.length).toBeGreaterThanOrEqual(2);
+      for (const id of chain) expect(ids.has(id), id).toBe(true);
+    }
+  });
+
+  it('never puts an id in two chains (or twice in one)', () => {
+    const all = VARIANT_CHAINS.flat();
+    expect(new Set(all).size).toBe(all.length);
+  });
+
+  it('resolves the next variant and stops at the end of a chain', () => {
+    expect(nextVariantId('push-up')).toBe('dip');
+    expect(nextVariantId('dip')).toBeUndefined();
+    expect(nextVariantId('barbell-bench-press')).toBeUndefined();
   });
 });

@@ -7,6 +7,7 @@ import type { WeightUnit } from '@/lib/units';
 import { kgToDisplay } from '@/lib/weight';
 import type { ProgressionTarget } from './types';
 import type { MergedExercise } from '@/data/merged';
+import { nextVariantId } from '@/data/variantChains';
 
 const LOWER_BODY_MUSCLES: readonly MuscleId[] = [
   'glutes',
@@ -60,12 +61,24 @@ function rangeText(r: RepRange): string {
   return r.min === r.max ? `${r.min}` : `${r.min}–${r.max}`;
 }
 
+/** Consecutive newest sessions (newest first) in which any set missed the bottom of the range. */
+export function countMisses(history: ExerciseSessionSets[], range: RepRange): number {
+  let misses = 0;
+  for (const session of history) {
+    if (session.sets.some((s) => s.reps < range.min)) misses++;
+    else break;
+  }
+  return misses;
+}
+
 export function nextTarget(args: {
   exercise: Exercise;
   primaryMuscleIds: MuscleId[];
   history: ExerciseSessionSets[];
   unit: WeightUnit;
   config?: TrainingConfig;
+  /** Used to name the next variant in the label; falls back to the id. */
+  exercises?: readonly Pick<Exercise, 'id' | 'name'>[];
 }): ProgressionTarget {
   const { exercise, primaryMuscleIds, history, unit } = args;
   const config = args.config ?? TRAINING;
@@ -117,22 +130,25 @@ export function nextTarget(args: {
   if (topHit) {
     const reason = `All sets hit ${range.max} reps at RIR ≤ ${config.targetRir.max}.`;
     if (pureBodyweight) {
-      return build(
+      const nextId = nextVariantId(exercise.id);
+      const nextName = nextId
+        ? (args.exercises?.find((e) => e.id === nextId)?.name ?? nextId)
+        : undefined;
+      const t = build(
         'add_load_or_variant',
         range.min,
         undefined,
         reason,
-        `Add weight or try a harder variation (${repsText} reps)`,
+        nextName
+          ? `Next: ${nextName} (${repsText} reps)`
+          : `Add weight or try a harder variation (${repsText} reps)`,
       );
+      return nextId ? { ...t, nextVariantId: nextId } : t;
     }
     return build('increase_weight', range.min, stepped(maxWeight, category, unit, config), reason);
   }
 
-  let misses = 0;
-  for (const session of history) {
-    if (session.sets.some((s) => s.reps < range.min)) misses++;
-    else break;
-  }
+  const misses = countMisses(history, range);
   if (misses >= config.missesToDeload) {
     const w = hasLoad ? loadable(maxWeight * (1 - config.deloadFraction), unit) : undefined;
     return build(

@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -10,6 +11,8 @@ import AlternativesList from '@/components/recommend/AlternativesList';
 import { useExerciseDetail, useExerciseInsight, useMuscles, useUnit } from '@/db';
 import { formatWeight } from '@/lib/units';
 import type { LoggedSet } from '@/analyzer';
+
+const E1rmChart = lazy(() => import('@/components/progress/E1rmChart'));
 
 interface Props {
   /** Dialog is open while an id is set. */
@@ -107,6 +110,14 @@ export default function ExerciseDetailDialog({ exerciseId, onClose }: Props) {
               ) : (
                 <p className="text-muted-foreground text-sm">No history for this exercise yet</p>
               )}
+            </section>
+            <section aria-labelledby="ex-e1rm" data-testid="exercise-e1rm">
+              <p id="ex-e1rm" className="mb-1 text-sm font-medium">
+                Strength trend
+              </p>
+              <Suspense fallback={<p className="text-muted-foreground text-sm">Loading chart…</p>}>
+                <E1rmChart exerciseId={ex.id} />
+              </Suspense>
             </section>
             <section aria-labelledby="ex-alts" data-testid="exercise-alternatives">
               <p id="ex-alts" className="mb-1 text-sm font-medium">

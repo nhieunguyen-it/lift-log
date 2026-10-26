@@ -5,7 +5,7 @@ import { validateSeed } from './schema';
 import type { ExerciseMuscleParsed, ExerciseParsed, MuscleParsed } from './schema';
 
 /** Bump when seed data changes so the app can re-seed/migrate local DBs. */
-export const SEED_VERSION = 2;
+export const SEED_VERSION = 3;
 
 export type Muscle = MuscleParsed;
 export type Exercise = ExerciseParsed;
@@ -25,3 +25,4 @@ export const exerciseMuscles: ExerciseMuscle[] = seed.exerciseMuscles;
 export { MUSCLE_IDS, MUSCLES } from './muscles';
 export type { MuscleId } from './muscles';
 export { validateSeed } from './schema';
+export { VARIANT_CHAINS, nextVariantId } from './variantChains';
