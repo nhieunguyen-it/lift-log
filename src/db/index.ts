@@ -7,3 +7,5 @@ export * as exercisesRepo from './exercisesRepo';
 export * as settingsRepo from './settingsRepo';
 export * as backup from './backup';
 export type { SessionDetail, SessionExerciseDetail, HistoryItem } from './sessionsRepo';
+export * as analysisRepo from './analysisRepo';
+export type { AnalysisView } from './analysisRepo';

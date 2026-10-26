@@ -1,4 +1,4 @@
-import { Dumbbell, History, ListChecks, Settings } from 'lucide-react';
+import { Activity, Dumbbell, History, ListChecks, Settings } from 'lucide-react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
@@ -6,6 +6,7 @@ const tabs = [
   { to: '/', label: 'Workout', icon: Dumbbell, end: true },
   { to: '/history', label: 'History', icon: History, end: false },
   { to: '/exercises', label: 'Exercises', icon: ListChecks, end: false },
+  { to: '/analyze', label: 'Analyze', icon: Activity, end: false },
   { to: '/settings', label: 'Settings', icon: Settings, end: false },
 ];
 
@@ -19,7 +20,7 @@ export default function AppShell() {
         aria-label="Primary"
         className="bg-background/95 border-border fixed inset-x-0 bottom-0 z-40 border-t pb-[env(safe-area-inset-bottom)] backdrop-blur"
       >
-        <ul className="mx-auto grid max-w-xl grid-cols-4">
+        <ul className="mx-auto grid max-w-xl grid-cols-5">
           {tabs.map(({ to, label, icon: Icon, end }) => (
             <li key={to}>
               <NavLink

@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { Download, Upload } from 'lucide-react';
+import TrainingSettings from '@/components/analyze/TrainingSettings';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -79,6 +80,8 @@ export default function SettingsPage() {
         </p>
       </div>
 
+      <TrainingSettings />
+
       <div className="space-y-2">
         <h2 className="text-lg font-medium">Your data</h2>
         <Button variant="outline" className="w-full" data-testid="export-json" onClick={doExport}>
@@ -113,6 +116,13 @@ export default function SettingsPage() {
             {message.text}
           </p>
         )}
+      </div>
+
+      <div className="space-y-1">
+        <h2 className="text-lg font-medium">About</h2>
+        <p className="text-muted-foreground text-sm">
+          Suggestions are general training heuristics, not medical advice.
+        </p>
       </div>
 
       <Dialog open={pending !== null} onOpenChange={(o) => !o && setPending(null)}>

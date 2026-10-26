@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AppShell from '@/components/AppShell';
 import { ensureSeed } from '@/db';
+import AnalyzePage from '@/pages/AnalyzePage';
 import ExercisesPage from '@/pages/ExercisesPage';
 import HistoryPage, { HistoryDetailPage } from '@/pages/HistoryPage';
 import SettingsPage from '@/pages/SettingsPage';
@@ -43,6 +44,7 @@ export default function App() {
           <Route path="history" element={<HistoryPage />} />
           <Route path="history/:id" element={<HistoryDetailPage />} />
           <Route path="exercises" element={<ExercisesPage />} />
+          <Route path="analyze" element={<AnalyzePage />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>
       </Routes>

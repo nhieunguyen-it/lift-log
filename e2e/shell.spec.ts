@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test('app shell: bottom nav navigates through all four tabs', async ({ page }) => {
+test('app shell: bottom nav navigates through all five tabs', async ({ page }) => {
   await page.goto('/');
   await expect(page).toHaveTitle('Lift Log');
   await expect(page.getByRole('heading', { name: 'Workout' })).toBeVisible();
@@ -9,6 +9,7 @@ test('app shell: bottom nav navigates through all four tabs', async ({ page }) =
   for (const [label, path] of [
     ['History', '/history'],
     ['Exercises', '/exercises'],
+    ['Analyze', '/analyze'],
     ['Settings', '/settings'],
     ['Workout', '/'],
   ] as const) {

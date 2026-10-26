@@ -83,3 +83,35 @@
     overscroll-behavior-y: none;
   }
 }
+
+/* Analyze tab: muscle status palette (sequential, not red/green dependent). */
+:root {
+  --st-none-bg: oklch(0.92 0 0);
+  --st-none-fg: oklch(0.35 0 0);
+  --st-below-bg: oklch(0.9 0.12 85);
+  --st-below-fg: oklch(0.35 0.07 70);
+  --st-building-bg: oklch(0.9 0.07 190);
+  --st-building-fg: oklch(0.3 0.06 200);
+  --st-optimal-bg: oklch(0.85 0.09 250);
+  --st-optimal-fg: oklch(0.28 0.1 260);
+  --st-high-bg: oklch(0.8 0.12 300);
+  --st-high-fg: oklch(0.27 0.12 300);
+  --st-over-bg: oklch(0.72 0.2 350);
+  --st-over-fg: oklch(0.2 0.1 350);
+  --body-silhouette: oklch(0.96 0 0);
+}
+.dark {
+  --st-none-bg: oklch(0.32 0 0);
+  --st-none-fg: oklch(0.88 0 0);
+  --st-below-bg: oklch(0.4 0.08 75);
+  --st-below-fg: oklch(0.93 0.08 85);
+  --st-building-bg: oklch(0.38 0.07 195);
+  --st-building-fg: oklch(0.92 0.06 195);
+  --st-optimal-bg: oklch(0.4 0.12 255);
+  --st-optimal-fg: oklch(0.93 0.05 255);
+  --st-high-bg: oklch(0.42 0.15 300);
+  --st-high-fg: oklch(0.94 0.05 300);
+  --st-over-bg: oklch(0.45 0.19 350);
+  --st-over-fg: oklch(0.96 0.04 350);
+  --body-silhouette: oklch(0.24 0 0);
+}

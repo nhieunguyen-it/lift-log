@@ -6,7 +6,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   reporter: 'list',
-  use: { baseURL: 'http://localhost:4173', trace: 'on-first-retry' },
+  use: { baseURL: 'http://localhost:4174', trace: 'on-first-retry' },
   projects: [
     {
       name: 'mobile',
@@ -14,9 +14,10 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run build && npm run preview -- --port 4173 --strictPort',
-    url: 'http://localhost:4173',
-    reuseExistingServer: !process.env.CI,
+    command: 'npm run build && npm run preview -- --port 4174 --strictPort',
+    url: 'http://localhost:4174',
+    // Always build fresh: a reused server may serve a stale build.
+    reuseExistingServer: false,
     timeout: 120_000,
   },
 });
