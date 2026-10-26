@@ -23,6 +23,20 @@ The script writes `src/data/exercises.json` and `src/data/exerciseMuscles.json` 
 prints per-muscle coverage, and exits non-zero on any rule violation. Bump `SEED_VERSION` in
 `src/data/index.ts` whenever the output changes.
 
+## Images
+
+- **Source:** the same repo's `exercises/<id>/0.jpg` (start) and `1.jpg` (end), Unlicense (public domain).
+- Downloaded to `data/raw-images/` (gitignored, untrusted: only checked for JPEG magic bytes), then
+  resized to max 480px, JPEG q70 into `public/exercises/<exerciseId>/<n>.jpg` (committed, ~5 MB for 148 files).
+- `build-seed.mjs` writes `images: ["/exercises/<id>/0.jpg", ...]`; every exercise needs >= 2 images
+  (>= 1 when `force` is `static`). Bump `SEED_VERSION` when they change.
+
+```sh
+node scripts/fetch-images.mjs     # needs data/raw/free-exercise-db.json; skips existing files
+node scripts/optimize-images.mjs  # macOS only (uses sips)
+node scripts/build-seed.mjs
+```
+
 ## Muscle mapping (source name -> muscle id)
 
 Used when an entry in `curation.json` has no explicit `m` list (the default is primary = 1.0,

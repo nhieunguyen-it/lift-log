@@ -144,7 +144,10 @@ for (const c of cfg) {
     level,
     aliases: [...new Set(c.al ?? [])].sort(),
     source: c.src,
+    images: r.images.map((_, i) => `/exercises/${c.id}/${i}.jpg`),
   });
+  if (r.images.length < (force === 'static' ? 1 : 2))
+    fail(`${where}: only ${r.images.length} source image(s)`);
 
   const muscles = c.m ? parseMuscles(c.m, where) : autoMuscles(r);
   if (![...muscles.values()].includes(1)) fail(`${where}: no muscle with weight 1.0`);

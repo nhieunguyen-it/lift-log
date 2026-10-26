@@ -1,6 +1,11 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import type { WeightUnit } from '@/lib/units';
-import { listExercisesWithMuscles, listMuscles, recentExerciseIds } from './exercisesRepo';
+import {
+  getExerciseWithMuscles,
+  listExercisesWithMuscles,
+  listMuscles,
+  recentExerciseIds,
+} from './exercisesRepo';
 import { getActiveSession, getSessionDetail, listHistory } from './sessionsRepo';
 import { getUnit } from './settingsRepo';
 
@@ -14,3 +19,5 @@ export const useHistory = () => useLiveQuery(() => listHistory(), []);
 export const useExercisesWithMuscles = () => useLiveQuery(() => listExercisesWithMuscles(), []);
 export const useMuscles = () => useLiveQuery(() => listMuscles(), []);
 export const useRecentExerciseIds = () => useLiveQuery(() => recentExerciseIds(), []);
+export const useExerciseDetail = (id: string | undefined) =>
+  useLiveQuery(async () => (id ? ((await getExerciseWithMuscles(id)) ?? null) : null), [id]);

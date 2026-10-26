@@ -122,6 +122,16 @@ export default function ExercisePicker({ open, onOpenChange, onPick }: Props) {
                 }}
               >
                 <span className="flex items-center gap-2 font-medium">
+                  {exercise.images[0] && (
+                    <img
+                      src={exercise.images[0]}
+                      alt=""
+                      loading="lazy"
+                      width={40}
+                      height={40}
+                      className="bg-muted size-10 rounded object-cover"
+                    />
+                  )}
                   {exercise.name}
                   {recentSet.has(exercise.id) && <Badge variant="secondary">Recent</Badge>}
                 </span>

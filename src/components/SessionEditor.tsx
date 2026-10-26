@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { ArrowDown, ArrowUp, Plus, Trash2 } from 'lucide-react';
+import { ArrowDown, ArrowUp, Info, Plus, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import ExerciseDetailDialog from '@/components/ExerciseDetailDialog';
 import ExercisePicker from '@/components/ExercisePicker';
 import SetRowItem, { SET_GRID } from '@/components/SetRowItem';
 import { sessionsRepo, setsRepo, type SessionDetail } from '@/db';
@@ -15,6 +16,7 @@ interface Props {
 /** Exercise cards with set rows + add exercise; shared by workout and history detail. */
 export default function SessionEditor({ detail, unit }: Props) {
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [infoId, setInfoId] = useState<string | null>(null);
   const { session, exercises } = detail;
 
   return (
@@ -37,6 +39,15 @@ export default function SessionEditor({ detail, unit }: Props) {
                 )}
               </div>
               <div className="flex shrink-0">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label={`${exercise?.name ?? 'Exercise'} info`}
+                  data-testid="exercise-info"
+                  onClick={() => setInfoId(se.exerciseId)}
+                >
+                  <Info />
+                </Button>
                 <Button
                   variant="ghost"
                   size="icon"
@@ -114,6 +125,7 @@ export default function SessionEditor({ detail, unit }: Props) {
       >
         <Plus /> Add exercise
       </Button>
+      <ExerciseDetailDialog exerciseId={infoId} onClose={() => setInfoId(null)} />
       <ExercisePicker
         open={pickerOpen}
         onOpenChange={setPickerOpen}

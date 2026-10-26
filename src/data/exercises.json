@@ -12,7 +12,11 @@
       "ab wheel",
       "rollout"
     ],
-    "source": "Ab_Roller"
+    "source": "Ab_Roller",
+    "images": [
+      "/exercises/ab-wheel-rollout/0.jpg",
+      "/exercises/ab-wheel-rollout/1.jpg"
+    ]
   },
   {
     "id": "back-extension",
@@ -27,7 +31,11 @@
       "hyper",
       "hyperextension"
     ],
-    "source": "Hyperextensions_Back_Extensions"
+    "source": "Hyperextensions_Back_Extensions",
+    "images": [
+      "/exercises/back-extension/0.jpg",
+      "/exercises/back-extension/1.jpg"
+    ]
   },
   {
     "id": "barbell-back-squat",
@@ -43,7 +51,11 @@
       "bb squat",
       "squat"
     ],
-    "source": "Barbell_Full_Squat"
+    "source": "Barbell_Full_Squat",
+    "images": [
+      "/exercises/barbell-back-squat/0.jpg",
+      "/exercises/barbell-back-squat/1.jpg"
+    ]
   },
   {
     "id": "barbell-bench-press",
@@ -59,7 +71,11 @@
       "bench press",
       "flat bench"
     ],
-    "source": "Barbell_Bench_Press_-_Medium_Grip"
+    "source": "Barbell_Bench_Press_-_Medium_Grip",
+    "images": [
+      "/exercises/barbell-bench-press/0.jpg",
+      "/exercises/barbell-bench-press/1.jpg"
+    ]
   },
   {
     "id": "barbell-hack-squat",
@@ -72,7 +88,11 @@
     "aliases": [
       "rear hack squat"
     ],
-    "source": "Barbell_Hack_Squat"
+    "source": "Barbell_Hack_Squat",
+    "images": [
+      "/exercises/barbell-hack-squat/0.jpg",
+      "/exercises/barbell-hack-squat/1.jpg"
+    ]
   },
   {
     "id": "barbell-lunge",
@@ -85,7 +105,11 @@
     "aliases": [
       "barbell walking lunge"
     ],
-    "source": "Barbell_Lunge"
+    "source": "Barbell_Lunge",
+    "images": [
+      "/exercises/barbell-lunge/0.jpg",
+      "/exercises/barbell-lunge/1.jpg"
+    ]
   },
   {
     "id": "barbell-row",
@@ -101,7 +125,11 @@
       "bent-over row",
       "pendlay row"
     ],
-    "source": "Bent_Over_Barbell_Row"
+    "source": "Bent_Over_Barbell_Row",
+    "images": [
+      "/exercises/barbell-row/0.jpg",
+      "/exercises/barbell-row/1.jpg"
+    ]
   },
   {
     "id": "barbell-shrug",
@@ -116,7 +144,11 @@
       "shrugs",
       "trap shrug"
     ],
-    "source": "Barbell_Shrug"
+    "source": "Barbell_Shrug",
+    "images": [
+      "/exercises/barbell-shrug/0.jpg",
+      "/exercises/barbell-shrug/1.jpg"
+    ]
   },
   {
     "id": "bodyweight-lunge",
@@ -130,7 +162,11 @@
       "bodyweight walking lunge",
       "walking lunges"
     ],
-    "source": "Bodyweight_Walking_Lunge"
+    "source": "Bodyweight_Walking_Lunge",
+    "images": [
+      "/exercises/bodyweight-lunge/0.jpg",
+      "/exercises/bodyweight-lunge/1.jpg"
+    ]
   },
   {
     "id": "bodyweight-squat",
@@ -144,7 +180,11 @@
       "air squat",
       "squat bodyweight"
     ],
-    "source": "Bodyweight_Squat"
+    "source": "Bodyweight_Squat",
+    "images": [
+      "/exercises/bodyweight-squat/0.jpg",
+      "/exercises/bodyweight-squat/1.jpg"
+    ]
   },
   {
     "id": "cable-chest-press",
@@ -158,7 +198,11 @@
       "cable press",
       "standing cable press"
     ],
-    "source": "Cable_Chest_Press"
+    "source": "Cable_Chest_Press",
+    "images": [
+      "/exercises/cable-chest-press/0.jpg",
+      "/exercises/cable-chest-press/1.jpg"
+    ]
   },
   {
     "id": "cable-crunch",
@@ -172,7 +216,11 @@
       "kneeling cable crunch",
       "rope crunch"
     ],
-    "source": "Cable_Crunch"
+    "source": "Cable_Crunch",
+    "images": [
+      "/exercises/cable-crunch/0.jpg",
+      "/exercises/cable-crunch/1.jpg"
+    ]
   },
   {
     "id": "cable-pull-through",
@@ -186,7 +234,11 @@
       "cable pullthrough",
       "pull through"
     ],
-    "source": "Pull_Through"
+    "source": "Pull_Through",
+    "images": [
+      "/exercises/cable-pull-through/0.jpg",
+      "/exercises/cable-pull-through/1.jpg"
+    ]
   },
   {
     "id": "cable-wood-chop",
@@ -201,7 +253,11 @@
       "wood chop",
       "woodchop"
     ],
-    "source": "Standing_Cable_Wood_Chop"
+    "source": "Standing_Cable_Wood_Chop",
+    "images": [
+      "/exercises/cable-wood-chop/0.jpg",
+      "/exercises/cable-wood-chop/1.jpg"
+    ]
   },
   {
     "id": "chin-up",
@@ -216,7 +272,11 @@
       "chinup",
       "underhand pull-up"
     ],
-    "source": "Chin-Up"
+    "source": "Chin-Up",
+    "images": [
+      "/exercises/chin-up/0.jpg",
+      "/exercises/chin-up/1.jpg"
+    ]
   },
   {
     "id": "close-grip-bench-press",
@@ -230,7 +290,11 @@
       "cgbp",
       "close grip bench"
     ],
-    "source": "Close-Grip_Barbell_Bench_Press"
+    "source": "Close-Grip_Barbell_Bench_Press",
+    "images": [
+      "/exercises/close-grip-bench-press/0.jpg",
+      "/exercises/close-grip-bench-press/1.jpg"
+    ]
   },
   {
     "id": "close-grip-lat-pulldown",
@@ -244,7 +308,11 @@
       "neutral grip pulldown",
       "v-bar pulldown"
     ],
-    "source": "Close-Grip_Front_Lat_Pulldown"
+    "source": "Close-Grip_Front_Lat_Pulldown",
+    "images": [
+      "/exercises/close-grip-lat-pulldown/0.jpg",
+      "/exercises/close-grip-lat-pulldown/1.jpg"
+    ]
   },
   {
     "id": "crunch",
@@ -258,7 +326,11 @@
       "ab crunch",
       "crunches"
     ],
-    "source": "Crunches"
+    "source": "Crunches",
+    "images": [
+      "/exercises/crunch/0.jpg",
+      "/exercises/crunch/1.jpg"
+    ]
   },
   {
     "id": "dead-bug",
@@ -271,7 +343,11 @@
     "aliases": [
       "deadbug"
     ],
-    "source": "Dead_Bug"
+    "source": "Dead_Bug",
+    "images": [
+      "/exercises/dead-bug/0.jpg",
+      "/exercises/dead-bug/1.jpg"
+    ]
   },
   {
     "id": "deadlift",
@@ -286,7 +362,11 @@
       "conventional deadlift",
       "dl"
     ],
-    "source": "Barbell_Deadlift"
+    "source": "Barbell_Deadlift",
+    "images": [
+      "/exercises/deadlift/0.jpg",
+      "/exercises/deadlift/1.jpg"
+    ]
   },
   {
     "id": "decline-dumbbell-bench-press",
@@ -300,7 +380,11 @@
       "decline bench",
       "decline press"
     ],
-    "source": "Decline_Dumbbell_Bench_Press"
+    "source": "Decline_Dumbbell_Bench_Press",
+    "images": [
+      "/exercises/decline-dumbbell-bench-press/0.jpg",
+      "/exercises/decline-dumbbell-bench-press/1.jpg"
+    ]
   },
   {
     "id": "dip",
@@ -316,7 +400,11 @@
       "parallel bar dip",
       "tricep dip"
     ],
-    "source": "Dips_-_Triceps_Version"
+    "source": "Dips_-_Triceps_Version",
+    "images": [
+      "/exercises/dip/0.jpg",
+      "/exercises/dip/1.jpg"
+    ]
   },
   {
     "id": "dumbbell-bench-press",
@@ -330,7 +418,11 @@
       "db bench",
       "db press"
     ],
-    "source": "Dumbbell_Bench_Press"
+    "source": "Dumbbell_Bench_Press",
+    "images": [
+      "/exercises/dumbbell-bench-press/0.jpg",
+      "/exercises/dumbbell-bench-press/1.jpg"
+    ]
   },
   {
     "id": "dumbbell-bent-over-row",
@@ -344,7 +436,11 @@
       "db bent over row",
       "two dumbbell row"
     ],
-    "source": "Bent_Over_Two-Dumbbell_Row"
+    "source": "Bent_Over_Two-Dumbbell_Row",
+    "images": [
+      "/exercises/dumbbell-bent-over-row/0.jpg",
+      "/exercises/dumbbell-bent-over-row/1.jpg"
+    ]
   },
   {
     "id": "dumbbell-floor-press",
@@ -357,7 +453,11 @@
     "aliases": [
       "floor press"
     ],
-    "source": "Dumbbell_Floor_Press"
+    "source": "Dumbbell_Floor_Press",
+    "images": [
+      "/exercises/dumbbell-floor-press/0.jpg",
+      "/exercises/dumbbell-floor-press/1.jpg"
+    ]
   },
   {
     "id": "dumbbell-lateral-raise",
@@ -373,7 +473,11 @@
       "side lateral raise",
       "side raise"
     ],
-    "source": "Side_Lateral_Raise"
+    "source": "Side_Lateral_Raise",
+    "images": [
+      "/exercises/dumbbell-lateral-raise/0.jpg",
+      "/exercises/dumbbell-lateral-raise/1.jpg"
+    ]
   },
   {
     "id": "dumbbell-lunge",
@@ -389,7 +493,11 @@
       "lunges",
       "walking lunge"
     ],
-    "source": "Dumbbell_Lunges"
+    "source": "Dumbbell_Lunges",
+    "images": [
+      "/exercises/dumbbell-lunge/0.jpg",
+      "/exercises/dumbbell-lunge/1.jpg"
+    ]
   },
   {
     "id": "dumbbell-pullover",
@@ -403,7 +511,11 @@
       "db pullover",
       "pullover"
     ],
-    "source": "Straight-Arm_Dumbbell_Pullover"
+    "source": "Straight-Arm_Dumbbell_Pullover",
+    "images": [
+      "/exercises/dumbbell-pullover/0.jpg",
+      "/exercises/dumbbell-pullover/1.jpg"
+    ]
   },
   {
     "id": "dumbbell-reverse-fly",
@@ -419,7 +531,11 @@
       "rear delt raise",
       "reverse flyes"
     ],
-    "source": "Reverse_Flyes"
+    "source": "Reverse_Flyes",
+    "images": [
+      "/exercises/dumbbell-reverse-fly/0.jpg",
+      "/exercises/dumbbell-reverse-fly/1.jpg"
+    ]
   },
   {
     "id": "dumbbell-reverse-lunge",
@@ -434,7 +550,11 @@
       "rear lunge",
       "reverse lunge"
     ],
-    "source": "Dumbbell_Rear_Lunge"
+    "source": "Dumbbell_Rear_Lunge",
+    "images": [
+      "/exercises/dumbbell-reverse-lunge/0.jpg",
+      "/exercises/dumbbell-reverse-lunge/1.jpg"
+    ]
   },
   {
     "id": "dumbbell-shoulder-press",
@@ -449,7 +569,11 @@
       "db shoulder press",
       "seated dumbbell press"
     ],
-    "source": "Dumbbell_Shoulder_Press"
+    "source": "Dumbbell_Shoulder_Press",
+    "images": [
+      "/exercises/dumbbell-shoulder-press/0.jpg",
+      "/exercises/dumbbell-shoulder-press/1.jpg"
+    ]
   },
   {
     "id": "dumbbell-split-squat",
@@ -464,7 +588,11 @@
       "bulgarian split squat",
       "split squat"
     ],
-    "source": "Split_Squat_with_Dumbbells"
+    "source": "Split_Squat_with_Dumbbells",
+    "images": [
+      "/exercises/dumbbell-split-squat/0.jpg",
+      "/exercises/dumbbell-split-squat/1.jpg"
+    ]
   },
   {
     "id": "dumbbell-step-up",
@@ -479,7 +607,11 @@
       "step up",
       "step-ups"
     ],
-    "source": "Dumbbell_Step_Ups"
+    "source": "Dumbbell_Step_Ups",
+    "images": [
+      "/exercises/dumbbell-step-up/0.jpg",
+      "/exercises/dumbbell-step-up/1.jpg"
+    ]
   },
   {
     "id": "face-pull",
@@ -493,7 +625,11 @@
       "face pulls",
       "rope face pull"
     ],
-    "source": "Face_Pull"
+    "source": "Face_Pull",
+    "images": [
+      "/exercises/face-pull/0.jpg",
+      "/exercises/face-pull/1.jpg"
+    ]
   },
   {
     "id": "farmers-walk",
@@ -509,7 +645,11 @@
       "farmers carry",
       "loaded carry"
     ],
-    "source": "Farmers_Walk"
+    "source": "Farmers_Walk",
+    "images": [
+      "/exercises/farmers-walk/0.jpg",
+      "/exercises/farmers-walk/1.jpg"
+    ]
   },
   {
     "id": "front-squat",
@@ -522,7 +662,11 @@
     "aliases": [
       "barbell front squat"
     ],
-    "source": "Front_Barbell_Squat"
+    "source": "Front_Barbell_Squat",
+    "images": [
+      "/exercises/front-squat/0.jpg",
+      "/exercises/front-squat/1.jpg"
+    ]
   },
   {
     "id": "glute-bridge",
@@ -537,7 +681,11 @@
       "butt lift",
       "hip bridge"
     ],
-    "source": "Butt_Lift_Bridge"
+    "source": "Butt_Lift_Bridge",
+    "images": [
+      "/exercises/glute-bridge/0.jpg",
+      "/exercises/glute-bridge/1.jpg"
+    ]
   },
   {
     "id": "goblet-squat",
@@ -551,7 +699,11 @@
       "db goblet squat",
       "kettlebell goblet squat"
     ],
-    "source": "Goblet_Squat"
+    "source": "Goblet_Squat",
+    "images": [
+      "/exercises/goblet-squat/0.jpg",
+      "/exercises/goblet-squat/1.jpg"
+    ]
   },
   {
     "id": "good-morning",
@@ -565,7 +717,11 @@
       "barbell good morning",
       "gm"
     ],
-    "source": "Good_Morning"
+    "source": "Good_Morning",
+    "images": [
+      "/exercises/good-morning/0.jpg",
+      "/exercises/good-morning/1.jpg"
+    ]
   },
   {
     "id": "hack-squat",
@@ -578,7 +734,11 @@
     "aliases": [
       "machine hack squat"
     ],
-    "source": "Hack_Squat"
+    "source": "Hack_Squat",
+    "images": [
+      "/exercises/hack-squat/0.jpg",
+      "/exercises/hack-squat/1.jpg"
+    ]
   },
   {
     "id": "hanging-leg-raise",
@@ -594,7 +754,11 @@
       "knee raise",
       "toes to bar"
     ],
-    "source": "Hanging_Leg_Raise"
+    "source": "Hanging_Leg_Raise",
+    "images": [
+      "/exercises/hanging-leg-raise/0.jpg",
+      "/exercises/hanging-leg-raise/1.jpg"
+    ]
   },
   {
     "id": "hip-thrust",
@@ -608,7 +772,11 @@
       "barbell glute bridge",
       "hip thrusts"
     ],
-    "source": "Barbell_Hip_Thrust"
+    "source": "Barbell_Hip_Thrust",
+    "images": [
+      "/exercises/hip-thrust/0.jpg",
+      "/exercises/hip-thrust/1.jpg"
+    ]
   },
   {
     "id": "incline-barbell-bench-press",
@@ -622,7 +790,11 @@
       "incline bench",
       "incline press"
     ],
-    "source": "Barbell_Incline_Bench_Press_-_Medium_Grip"
+    "source": "Barbell_Incline_Bench_Press_-_Medium_Grip",
+    "images": [
+      "/exercises/incline-barbell-bench-press/0.jpg",
+      "/exercises/incline-barbell-bench-press/1.jpg"
+    ]
   },
   {
     "id": "incline-dumbbell-press",
@@ -636,7 +808,11 @@
       "incline db press",
       "incline dumbbell bench"
     ],
-    "source": "Incline_Dumbbell_Press"
+    "source": "Incline_Dumbbell_Press",
+    "images": [
+      "/exercises/incline-dumbbell-press/0.jpg",
+      "/exercises/incline-dumbbell-press/1.jpg"
+    ]
   },
   {
     "id": "inverted-row",
@@ -651,7 +827,11 @@
       "bodyweight row",
       "ring row"
     ],
-    "source": "Inverted_Row"
+    "source": "Inverted_Row",
+    "images": [
+      "/exercises/inverted-row/0.jpg",
+      "/exercises/inverted-row/1.jpg"
+    ]
   },
   {
     "id": "kettlebell-swing",
@@ -666,7 +846,11 @@
       "russian swing",
       "swing"
     ],
-    "source": "One-Arm_Kettlebell_Swings"
+    "source": "One-Arm_Kettlebell_Swings",
+    "images": [
+      "/exercises/kettlebell-swing/0.jpg",
+      "/exercises/kettlebell-swing/1.jpg"
+    ]
   },
   {
     "id": "lat-pulldown",
@@ -681,7 +865,11 @@
       "pulldown",
       "wide grip pulldown"
     ],
-    "source": "Wide-Grip_Lat_Pulldown"
+    "source": "Wide-Grip_Lat_Pulldown",
+    "images": [
+      "/exercises/lat-pulldown/0.jpg",
+      "/exercises/lat-pulldown/1.jpg"
+    ]
   },
   {
     "id": "leg-press",
@@ -695,7 +883,11 @@
       "45 degree leg press",
       "machine leg press"
     ],
-    "source": "Leg_Press"
+    "source": "Leg_Press",
+    "images": [
+      "/exercises/leg-press/0.jpg",
+      "/exercises/leg-press/1.jpg"
+    ]
   },
   {
     "id": "machine-chest-press",
@@ -709,7 +901,11 @@
       "chest press",
       "seated chest press"
     ],
-    "source": "Machine_Bench_Press"
+    "source": "Machine_Bench_Press",
+    "images": [
+      "/exercises/machine-chest-press/0.jpg",
+      "/exercises/machine-chest-press/1.jpg"
+    ]
   },
   {
     "id": "machine-row",
@@ -724,7 +920,11 @@
       "leverage row",
       "plate loaded row"
     ],
-    "source": "Leverage_Iso_Row"
+    "source": "Leverage_Iso_Row",
+    "images": [
+      "/exercises/machine-row/0.jpg",
+      "/exercises/machine-row/1.jpg"
+    ]
   },
   {
     "id": "machine-shoulder-press",
@@ -738,7 +938,11 @@
       "military press machine",
       "shoulder press machine"
     ],
-    "source": "Machine_Shoulder_Military_Press"
+    "source": "Machine_Shoulder_Military_Press",
+    "images": [
+      "/exercises/machine-shoulder-press/0.jpg",
+      "/exercises/machine-shoulder-press/1.jpg"
+    ]
   },
   {
     "id": "one-arm-dumbbell-row",
@@ -753,7 +957,11 @@
       "dumbbell row",
       "single arm row"
     ],
-    "source": "One-Arm_Dumbbell_Row"
+    "source": "One-Arm_Dumbbell_Row",
+    "images": [
+      "/exercises/one-arm-dumbbell-row/0.jpg",
+      "/exercises/one-arm-dumbbell-row/1.jpg"
+    ]
   },
   {
     "id": "overhead-press",
@@ -770,7 +978,11 @@
       "shoulder press",
       "standing press"
     ],
-    "source": "Standing_Military_Press"
+    "source": "Standing_Military_Press",
+    "images": [
+      "/exercises/overhead-press/0.jpg",
+      "/exercises/overhead-press/1.jpg"
+    ]
   },
   {
     "id": "pallof-press",
@@ -784,7 +996,11 @@
       "anti-rotation press",
       "pallof"
     ],
-    "source": "Pallof_Press"
+    "source": "Pallof_Press",
+    "images": [
+      "/exercises/pallof-press/0.jpg",
+      "/exercises/pallof-press/1.jpg"
+    ]
   },
   {
     "id": "plank",
@@ -798,7 +1014,11 @@
       "forearm plank",
       "front plank"
     ],
-    "source": "Plank"
+    "source": "Plank",
+    "images": [
+      "/exercises/plank/0.jpg",
+      "/exercises/plank/1.jpg"
+    ]
   },
   {
     "id": "power-clean",
@@ -813,7 +1033,11 @@
       "clean",
       "hang clean"
     ],
-    "source": "Power_Clean"
+    "source": "Power_Clean",
+    "images": [
+      "/exercises/power-clean/0.jpg",
+      "/exercises/power-clean/1.jpg"
+    ]
   },
   {
     "id": "pull-up",
@@ -828,7 +1052,11 @@
       "pullup",
       "pullups"
     ],
-    "source": "Pullups"
+    "source": "Pullups",
+    "images": [
+      "/exercises/pull-up/0.jpg",
+      "/exercises/pull-up/1.jpg"
+    ]
   },
   {
     "id": "push-press",
@@ -841,7 +1069,11 @@
     "aliases": [
       "barbell push press"
     ],
-    "source": "Push_Press"
+    "source": "Push_Press",
+    "images": [
+      "/exercises/push-press/0.jpg",
+      "/exercises/push-press/1.jpg"
+    ]
   },
   {
     "id": "push-up",
@@ -856,7 +1088,11 @@
       "press-up",
       "pushup"
     ],
-    "source": "Pushups"
+    "source": "Pushups",
+    "images": [
+      "/exercises/push-up/0.jpg",
+      "/exercises/push-up/1.jpg"
+    ]
   },
   {
     "id": "reverse-grip-barbell-row",
@@ -871,7 +1107,11 @@
       "underhand row",
       "yates row"
     ],
-    "source": "Reverse_Grip_Bent-Over_Rows"
+    "source": "Reverse_Grip_Bent-Over_Rows",
+    "images": [
+      "/exercises/reverse-grip-barbell-row/0.jpg",
+      "/exercises/reverse-grip-barbell-row/1.jpg"
+    ]
   },
   {
     "id": "romanian-deadlift",
@@ -886,7 +1126,11 @@
       "romanian dl",
       "stiff leg deadlift"
     ],
-    "source": "Romanian_Deadlift"
+    "source": "Romanian_Deadlift",
+    "images": [
+      "/exercises/romanian-deadlift/0.jpg",
+      "/exercises/romanian-deadlift/1.jpg"
+    ]
   },
   {
     "id": "russian-twist",
@@ -900,7 +1144,11 @@
       "twist",
       "weighted russian twist"
     ],
-    "source": "Russian_Twist"
+    "source": "Russian_Twist",
+    "images": [
+      "/exercises/russian-twist/0.jpg",
+      "/exercises/russian-twist/1.jpg"
+    ]
   },
   {
     "id": "seated-cable-row",
@@ -915,7 +1163,11 @@
       "low row",
       "seated row"
     ],
-    "source": "Seated_Cable_Rows"
+    "source": "Seated_Cable_Rows",
+    "images": [
+      "/exercises/seated-cable-row/0.jpg",
+      "/exercises/seated-cable-row/1.jpg"
+    ]
   },
   {
     "id": "seated-calf-raise",
@@ -929,7 +1181,11 @@
       "seated calf",
       "soleus raise"
     ],
-    "source": "Seated_Calf_Raise"
+    "source": "Seated_Calf_Raise",
+    "images": [
+      "/exercises/seated-calf-raise/0.jpg",
+      "/exercises/seated-calf-raise/1.jpg"
+    ]
   },
   {
     "id": "seated-dumbbell-press",
@@ -942,7 +1198,11 @@
     "aliases": [
       "seated db press"
     ],
-    "source": "Seated_Dumbbell_Press"
+    "source": "Seated_Dumbbell_Press",
+    "images": [
+      "/exercises/seated-dumbbell-press/0.jpg",
+      "/exercises/seated-dumbbell-press/1.jpg"
+    ]
   },
   {
     "id": "side-plank",
@@ -955,7 +1215,11 @@
     "aliases": [
       "side bridge"
     ],
-    "source": "Side_Bridge"
+    "source": "Side_Bridge",
+    "images": [
+      "/exercises/side-plank/0.jpg",
+      "/exercises/side-plank/1.jpg"
+    ]
   },
   {
     "id": "single-leg-romanian-deadlift",
@@ -970,7 +1234,11 @@
       "single leg rdl",
       "sl rdl"
     ],
-    "source": "Kettlebell_One-Legged_Deadlift"
+    "source": "Kettlebell_One-Legged_Deadlift",
+    "images": [
+      "/exercises/single-leg-romanian-deadlift/0.jpg",
+      "/exercises/single-leg-romanian-deadlift/1.jpg"
+    ]
   },
   {
     "id": "smith-machine-squat",
@@ -983,7 +1251,11 @@
     "aliases": [
       "smith squat"
     ],
-    "source": "Smith_Machine_Squat"
+    "source": "Smith_Machine_Squat",
+    "images": [
+      "/exercises/smith-machine-squat/0.jpg",
+      "/exercises/smith-machine-squat/1.jpg"
+    ]
   },
   {
     "id": "standing-calf-raise",
@@ -998,7 +1270,11 @@
       "calf raises",
       "machine calf raise"
     ],
-    "source": "Standing_Calf_Raises"
+    "source": "Standing_Calf_Raises",
+    "images": [
+      "/exercises/standing-calf-raise/0.jpg",
+      "/exercises/standing-calf-raise/1.jpg"
+    ]
   },
   {
     "id": "sumo-deadlift",
@@ -1012,7 +1288,11 @@
       "sumo dl",
       "sumo pull"
     ],
-    "source": "Sumo_Deadlift"
+    "source": "Sumo_Deadlift",
+    "images": [
+      "/exercises/sumo-deadlift/0.jpg",
+      "/exercises/sumo-deadlift/1.jpg"
+    ]
   },
   {
     "id": "sumo-squat",
@@ -1027,7 +1307,11 @@
       "plie squat",
       "wide stance squat"
     ],
-    "source": "Plie_Dumbbell_Squat"
+    "source": "Plie_Dumbbell_Squat",
+    "images": [
+      "/exercises/sumo-squat/0.jpg",
+      "/exercises/sumo-squat/1.jpg"
+    ]
   },
   {
     "id": "t-bar-row",
@@ -1041,7 +1325,11 @@
       "landmine row",
       "tbar row"
     ],
-    "source": "T-Bar_Row_with_Handle"
+    "source": "T-Bar_Row_with_Handle",
+    "images": [
+      "/exercises/t-bar-row/0.jpg",
+      "/exercises/t-bar-row/1.jpg"
+    ]
   },
   {
     "id": "trap-bar-deadlift",
@@ -1055,7 +1343,11 @@
       "hex bar deadlift",
       "trap bar dl"
     ],
-    "source": "Trap_Bar_Deadlift"
+    "source": "Trap_Bar_Deadlift",
+    "images": [
+      "/exercises/trap-bar-deadlift/0.jpg",
+      "/exercises/trap-bar-deadlift/1.jpg"
+    ]
   },
   {
     "id": "upright-row",
@@ -1068,6 +1360,10 @@
     "aliases": [
       "barbell upright row"
     ],
-    "source": "Upright_Barbell_Row"
+    "source": "Upright_Barbell_Row",
+    "images": [
+      "/exercises/upright-row/0.jpg",
+      "/exercises/upright-row/1.jpg"
+    ]
   }
 ]

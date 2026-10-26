@@ -30,6 +30,8 @@ export const ExerciseSchema = z.object({
   level: z.enum(['beginner', 'intermediate', 'expert']),
   aliases: z.array(z.string().min(1)),
   source: z.string().min(1),
+  /** Ordered public paths; for 2 images index 0 = start, 1 = end position. */
+  images: z.array(z.string().regex(/^\/exercises\/.+\.jpg$/)),
 });
 
 export const ExerciseMuscleSchema = z.object({
@@ -80,6 +82,10 @@ export function validateSeed(input: SeedInput): SeedData {
   for (const e of exercises) {
     if (exerciseIds.has(e.id)) problems.push(`duplicate exercise id: ${e.id}`);
     exerciseIds.add(e.id);
+    const minImages = e.force === 'static' ? 1 : 2;
+    if (e.images.length < minImages) {
+      problems.push(`exercise ${e.id} has ${e.images.length} image(s), need >= ${minImages}`);
+    }
   }
 
   const pairs = new Set<string>();

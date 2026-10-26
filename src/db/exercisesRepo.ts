@@ -43,3 +43,10 @@ export async function recentExerciseIds(limit = 30): Promise<string[]> {
   }
   return seen.slice(0, limit);
 }
+
+export async function getExerciseWithMuscles(id: string): Promise<ExerciseWithMuscles | null> {
+  const exercise = await db.exercises.get(id);
+  if (!exercise) return null;
+  const links = await db.exerciseMuscles.where('exerciseId').equals(id).toArray();
+  return { exercise, muscles: links.sort((a, b) => b.weight - a.weight) };
+}

@@ -11,14 +11,15 @@ usable offline via a service worker.
 
 ## Scripts
 
-| Command                       | What it does                                             |
-| ----------------------------- | -------------------------------------------------------- |
-| `npm run dev`                 | Vite dev server                                          |
-| `npm run build`               | Typecheck + production build (with service worker)       |
-| `npm run preview`             | Serve the production build                               |
-| `npm run check`               | Typecheck, lint, unit tests (vitest)                     |
-| `npm run e2e`                 | Playwright (builds and previews on :4173, 375px project) |
-| `node scripts/build-seed.mjs` | Regenerate seed JSON from `data/curation.json`           |
+| Command                                                | What it does                                              |
+| ------------------------------------------------------ | --------------------------------------------------------- |
+| `npm run dev`                                          | Vite dev server                                           |
+| `npm run build`                                        | Typecheck + production build (with service worker)        |
+| `npm run preview`                                      | Serve the production build                                |
+| `npm run check`                                        | Typecheck, lint, unit tests (vitest)                      |
+| `npm run e2e`                                          | Playwright (builds and previews on :4173, 375px project)  |
+| `node scripts/build-seed.mjs`                          | Regenerate seed JSON from `data/curation.json`            |
+| `node scripts/fetch-images.mjs`, `optimize-images.mjs` | Fetch and optimize exercise images (see `data/README.md`) |
 
 ## Layout
 
@@ -29,6 +30,12 @@ usable offline via a service worker.
   `settingsRepo`, backup, seeding, hooks). UI talks to the DB only through these.
 - `src/pages/`, `src/components/` UI; `src/lib/` units and pure helpers.
 - `e2e/` Playwright specs.
+
+## Exercise images
+
+Each exercise has start/end how-to photos in `public/exercises/<id>/` (public domain, from
+free-exercise-db). They are precached by the service worker (~5 MB) so they work offline. Tap an
+exercise in the Exercises tab, or the info button on a workout card, to view them.
 
 ## Data model and units
 

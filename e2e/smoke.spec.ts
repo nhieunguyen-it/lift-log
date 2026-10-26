@@ -67,3 +67,18 @@ test('works offline after service worker activation', async ({ page, context }) 
   await expect(page.getByRole('heading', { name: 'Exercises' })).toBeVisible();
   await context.setOffline(false);
 });
+
+test('exercise detail shows two loaded images', async ({ page }) => {
+  await page.goto('/');
+  await nav(page).getByRole('link', { name: 'Exercises' }).click();
+  await page.getByTestId('exercise-search').fill('bench');
+  await page.getByTestId('exercise-item').first().click();
+  const imgs = page.getByTestId('exercise-images').locator('img');
+  await expect(imgs).toHaveCount(2);
+  for (const img of await imgs.all()) {
+    await img.scrollIntoViewIfNeeded();
+    await expect
+      .poll(() => img.evaluate((el) => (el as unknown as { naturalWidth: number }).naturalWidth))
+      .toBeGreaterThan(0);
+  }
+});

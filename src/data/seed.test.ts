@@ -6,7 +6,7 @@ import { MUSCLE_IDS } from './muscles';
 
 describe('seed data', () => {
   it('has a numeric seed version', () => {
-    expect(SEED_VERSION).toBe(1);
+    expect(SEED_VERSION).toBe(2);
   });
 
   it('contains exactly the 17 muscle ids', () => {
@@ -142,5 +142,27 @@ describe('validateSeed', () => {
     expect(() => validateSeed({ ...base, exerciseMuscles: bad })).toThrow(
       /muscle calves covered by 0/,
     );
+  });
+});
+
+describe('exercise images', () => {
+  it('has >= 2 images per exercise (>= 1 for static force)', () => {
+    for (const e of exercises) {
+      expect(e.images.length, e.id).toBeGreaterThanOrEqual(e.force === 'static' ? 1 : 2);
+    }
+  });
+
+  it('rejects an exercise with too few images', () => {
+    const bad = exercises.map((e, i) => (i === 0 ? { ...e, force: 'push', images: [e.images[0]] } : e));
+    expect(() => validateSeed({ muscles, exercises: bad, exerciseMuscles })).toThrow(/image/);
+  });
+
+  it('every image file exists in public/', () => {
+    const files = new Set(Object.keys(import.meta.glob('/public/exercises/*/*.jpg')));
+    for (const e of exercises) {
+      for (const img of e.images) {
+        expect(files.has(`/public${img}`), img).toBe(true);
+      }
+    }
   });
 });
