@@ -1,8 +1,118 @@
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import SessionEditor from '@/components/SessionEditor';
+import SummaryStats from '@/components/SummaryStats';
+import {
+  sessionsRepo,
+  useActiveSession,
+  useSessionDetail,
+  useUnit,
+  type SessionSummary,
+} from '@/db';
+
 export default function WorkoutPage() {
+  const active = useActiveSession();
+  const detail = useSessionDetail(active?.id);
+  const unit = useUnit();
+  const [finishOpen, setFinishOpen] = useState(false);
+  const [done, setDone] = useState<SessionSummary | null>(null);
+
+  if (active === undefined || unit === undefined) return null;
+
+  if (done) {
+    return (
+      <section className="space-y-4">
+        <h1 className="text-2xl font-semibold">Workout</h1>
+        <h2 className="text-lg font-medium">Nice work!</h2>
+        <SummaryStats summary={done} unit={unit} />
+        <Button className="w-full" data-testid="summary-done" onClick={() => setDone(null)}>
+          Done
+        </Button>
+      </section>
+    );
+  }
+
+  if (!active) {
+    return (
+      <section className="space-y-4">
+        <h1 className="text-2xl font-semibold">Workout</h1>
+        <Button
+          size="lg"
+          className="w-full"
+          data-testid="start-workout"
+          onClick={() => void sessionsRepo.startSession()}
+        >
+          Start workout
+        </Button>
+      </section>
+    );
+  }
+
+  const preview = detail ? sessionsRepo.summarize(detail) : null;
+
   return (
-    <section>
-      <h1 className="text-2xl font-semibold">Workout</h1>
-      <p className="text-muted-foreground mt-2 text-sm">Coming soon.</p>
+    <section className="space-y-4">
+      <div className="flex items-center justify-between gap-2">
+        <div>
+          <h1 className="text-2xl font-semibold">Workout</h1>
+          <p className="text-muted-foreground text-xs" data-testid="session-status">
+            In progress · started{' '}
+            {new Date(active.startedAt).toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
+          </p>
+        </div>
+        <Button data-testid="finish-workout" onClick={() => setFinishOpen(true)}>
+          Finish
+        </Button>
+      </div>
+      {detail && <SessionEditor detail={detail} unit={unit} />}
+      <Button
+        variant="ghost"
+        className="text-destructive w-full"
+        data-testid="discard-workout"
+        onClick={() => {
+          if (window.confirm('Discard this workout and all its sets?')) {
+            void sessionsRepo.deleteSession(active.id);
+          }
+        }}
+      >
+        Discard workout
+      </Button>
+
+      <Dialog open={finishOpen} onOpenChange={setFinishOpen}>
+        <DialogContent data-testid="finish-dialog">
+          <DialogHeader>
+            <DialogTitle>Finish workout?</DialogTitle>
+            <DialogDescription>Only completed, non-warm-up sets count.</DialogDescription>
+          </DialogHeader>
+          {preview && <SummaryStats summary={preview} unit={unit} />}
+          <DialogFooter>
+            <Button
+              data-testid="finish-confirm"
+              onClick={async () => {
+                const s = await sessionsRepo.finishSession(active.id);
+                setFinishOpen(false);
+                if (s) setDone(s);
+              }}
+            >
+              Finish workout
+            </Button>
+            <Button variant="outline" onClick={() => setFinishOpen(false)}>
+              Keep going
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
