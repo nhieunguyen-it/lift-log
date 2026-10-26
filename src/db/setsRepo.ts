@@ -13,11 +13,13 @@ type Prefill = Pick<SetRow, 'weightKg' | 'reps' | 'rir'>;
  */
 export function pickPrefill(current: SetRow[], previous: SetRow[]): Prefill {
   const src = (s: SetRow): Prefill => ({ weightKg: s.weightKg, reps: s.reps, rir: s.rir });
-  if (current.length > 0) return src(current[current.length - 1]);
+  const currentWorking = current.filter((s) => !s.isWarmup);
+  if (currentWorking.length > 0) return src(currentWorking[currentWorking.length - 1]);
   if (previous.length > 0) {
     const working = previous.filter((s) => !s.isWarmup);
     return src((working.length > 0 ? working : previous)[0]);
   }
+  if (current.length > 0) return src(current[current.length - 1]);
   return { reps: 0 };
 }
 
@@ -96,11 +98,13 @@ export async function duplicateSet(setId: string): Promise<SetRow | undefined> {
 }
 
 export async function updateSet(setId: string, patch: SetPatch): Promise<void> {
-  await db.sets.update(setId, patch);
+  // A set with 0 reps can't count as done.
+  await db.sets.update(setId, patch.reps === 0 ? { ...patch, completedAt: undefined } : patch);
 }
 
 export async function setDone(setId: string, done: boolean, patch: SetPatch = {}): Promise<void> {
-  await db.sets.update(setId, { ...patch, completedAt: done ? Date.now() : undefined });
+  const markDone = done && patch.reps !== 0;
+  await db.sets.update(setId, { ...patch, completedAt: markDone ? Date.now() : undefined });
 }
 
 export async function deleteSet(setId: string): Promise<void> {

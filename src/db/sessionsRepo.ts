@@ -123,9 +123,14 @@ export async function finishSession(
   sessionId: string,
   now = Date.now(),
 ): Promise<SessionSummary | undefined> {
-  await db.sessions.update(sessionId, { finishedAt: now });
+  // Finishing twice keeps the original end time.
+  await db.sessions
+    .where('id')
+    .equals(sessionId)
+    .filter((s) => s.finishedAt === undefined)
+    .modify({ finishedAt: now });
   const detail = await getSessionDetail(sessionId);
-  return detail && summarize(detail, now);
+  return detail && summarize(detail, detail.session.finishedAt ?? now);
 }
 
 export async function deleteSession(sessionId: string): Promise<void> {

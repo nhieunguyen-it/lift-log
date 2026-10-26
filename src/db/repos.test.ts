@@ -145,6 +145,36 @@ describe('sets', () => {
     expect(prefill).toMatchObject({ weightKg: 100, reps: 5 });
   });
 
+  it('pickPrefill skips a trailing warm-up in the current session', () => {
+    const base = { id: 'x', sessionExerciseId: 'y', order: 0, isWarmup: false };
+    const prefill = sets.pickPrefill(
+      [
+        { ...base, weightKg: 100, reps: 5 },
+        { ...base, weightKg: 40, reps: 8, isWarmup: true },
+      ],
+      [],
+    );
+    expect(prefill).toMatchObject({ weightKg: 100, reps: 5 });
+  });
+
+  it('un-ticks a done set when its reps become 0', async () => {
+    const s = await sessions.startSession();
+    const se = await sessions.addExercise(s.id, A);
+    const set = await sets.addSet(se.id);
+    await sets.setDone(set.id, true, { reps: 5 });
+    await sets.updateSet(set.id, { reps: 0 });
+    expect((await db.sets.get(set.id))?.completedAt).toBeUndefined();
+    await sets.setDone(set.id, true, { reps: 0 });
+    expect((await db.sets.get(set.id))?.completedAt).toBeUndefined();
+  });
+
+  it('finishing twice keeps the original finishedAt', async () => {
+    const s = await sessions.startSession(1_000);
+    await sessions.finishSession(s.id, 2_000);
+    await sessions.finishSession(s.id, 9_000);
+    expect((await db.sessions.get(s.id))?.finishedAt).toBe(2_000);
+  });
+
   it('duplicates (inserting after), edits, toggles done, deletes and renumbers', async () => {
     const s = await sessions.startSession();
     const se = await sessions.addExercise(s.id, A);
