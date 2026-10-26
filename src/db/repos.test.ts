@@ -6,7 +6,9 @@ import { resetDb } from './testUtils';
 import * as sessions from './sessionsRepo';
 import * as sets from './setsRepo';
 import * as ex from './exercisesRepo';
+import phase1Export from './__fixtures__/phase1-export.json';
 import * as backup from './backup';
+import * as settingsRepo from './settingsRepo';
 import { getUnit, setUnit } from './settingsRepo';
 
 const [A, B, C] = exercises.map((e) => e.id);
@@ -257,5 +259,48 @@ describe('backup', () => {
       sets: [{ id: 's', sessionExerciseId: 'nope', order: 0, reps: 5, isWarmup: false }],
     };
     expect(backup.parseBackup(JSON.stringify(orphan)).ok).toBe(false);
+  });
+
+  it('imports a phase-1 (v1) export and keeps phase-2 settings', async () => {
+    await settingsRepo.setWeekStartsOn(0);
+    await settingsRepo.setEquipment(['barbell', 'bodyweight']);
+    const text = JSON.stringify(phase1Export);
+    const parsed = backup.parseBackup(text);
+    expect(parsed.ok).toBe(true);
+    if (!parsed.ok) return;
+    await backup.importData(parsed.data);
+    expect(await getUnit()).toBe('lbs');
+    expect(await db.sets.count()).toBe(2);
+    expect(await settingsRepo.getWeekStartsOn()).toBe(0);
+    expect(await settingsRepo.getEquipment()).toEqual(['barbell', 'bodyweight']);
+  });
+
+  it('roundtrips phase-2 settings', async () => {
+    await settingsRepo.setWeekStartsOn(0);
+    await settingsRepo.setTargetOverrides({ chest: { mev: 6, mavLow: 10, mavHigh: 14, mrv: 18 } });
+    await settingsRepo.setEquipment(['dumbbell']);
+    const exported = await backup.exportData(1);
+    expect(exported.version).toBe(2);
+    await settingsRepo.setWeekStartsOn(1);
+    await settingsRepo.setTargetOverrides({});
+    await settingsRepo.setEquipment(['barbell']);
+    await backup.importData(exported);
+    expect(await settingsRepo.getWeekStartsOn()).toBe(0);
+    expect((await settingsRepo.getTargetOverrides()).chest?.mev).toBe(6);
+    expect(await settingsRepo.getEquipment()).toEqual(['dumbbell', 'bodyweight']);
+  });
+});
+
+describe('phase-2 settings', () => {
+  it('defaults and validation', async () => {
+    expect(await settingsRepo.getWeekStartsOn()).toBe(1);
+    expect(await settingsRepo.getTargetOverrides()).toEqual({});
+    expect((await settingsRepo.getEquipment()).length).toBe(8);
+    await expect(
+      settingsRepo.setTargetOverrides({ chest: { mev: 10, mavLow: 5, mavHigh: 14, mrv: 18 } }),
+    ).rejects.toThrow();
+    const t = settingsRepo.resolveTargets({ calves: { mev: 1, mavLow: 2, mavHigh: 3, mrv: 4 } });
+    expect(t.calves.mev).toBe(1);
+    expect(t.chest.mev).toBe(8);
   });
 });

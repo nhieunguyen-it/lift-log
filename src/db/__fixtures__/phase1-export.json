@@ -1,0 +1,31 @@
+{
+  "app": "lift-log",
+  "version": 1,
+  "exportedAt": 1761000000000,
+  "settings": { "unit": "lbs" },
+  "sessions": [{ "id": "s1", "startedAt": 1760950000000, "finishedAt": 1760953600000 }],
+  "sessionExercises": [
+    { "id": "se1", "sessionId": "s1", "exerciseId": "barbell-bench-press", "order": 0 }
+  ],
+  "sets": [
+    {
+      "id": "w1",
+      "sessionExerciseId": "se1",
+      "order": 0,
+      "weightKg": 40,
+      "reps": 8,
+      "isWarmup": true,
+      "completedAt": 1760950100000
+    },
+    {
+      "id": "t1",
+      "sessionExerciseId": "se1",
+      "order": 1,
+      "weightKg": 80,
+      "reps": 6,
+      "rir": 2,
+      "isWarmup": false,
+      "completedAt": 1760950400000
+    }
+  ]
+}
