@@ -4,10 +4,10 @@ import { shiftWeek, weekWindow } from '@/analyzer';
 import type { MuscleId } from '@/data';
 import { Card } from '@/components/ui/card';
 import BodyMap from '@/components/analyze/BodyMap';
-import MuscleDetailSheet, { suggestionText } from '@/components/analyze/MuscleDetailSheet';
+import MuscleDetailSheet from '@/components/analyze/MuscleDetailSheet';
 import MuscleList from '@/components/analyze/MuscleList';
-import { muscleName } from '@/components/analyze/muscleSort';
 import StatusLegend from '@/components/analyze/StatusLegend';
+import VolumeSuggestionList from '@/components/recommend/VolumeSuggestionList';
 import WeekSwitcher from '@/components/analyze/WeekSwitcher';
 import { useAnalysis, useExercisesWithMuscles, useWeekStartsOn } from '@/db';
 
@@ -65,24 +65,11 @@ export default function AnalyzePage() {
 
           <Card className="space-y-2 p-4" data-testid="suggestion-card">
             <h2 className="text-lg font-medium">This week&apos;s suggestions</h2>
-            {analysis.suggestions.length === 0 ? (
-              <p className="text-sm">Nothing to fix. Your volume looks balanced for this week.</p>
-            ) : (
-              <ul className="space-y-2 text-sm">
-                {analysis.suggestions.map((s) => (
-                  <li key={`${s.kind}-${s.muscleId}`}>
-                    <button
-                      type="button"
-                      className="min-h-11 text-left"
-                      onClick={() => setSelected(s.muscleId)}
-                    >
-                      <span className="font-medium">{muscleName(s.muscleId)}:</span>{' '}
-                      {suggestionText(s, exerciseName)}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
+            <VolumeSuggestionList
+              suggestions={analysis.suggestions}
+              onSelect={setSelected}
+              limit={4}
+            />
           </Card>
 
           <MuscleList muscles={analysis.result.current.muscles} onSelect={setSelected} />

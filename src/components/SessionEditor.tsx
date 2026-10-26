@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { ArrowDown, ArrowUp, Info, Plus, Trash2 } from 'lucide-react';
+import { ArrowDown, ArrowUp, Info, Plus, Repeat2, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import ExerciseDetailDialog from '@/components/ExerciseDetailDialog';
 import ExercisePicker from '@/components/ExercisePicker';
+import TargetChip from '@/components/recommend/TargetChip';
+import SwapExerciseDialog from '@/components/recommend/SwapExerciseDialog';
 import SetRowItem, { SET_GRID } from '@/components/SetRowItem';
 import { sessionsRepo, setsRepo, type SessionDetail } from '@/db';
 import type { WeightUnit } from '@/lib/units';
@@ -17,6 +19,7 @@ interface Props {
 export default function SessionEditor({ detail, unit }: Props) {
   const [pickerOpen, setPickerOpen] = useState(false);
   const [infoId, setInfoId] = useState<string | null>(null);
+  const [swap, setSwap] = useState<{ seId: string; exerciseId: string; name: string } | null>(null);
   const { session, exercises } = detail;
 
   return (
@@ -31,7 +34,7 @@ export default function SessionEditor({ detail, unit }: Props) {
           <CardContent className="space-y-2">
             <div className="flex items-center justify-between gap-1">
               <div className="min-w-0">
-                <p className="truncate font-semibold" data-testid="exercise-name">
+                <p className="font-semibold break-words" data-testid="exercise-name">
                   {exercise?.name ?? se.exerciseId}
                 </p>
                 {exercise?.isBodyweight && (
@@ -47,6 +50,21 @@ export default function SessionEditor({ detail, unit }: Props) {
                   onClick={() => setInfoId(se.exerciseId)}
                 >
                   <Info />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label={`Swap ${exercise?.name ?? 'exercise'}`}
+                  data-testid="swap-exercise"
+                  onClick={() =>
+                    setSwap({
+                      seId: se.id,
+                      exerciseId: se.exerciseId,
+                      name: exercise?.name ?? se.exerciseId,
+                    })
+                  }
+                >
+                  <Repeat2 />
                 </Button>
                 <Button
                   variant="ghost"
@@ -83,6 +101,12 @@ export default function SessionEditor({ detail, unit }: Props) {
                 </Button>
               </div>
             </div>
+            <TargetChip
+              exerciseId={se.exerciseId}
+              sessionId={session.id}
+              sessionExerciseId={se.id}
+              sets={sets}
+            />
             {sets.length > 0 && (
               <div
                 className={`${SET_GRID} text-muted-foreground text-center text-xs`}
@@ -125,6 +149,12 @@ export default function SessionEditor({ detail, unit }: Props) {
       >
         <Plus /> Add exercise
       </Button>
+      <SwapExerciseDialog
+        exerciseId={swap?.exerciseId ?? null}
+        exerciseName={swap?.name}
+        onPick={(newId) => swap && void sessionsRepo.swapExercise(swap.seId, newId)}
+        onClose={() => setSwap(null)}
+      />
       <ExerciseDetailDialog exerciseId={infoId} onClose={() => setInfoId(null)} />
       <ExercisePicker
         open={pickerOpen}

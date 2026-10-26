@@ -304,3 +304,20 @@ describe('phase-2 settings', () => {
     expect(t.chest.mev).toBe(8);
   });
 });
+
+describe('swapExercise', () => {
+  it('changes exerciseId in place keeping sets and order', async () => {
+    const s = await sessions.startSession(1);
+    const a = await sessions.addExercise(s.id, A);
+    const b = await sessions.addExercise(s.id, B);
+    const row = await sets.addSet(a.id);
+    await sets.updateSet(row.id, { weightKg: 50, reps: 8 });
+    await sessions.swapExercise(a.id, C);
+    const d = await sessions.getSessionDetail(s.id);
+    expect(d?.exercises.map((e) => e.sessionExercise.id)).toEqual([a.id, b.id]);
+    expect(d?.exercises[0].sessionExercise.exerciseId).toBe(C);
+    expect(d?.exercises[0].exercise?.id).toBe(C);
+    expect(d?.exercises[0].sets).toHaveLength(1);
+    expect(d?.exercises[0].sets[0].weightKg).toBe(50);
+  });
+});

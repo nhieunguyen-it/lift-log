@@ -159,3 +159,11 @@ export async function listHistory(): Promise<HistoryItem[]> {
   }
   return items;
 }
+
+/** Changes the exercise of a session exercise in place; sets and order are kept. */
+export async function swapExercise(
+  sessionExerciseId: string,
+  newExerciseId: string,
+): Promise<void> {
+  await db.sessionExercises.update(sessionExerciseId, { exerciseId: newExerciseId });
+}

@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { Download, Upload } from 'lucide-react';
+import EquipmentSettings from '@/components/recommend/EquipmentSettings';
 import TrainingSettings from '@/components/analyze/TrainingSettings';
 import { Button } from '@/components/ui/button';
 import {
@@ -81,6 +82,16 @@ export default function SettingsPage() {
       </div>
 
       <TrainingSettings />
+
+      <section className="space-y-2" aria-labelledby="equipment-heading">
+        <h2 id="equipment-heading" className="text-lg font-medium">
+          My equipment
+        </h2>
+        <p className="text-muted-foreground text-sm">
+          Suggestions and swaps only use exercises you can do with this equipment.
+        </p>
+        <EquipmentSettings />
+      </section>
 
       <div className="space-y-2">
         <h2 className="text-lg font-medium">Your data</h2>
