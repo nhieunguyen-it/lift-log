@@ -30,3 +30,10 @@ describe('weight helpers', () => {
     expect(formatDuration(75 * 60_000)).toBe('1h 15m');
   });
 });
+
+describe('formatVolume rounding', () => {
+  it('rounds once when converting to lbs', () => {
+    // 1000.3 kg = 2205.4 lbs; double rounding via 0.5 kg would give 2,206.
+    expect(formatVolume(1000.3, 'lbs')).toBe('2,205 lbs');
+  });
+});

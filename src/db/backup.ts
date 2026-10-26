@@ -41,12 +41,18 @@ export const BackupSchema = z.object({
 export type Backup = z.infer<typeof BackupSchema>;
 
 export async function exportData(now = Date.now()): Promise<Backup> {
-  const [sessions, sessionExercises, sets, unit] = await Promise.all([
-    db.sessions.toArray(),
-    db.sessionExercises.toArray(),
-    db.sets.toArray(),
-    getUnit(),
-  ]);
+  // One read transaction so the snapshot is internally consistent.
+  const [sessions, sessionExercises, sets, unit] = await db.transaction(
+    'r',
+    [db.sessions, db.sessionExercises, db.sets, db.settings],
+    () =>
+      Promise.all([
+        db.sessions.toArray(),
+        db.sessionExercises.toArray(),
+        db.sets.toArray(),
+        getUnit(),
+      ]),
+  );
   return {
     app: 'lift-log',
     version: BACKUP_VERSION,

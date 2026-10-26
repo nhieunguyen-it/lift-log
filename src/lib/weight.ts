@@ -27,7 +27,8 @@ export function parseIntInput(text: string): number | undefined {
 }
 
 export function formatVolume(kg: number, unit: WeightUnit): string {
-  const v = kgToDisplay(kg, unit);
+  // Convert first, round once (avoids double rounding via 0.5 kg).
+  const v = unit === 'kg' ? kg : kgToLbs(kg);
   return `${Math.round(v).toLocaleString('en-US')} ${unit}`;
 }
 
