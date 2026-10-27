@@ -27,7 +27,7 @@ const selectClass =
   'border-input bg-background h-11 w-full rounded-md border px-3 text-base md:text-sm';
 
 const WEIGHTS = [
-  { v: 1, label: '100% (primary)' },
+  { v: 1, label: 'Primary' },
   { v: 0.75, label: '75%' },
   { v: 0.5, label: '50%' },
   { v: 0.25, label: '25%' },

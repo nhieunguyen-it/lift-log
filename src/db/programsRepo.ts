@@ -9,7 +9,7 @@ import * as edit from '@/program/edit';
 import type { PlanCheck, Program, ProgramDay } from '@/program/types';
 import { db, newId } from './db';
 import { loadMergedExercises } from './customExercisesRepo';
-import { addExercise, startSession } from './sessionsRepo';
+import { addExercise, getActiveSession, startSession } from './sessionsRepo';
 import {
   getActiveProgramId,
   getEquipment,
@@ -146,8 +146,11 @@ export async function startProgramDay(
       const { exercises } = await loadMergedExercises();
       const known = new Set(exercises.map((e) => e.id));
 
-      const active = await db.sessions.filter((s) => s.finishedAt === undefined).first();
+      const active = await getActiveSession();
       if (active) return active;
+      if (!day.exercises.some((pe) => known.has(pe.exerciseId))) {
+        throw new Error('None of this day’s exercises exist any more.');
+      }
 
       const session = await startSession(now);
       for (const pe of day.exercises) {

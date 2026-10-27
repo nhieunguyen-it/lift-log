@@ -1,3 +1,4 @@
+import type { MergedExercise } from '@/data/merged';
 import type { Equipment, Exercise, ExerciseMuscle, MuscleId } from '@/data';
 import { MUSCLE_IDS } from '@/data';
 import { TRAINING } from '@/config/training';
@@ -37,7 +38,9 @@ export function volumeSuggestions(args: {
         .map((em) => ({ em, ex: byId.get(em.exerciseId) }))
         .filter(
           (c): c is { em: ExerciseMuscle; ex: Exercise } =>
-            !!c.ex && isAvailable(c.ex, availableEquipment),
+            !!c.ex &&
+            (c.ex as MergedExercise).deletedAt === undefined &&
+            isAvailable(c.ex, availableEquipment),
         )
         .sort(
           (a, b) =>

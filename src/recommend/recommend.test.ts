@@ -237,3 +237,35 @@ describe('alternatives', () => {
     expect(cosineSimilarity({ a: 1 }, { b: 1 })).toBe(0);
   });
 });
+
+describe('volume suggestions skip deleted custom exercises', () => {
+  it('never suggests a tombstone', async () => {
+    const { volumeSuggestions } = await import('./volume');
+    const { analyze, defaultAnalyzerOptions } = await import('@/analyzer');
+    const { exercises, exerciseMuscles } = await import('@/data');
+    const tomb = {
+      ...exercises[0],
+      id: 'custom-dead',
+      name: 'Dead',
+      isCustom: true,
+      deletedAt: 1,
+    };
+    const links = [{ exerciseId: 'custom-dead', muscleId: 'biceps' as const, weight: 1 }];
+    const data = {
+      sessions: [],
+      sessionExercises: [],
+      sets: [],
+      exercises: [...exercises, tomb],
+      exerciseMuscles: [...exerciseMuscles, ...links],
+    };
+    const week = analyze(data, Date.now(), defaultAnalyzerOptions({ weekStartsOn: 1 })).current;
+    const out = volumeSuggestions({
+      week,
+      exercises: data.exercises,
+      exerciseMuscles: data.exerciseMuscles,
+      availableEquipment: ['barbell', 'dumbbell', 'cable', 'machine', 'bodyweight'],
+    } as Parameters<typeof volumeSuggestions>[0]);
+    const ids = out.flatMap((s) => (s.kind === 'add' ? s.exercises.map((e) => e.exerciseId) : []));
+    expect(ids).not.toContain('custom-dead');
+  });
+});

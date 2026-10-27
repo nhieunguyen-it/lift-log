@@ -33,6 +33,8 @@ export default function SettingsPage() {
   const unit = useUnit();
   const fileRef = useRef<HTMLInputElement>(null);
   const [pending, setPending] = useState<Backup | null>(null);
+  // Separate from `pending` so the dialog text doesn't flash "0 workouts" while it animates out.
+  const [importOpen, setImportOpen] = useState(false);
   const [message, setMessage] = useState<{ kind: 'ok' | 'error'; text: string } | null>(null);
 
   const [passphrase, setPassphrase] = useState('');
@@ -88,6 +90,7 @@ export default function SettingsPage() {
     }
     setMessage(null);
     setPending(res.data);
+    setImportOpen(true);
   }
 
   async function decryptSelected(pass: string): Promise<string | null> {
@@ -98,6 +101,7 @@ export default function SettingsPage() {
       setEncrypted(null);
       setMessage(null);
       setPending(res.data);
+      setImportOpen(true);
       return null;
     } catch (e) {
       return e instanceof BackupCryptoError ? e.message : 'Could not decrypt this file.';
@@ -106,8 +110,15 @@ export default function SettingsPage() {
 
   async function confirmImport() {
     if (!pending) return;
-    await backup.importData(pending);
-    setPending(null);
+    try {
+      await backup.importData(pending);
+    } catch (e) {
+      console.error(e);
+      setImportOpen(false);
+      setMessage({ kind: 'error', text: 'Import failed. Your data was not changed.' });
+      return;
+    }
+    setImportOpen(false);
     setMessage({ kind: 'ok', text: 'Import complete. Your data was replaced.' });
   }
 
@@ -228,7 +239,7 @@ export default function SettingsPage() {
         onCancel={() => setEncrypted(null)}
       />
 
-      <Dialog open={pending !== null} onOpenChange={(o) => !o && setPending(null)}>
+      <Dialog open={importOpen} onOpenChange={setImportOpen}>
         <DialogContent data-testid="import-dialog">
           <DialogHeader>
             <DialogTitle>Replace all data?</DialogTitle>
@@ -241,7 +252,7 @@ export default function SettingsPage() {
             <Button variant="destructive" data-testid="import-confirm" onClick={confirmImport}>
               Replace data
             </Button>
-            <Button variant="outline" onClick={() => setPending(null)}>
+            <Button variant="outline" onClick={() => setImportOpen(false)}>
               Cancel
             </Button>
           </DialogFooter>

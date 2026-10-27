@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useActiveSession } from '@/db';
@@ -11,6 +12,7 @@ import { useActiveProgram } from '@/db/programHooks';
 export default function StartFromProgram() {
   const program = useActiveProgram();
   const active = useActiveSession();
+  const [error, setError] = useState<string | null>(null);
   if (program === undefined || active === undefined) return null;
 
   return (
@@ -31,13 +33,25 @@ export default function StartFromProgram() {
                 size="lg"
                 className="w-full justify-start"
                 data-testid="start-program-day"
-                onClick={() => void programsRepo.startProgramDay(program.id, d.id)}
+                onClick={() => {
+                  setError(null);
+                  programsRepo
+                    .startProgramDay(program.id, d.id)
+                    .catch((e: unknown) =>
+                      setError(e instanceof Error ? e.message : 'Could not start this day.'),
+                    );
+                }}
               >
                 Start Day {i + 1}: {d.name}
               </Button>
             </li>
           ))}
         </ul>
+      )}
+      {error && (
+        <p role="alert" className="text-destructive text-sm">
+          {error}
+        </p>
       )}
       {!program && (
         <p className="text-muted-foreground text-sm">

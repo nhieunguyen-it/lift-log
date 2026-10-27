@@ -22,6 +22,7 @@ import {
   getDeloadDismissals,
   setActiveProgramId,
   setDeloadDismissals,
+  setFlag,
 } from './settingsRepo';
 
 /**
@@ -84,7 +85,8 @@ export const CustomExerciseMuscleSchema = z.object({
 export const ProgramSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
-  builtIn: z.boolean(),
+  // Built-ins live in code; a file can't add read-only templates.
+  builtIn: z.literal(false),
   days: z.array(
     z.object({
       id: z.string().min(1),
@@ -164,7 +166,7 @@ export async function exportData(now = Date.now()): Promise<Backup> {
     sessions,
     sessionExercises,
     sets,
-    programs,
+    programs: programs.filter((p) => !p.builtIn).map((p) => ({ ...p, builtIn: false as const })),
     customExercises,
     customExerciseMuscles,
   };
@@ -207,6 +209,16 @@ export function parseBackup(text: string): ParseResult {
   if (d.sets.some((s) => !seIds.has(s.sessionExerciseId))) {
     return { ok: false, error: 'Invalid backup: set references unknown exercise entry.' };
   }
+  const dup = (ids: string[]) => new Set(ids).size !== ids.length;
+  if (
+    dup(d.sessions.map((s) => s.id)) ||
+    dup(d.sessionExercises.map((s) => s.id)) ||
+    dup(d.sets.map((s) => s.id)) ||
+    dup((d.programs ?? []).map((p) => p.id)) ||
+    dup((d.customExercises ?? []).map((c) => c.id))
+  ) {
+    return { ok: false, error: 'Invalid backup: duplicate ids.' };
+  }
   const customIds = new Set((d.customExercises ?? []).map((c) => c.id));
   if ((d.customExerciseMuscles ?? []).some((l) => !customIds.has(l.exerciseId))) {
     return { ok: false, error: 'Invalid backup: muscle link references unknown custom exercise.' };
@@ -230,6 +242,11 @@ export async function importData(data: Backup): Promise<void> {
     if (st.weekStartsOn !== undefined) await setWeekStartsOn(st.weekStartsOn as WeekStartDay);
     if (st.targetOverrides !== undefined) await setTargetOverrides(st.targetOverrides);
     if (st.equipment !== undefined) await setEquipment(st.equipment);
+    if (valid.sessions.length > 0) {
+      // Restoring history makes this an existing user: no onboarding / what's-new prompts.
+      await setFlag('onboardingDone', true);
+      await setFlag('whatsNewPhase3Seen', true);
+    }
     if (st.activeProgramId !== undefined) await setActiveProgramId(st.activeProgramId);
     if (st.deloadDismissals !== undefined) await setDeloadDismissals(st.deloadDismissals);
     if (valid.programs !== undefined) {

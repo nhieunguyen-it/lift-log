@@ -35,7 +35,10 @@ usable offline via a service worker.
 - `src/db/analysisRepo.ts` loads a snapshot from Dexie and calls the engines; hooks wrap it.
 - `src/pages/`, `src/components/` UI (`analyze/` body map + dashboard, `recommend/` chips, swap,
   suggestions); `src/lib/` units and pure helpers.
-- `e2e/` Playwright specs.
+- `src/program/` pure program types, built-in templates and the weekly plan check.
+- `src/guide/` the in-app User Guide: Markdown topics in `src/guide/content/`, a small safe
+  renderer, search and the placeholder resolver; screenshots in `public/guide/`.
+- `e2e/` Playwright specs (`e2e/fixtures.ts` auto-dismisses first-run overlays for older specs).
 
 ## Exercise images
 
@@ -45,7 +48,10 @@ exercise in the Exercises tab, or the info button on a workout card, to view the
 
 ## Data model and units
 
-Tables: `exercises`, `muscles`, `exerciseMuscles`, `sessions`, `sessionExercises`, `sets`, `settings`.
+Tables: `exercises`, `muscles`, `exerciseMuscles`, `sessions`, `sessionExercises`, `sets`, `settings`,
+plus (schema v2) `customExercises`, `customExerciseMuscles` and `programs`. The v1 → v2 upgrade only
+adds tables, so existing data is kept as is (tested against a real v1 database in
+`src/db/phase3.test.ts`).
 All weights are stored in **kg**; lbs exist only at the UI edge (display and input conversion,
 rounded to 1 lb). For bodyweight exercises the stored weight is added load.
 
@@ -55,8 +61,49 @@ Settings offers JSON export and import of user data (sessions, exercises, sets, 
 can move between devices or survive a cleared browser. Backup format v2 adds the week start, target
 overrides and equipment settings; v1 (phase-1) files still import and leave those settings as they are.
 
-The Dexie schema is still version 1: phase-2 settings are rows in the existing key-value `settings`
-table, so no migration was needed. The seed data did not change, so `SEED_VERSION` stays 2.
+Backup format **v3** adds programs, custom exercises (with tombstones) and deload dismissals. v1 and
+v2 files still import; sections they don't have are left untouched. Fixtures for all three live in
+`src/db/__fixtures__/`.
+
+**Encryption (optional):** with a passphrase, export wraps the JSON in a self-describing envelope
+(`format: "lift-log-encrypted"`): PBKDF2-SHA-256 (iterations from `TRAINING.backup`, random salt) →
+AES-GCM-256 (random IV). Import detects the envelope and asks for the passphrase; a wrong one shows
+an error and writes nothing. A lost passphrase cannot be recovered.
+
+## Programs
+
+A program is a named weekly plan: days of ordered exercises with target sets and an optional rep
+range. Built-in templates (Full Body 3×, Upper/Lower 4×, Push/Pull/Legs 6×) live in
+`src/program/templates.ts` and are read-only; edit a copy. **Plan check** projects weekly weighted
+sets per muscle (target sets × muscle weight, the same weights the analyzer uses) and warns below
+MEV or above MRV. "Start Day N" creates a session with the day's exercises and empty set rows.
+Exercises missing from My equipment are flagged with one-tap swaps.
+
+## Progression and deload rules
+
+Bodyweight exercises at the top of their rep range point to the next variant in
+`src/data/variantChains.ts` (seed data, `SEED_VERSION` 3). Deload detection
+(`src/recommend/deload.ts`, all numbers in `TRAINING.deload`) flags an exercise over its last
+`lookbackSessions` sessions when the best e1RM drops by at least `e1rmDropFraction`, when average RIR
+falls by at least `rirDrop` while reps fall, or after `missesToDeload` sessions missing the range.
+When `exercisesForOverall` exercises are flagged, Workout and Analyze show a dismissible card
+suggesting a deload week (same exercises, `setsFraction` of the sets, easy RIR). It never changes data.
+
+## Custom exercises
+
+Custom exercises (`custom-<uuid>` ids, so they can't collide with seed ids) live in their own tables,
+so re-seeding never touches them. They have one 1.0 primary muscle and others at 0.25–1.0, and every
+engine sees one merged list (`loadMergedExercises`). Deleting one with logged sets keeps a tombstone
+(`deletedAt`), so history stays readable and still counts; without history it is removed.
+
+## User Guide
+
+Topics are Markdown files in `src/guide/content/NN-slug.md`, bundled at build time and precached, so
+`/guide` works offline. Headings carry stable anchors (`## Statuses {#analyze-statuses}`) used by the
+"?" buttons. **Numbers from config are never typed into content:** write placeholders such as
+`{{targets.chest.mev}}` or `{{maxCountedRir}}`, resolved from `src/config/training.ts`. A unit test
+fails when a placeholder doesn't resolve or a known threshold appears as a literal
+(`src/guide/allowedLiterals.ts` lists the few allowed exceptions).
 
 ## Seed versioning
 

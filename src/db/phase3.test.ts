@@ -114,3 +114,22 @@ describe('backup v1/v2/v3', () => {
     expect(backup.parseBackup(JSON.stringify(bad)).ok).toBe(false);
   });
 });
+
+describe('phase 3 review regressions', () => {
+  beforeEach(resetDb);
+
+  it('rejects duplicate ids and imported built-in programs', () => {
+    const dupSessions = { ...v3, sessions: [...v3.sessions, ...v3.sessions] };
+    expect(backup.parseBackup(JSON.stringify(dupSessions)).ok).toBe(false);
+    const builtIn = { ...v3, programs: v3.programs.map((p) => ({ ...p, builtIn: true })) };
+    expect(backup.parseBackup(JSON.stringify(builtIn)).ok).toBe(false);
+  });
+
+  it('importing history marks onboarding and what-is-new as seen', async () => {
+    const r = backup.parseBackup(JSON.stringify(v2));
+    if (!r.ok) throw new Error(r.error);
+    await backup.importData(r.data);
+    expect((await db.settings.get('onboardingDone'))?.value).toBe(true);
+    expect((await db.settings.get('whatsNewPhase3Seen'))?.value).toBe(true);
+  });
+});

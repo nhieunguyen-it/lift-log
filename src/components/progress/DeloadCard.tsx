@@ -1,10 +1,8 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { exercises } from '@/data';
+import { nameFor, useExerciseLookup } from '@/db/customHooks';
 import { dismissDeload, useDeloadSignal } from '@/db/progressHooks';
 import type { DeloadSignal } from '@/recommend';
-
-const NAMES = new Map(exercises.map((e) => [e.id, e.name]));
 
 interface Props {
   /** Test/preview override; normally read live from the database. */
@@ -18,6 +16,7 @@ const rirText = (r: { min: number; max: number }) =>
 /** Suggests (never applies) a deload week. Renders nothing when there is no signal. */
 export default function DeloadCard({ signal: override, onDismiss }: Props) {
   const live = useDeloadSignal();
+  const lookup = useExerciseLookup();
   const signal = override !== undefined ? override : live;
   if (!signal || !signal.overall) return null;
   const pctKept = Math.round(signal.setsFraction * 100);
@@ -30,7 +29,7 @@ export default function DeloadCard({ signal: override, onDismiss }: Props) {
         <ul className="space-y-1">
           {signal.exercises.map((e) => (
             <li key={e.exerciseId}>
-              <span className="font-medium">{NAMES.get(e.exerciseId) ?? e.exerciseId}</span>
+              <span className="font-medium">{nameFor(lookup, e.exerciseId)}</span>
               <span className="text-muted-foreground">: {e.detail}</span>
             </li>
           ))}
