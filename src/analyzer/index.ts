@@ -17,3 +17,4 @@ export {
   sessionBestSet,
 } from './exerciseStats';
 export type { E1rmPoint } from './exerciseStats';
+export { summarizeWeek } from './summary';

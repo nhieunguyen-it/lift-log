@@ -90,7 +90,33 @@ export interface TrainingConfig {
   charts: {
     /** Fewer sessions than this shows an empty state instead of a chart. */
     minSessions: number;
+    /** Phase 4: range bar scale ends at mrv x this, so "over" values stay on the bar. */
+    rangeBarHeadroom: number;
+    /** Phase 4: weeks in each muscle row's sparkline (incl. the current week). */
+    sparklineWeeks: number;
   };
+  /** Phase 4: Analyze layout. */
+  analyzeUi: {
+    /** Rows shown in a collapsed section before "Show all". */
+    collapsedRows: number;
+    /** Week-switch transition length; 0 under prefers-reduced-motion. */
+    transitionMs: number;
+  };
+  /** Phase 4: multi-week program blocks (mesocycles). */
+  blocks: {
+    /** Total weeks including the final planned deload week. */
+    defaultWeeks: number;
+    minWeeks: number;
+    maxWeeks: number;
+    /** Ramp: chosen exercises gain `setsPerWeek` sets each week, at most `maxExtraSets` above base. */
+    ramp: BlockRamp;
+  };
+}
+
+/** Phase 4: how ramped exercises grow week to week inside a block. */
+export interface BlockRamp {
+  setsPerWeek: number;
+  maxExtraSets: number;
 }
 
 /*
@@ -172,7 +198,9 @@ export const TRAINING: TrainingConfig = {
   },
   programs: { defaultTargetSets: 3 },
   backup: { pbkdf2Iterations: 310_000 },
-  charts: { minSessions: 2 },
+  charts: { minSessions: 2, rangeBarHeadroom: 1.25, sparklineWeeks: 5 },
+  analyzeUi: { collapsedRows: 6, transitionMs: 180 },
+  blocks: { defaultWeeks: 5, minWeeks: 3, maxWeeks: 8, ramp: { setsPerWeek: 1, maxExtraSets: 3 } },
 };
 
 /** Equipment treated as "barbell or machine" for load steps. */

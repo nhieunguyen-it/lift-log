@@ -17,6 +17,11 @@ export interface Session {
   startedAt: number;
   finishedAt?: number;
   notes?: string;
+  /** Phase 4: set when started from a program day (no index, so no schema bump). */
+  programId?: string;
+  programDayId?: string;
+  /** Phase 4: block week (1-based) the day was started in, if a block was running. */
+  blockWeek?: number;
 }
 
 export interface SessionExercise {

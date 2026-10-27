@@ -18,7 +18,12 @@ import { EQUIPMENT, MuscleIdSchema } from '@/data/schema';
 import { CUSTOM_ID_PREFIX } from '@/data/merged';
 import {
   DeloadDismissalsSchema,
+  ProgramBlocksSchema,
   getActiveProgramId,
+  getAnalyzeGrouping,
+  getProgramBlocks,
+  setAnalyzeGrouping,
+  setProgramBlocks,
   getDeloadDismissals,
   setActiveProgramId,
   setDeloadDismissals,
@@ -27,15 +32,19 @@ import {
 
 /**
  * v2 adds optional phase-2 settings; v3 adds programs, custom exercises and deload
- * dismissals. v1 and v2 files still import (missing sections are left untouched).
+ * dismissals; v4 adds program blocks, the Analyze grouping and session program tags.
+ * v1-v3 files still import (missing sections are left untouched).
  */
-export const BACKUP_VERSION = 3;
+export const BACKUP_VERSION = 4;
 
 const SessionSchema = z.object({
   id: z.string().min(1),
   startedAt: z.number(),
   finishedAt: z.number().optional(),
   notes: z.string().optional(),
+  programId: z.string().min(1).optional(),
+  programDayId: z.string().min(1).optional(),
+  blockWeek: z.number().int().min(1).optional(),
 });
 const SessionExerciseSchema = z.object({
   id: z.string().min(1),
@@ -106,7 +115,7 @@ export const ProgramSchema = z.object({
 
 export const BackupSchema = z.object({
   app: z.literal('lift-log'),
-  version: z.union([z.literal(1), z.literal(2), z.literal(BACKUP_VERSION)]),
+  version: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(BACKUP_VERSION)]),
   exportedAt: z.number(),
   settings: z.object({
     unit: z.enum(['kg', 'lbs']),
@@ -115,6 +124,9 @@ export const BackupSchema = z.object({
     equipment: EquipmentListSchema.optional(),
     activeProgramId: z.string().nullable().optional(),
     deloadDismissals: DeloadDismissalsSchema.optional(),
+    // v4
+    programBlocks: ProgramBlocksSchema.optional(),
+    analyzeGrouping: z.enum(['muscle', 'group']).optional(),
   }),
   sessions: z.array(SessionSchema),
   sessionExercises: z.array(SessionExerciseSchema),
@@ -142,6 +154,8 @@ export async function exportData(now = Date.now()): Promise<Backup> {
     programs,
     customExercises,
     customExerciseMuscles,
+    programBlocks,
+    analyzeGrouping,
   ] = await db.transaction('r', USER_TABLES(), () =>
     Promise.all([
       db.sessions.toArray(),
@@ -156,13 +170,24 @@ export async function exportData(now = Date.now()): Promise<Backup> {
       db.programs.toArray(),
       db.customExercises.toArray(),
       db.customExerciseMuscles.toArray(),
+      getProgramBlocks(),
+      getAnalyzeGrouping(),
     ]),
   );
   return {
     app: 'lift-log',
     version: BACKUP_VERSION,
     exportedAt: now,
-    settings: { unit, weekStartsOn, targetOverrides, equipment, activeProgramId, deloadDismissals },
+    settings: {
+      unit,
+      weekStartsOn,
+      targetOverrides,
+      equipment,
+      activeProgramId,
+      deloadDismissals,
+      programBlocks,
+      analyzeGrouping,
+    },
     sessions,
     sessionExercises,
     sets,
@@ -246,9 +271,12 @@ export async function importData(data: Backup): Promise<void> {
       // Restoring history makes this an existing user: no onboarding / what's-new prompts.
       await setFlag('onboardingDone', true);
       await setFlag('whatsNewPhase3Seen', true);
+      await setFlag('whatsNewPhase4Seen', true);
     }
     if (st.activeProgramId !== undefined) await setActiveProgramId(st.activeProgramId);
     if (st.deloadDismissals !== undefined) await setDeloadDismissals(st.deloadDismissals);
+    if (st.programBlocks !== undefined) await setProgramBlocks(st.programBlocks);
+    if (st.analyzeGrouping !== undefined) await setAnalyzeGrouping(st.analyzeGrouping);
     if (valid.programs !== undefined) {
       await db.programs.clear();
       await db.programs.bulkAdd(valid.programs);

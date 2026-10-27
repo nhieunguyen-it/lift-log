@@ -91,3 +91,26 @@ export type AnalyzerOptions = {
   maxCountedRir: number;
   trendWeeks: number;
 };
+
+/** Phase 4: at-a-glance summary of one week (see summarizeWeek). */
+export interface AttentionItem {
+  muscleId: MuscleId;
+  /** 'below' = under MEV (with some sets), 'over' = above MRV. */
+  status: 'below' | 'over';
+  sets: number;
+  /** MEV for 'below', MRV for 'over'. */
+  threshold: number;
+}
+
+export interface WeekSummary {
+  /** Hard (counted, non-warm-up) sets this week, unweighted. */
+  totalSets: number;
+  previousTotalSets: number;
+  /** totalSets - previousTotalSets. */
+  delta: number;
+  statusCounts: Record<MuscleStatus, number>;
+  /** 'over' first, then 'below'; each sorted by distance from the threshold, largest first. */
+  needsAttention: AttentionItem[];
+  /** Present only when a program is active. */
+  sessions?: { done: number; planned: number };
+}

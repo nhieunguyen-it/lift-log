@@ -37,6 +37,22 @@ export const STATUS_HINT: Record<MuscleStatus, string> = {
   over: 'Above recoverable volume',
 };
 
-export function statusColors(status: MuscleStatus): { bg: string; fg: string } {
-  return { bg: `var(--st-${status}-bg)`, fg: `var(--st-${status}-fg)` };
+export function statusColors(status: MuscleStatus): { bg: string; fg: string; strong: string } {
+  return {
+    bg: `var(--st-${status}-bg)`,
+    fg: `var(--st-${status}-fg)`,
+    strong: `var(--st-${status}-strong)`,
+  };
 }
+
+/** Phase 4: chart colour tokens (see index.css). Components use these, never raw colours. */
+export const CHART = {
+  line: 'var(--chart-line)',
+  grid: 'var(--chart-grid)',
+  axis: 'var(--chart-axis)',
+  track: 'var(--chart-track)',
+  band: 'var(--chart-band)',
+  marker: 'var(--chart-marker)',
+  value: 'var(--chart-value)',
+  selected: 'var(--map-selected)',
+} as const;

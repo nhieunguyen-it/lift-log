@@ -1,6 +1,6 @@
 /** Program (weekly plan) types. Pure data: no React or Dexie. */
 import type { MuscleId } from '@/data';
-import type { RepRange, VolumeTarget } from '@/config/training';
+import type { BlockRamp, RepRange, VolumeTarget } from '@/config/training';
 import type { MuscleStatus } from '@/analyzer/types';
 
 export interface ProgramExercise {
@@ -49,4 +49,72 @@ export interface PlanCheck {
   warnings: PlanWarning[];
   /** Exercise ids not found in the exercise list (deleted customs etc.). */
   unknownExerciseIds: string[];
+}
+
+/**
+ * Phase 4: a program run as a block of N weeks. Stored per program id in settings
+ * (`programBlocks`) so built-in templates can run blocks too.
+ */
+export interface ProgramBlock {
+  /** Local midnight of the first day of week 1 (a week-start day). */
+  startDate: number;
+  /** Total weeks, final week is the planned deload. */
+  weeks: number;
+  ramp: BlockRamp;
+  /** Exercise ids whose sets ramp; others stay at their base targetSets. */
+  rampExerciseIds: string[];
+}
+
+export interface BlockWeekExercise {
+  dayId: string;
+  /** Position in the day's exercise list. */
+  index: number;
+  exerciseId: string;
+  sets: number;
+}
+
+export interface BlockWeek {
+  /** 1-based. */
+  week: number;
+  deload: boolean;
+  /** Easy RIR on the deload week; undefined otherwise. */
+  targetRir?: RepRange;
+  exercises: BlockWeekExercise[];
+  planCheck: PlanCheck;
+}
+
+export interface BlockMrvWarning {
+  week: number;
+  muscleId: MuscleId;
+  sets: number;
+  mrv: number;
+}
+
+export interface BlockProjection {
+  weeks: BlockWeek[];
+  /** Every (week, muscle) whose projected sets exceed MRV. */
+  mrvWarnings: BlockMrvWarning[];
+}
+
+/** Phase 4: plan vs. actual for one week. */
+export interface PlanVsActualMuscle {
+  muscleId: MuscleId;
+  planned: number;
+  actual: number;
+  /** actual - planned (negative = fell short). */
+  gap: number;
+}
+
+export interface PlanVsActualDay {
+  dayId: string;
+  name: string;
+  done: boolean;
+}
+
+export interface PlanVsActual {
+  /** Muscles with planned > 0 or actual > 0; most negative gap first. */
+  muscles: PlanVsActualMuscle[];
+  days: PlanVsActualDay[];
+  daysDone: number;
+  daysSkipped: number;
 }

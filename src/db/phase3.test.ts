@@ -6,10 +6,18 @@ import { resetDb } from './testUtils';
 import { ensureSeed } from './seed';
 import * as backup from './backup';
 import { loadMergedExercises } from './customExercisesRepo';
-import { getActiveProgramId, getDeloadDismissals } from './settingsRepo';
+import {
+  getActiveProgramId,
+  getAnalyzeGrouping,
+  getDeloadDismissals,
+  getFlag,
+  getProgramBlocks,
+  setProgramBlocks,
+} from './settingsRepo';
 import v1 from './__fixtures__/phase1-export.json';
 import v2 from './__fixtures__/phase2-export.json';
 import v3 from './__fixtures__/phase3-export.json';
+import v4 from './__fixtures__/phase4-export.json';
 
 describe('Dexie v1 -> v2 migration', () => {
   it('keeps all v1 data and adds empty v2 tables', async () => {
@@ -71,12 +79,13 @@ describe('custom exercises survive a reseed', () => {
   });
 });
 
-describe('backup v1/v2/v3', () => {
+describe('backup v1/v2/v3/v4', () => {
   beforeEach(resetDb);
   it.each([
     ['v1', v1],
     ['v2', v2],
     ['v3', v3],
+    ['v4', v4],
   ])('imports %s fixture', async (_, file) => {
     const r = backup.parseBackup(JSON.stringify(file));
     expect(r.ok).toBe(true);
@@ -92,10 +101,30 @@ describe('backup v1/v2/v3', () => {
     expect(await getActiveProgramId()).toBe('p1');
     expect(await getDeloadDismissals()).toEqual({ k1: 1761000000000 });
     const out = await backup.exportData(5);
-    expect(out.version).toBe(3);
+    expect(out.version).toBe(4);
     expect(out.programs).toEqual(v3.programs);
     expect(out.customExercises).toEqual(v3.customExercises);
     expect(backup.parseBackup(JSON.stringify(out)).ok).toBe(true);
+  });
+
+  it('v4 round-trips blocks, grouping and session program tags', async () => {
+    const r = backup.parseBackup(JSON.stringify(v4));
+    if (!r.ok) throw new Error(r.error);
+    await backup.importData(r.data);
+    expect(await getProgramBlocks()).toEqual(v4.settings.programBlocks);
+    expect(await getAnalyzeGrouping()).toBe('group');
+    expect(await getFlag('whatsNewPhase4Seen')).toBe(true);
+    const out = await backup.exportData(5);
+    expect(out.settings.programBlocks).toEqual(v4.settings.programBlocks);
+    expect(out.sessions[0]).toMatchObject({ programId: 'p1', blockWeek: 1 });
+  });
+
+  it('v3 import leaves existing blocks untouched', async () => {
+    await setProgramBlocks(v4.settings.programBlocks);
+    const r = backup.parseBackup(JSON.stringify(v3));
+    if (!r.ok) throw new Error(r.error);
+    await backup.importData(r.data);
+    expect(await getProgramBlocks()).toEqual(v4.settings.programBlocks);
   });
 
   it('v2 import keeps existing custom exercises and programs', async () => {

@@ -99,6 +99,23 @@
   --st-over-bg: oklch(0.72 0.2 350);
   --st-over-fg: oklch(0.2 0.1 350);
   --body-silhouette: oklch(0.96 0 0);
+  /* Phase 4: strong status tones for bars/markers (>= 3:1 against --card). */
+  --st-none-strong: oklch(0.6 0 0);
+  --st-below-strong: oklch(0.58 0.13 70);
+  --st-building-strong: oklch(0.55 0.09 200);
+  --st-optimal-strong: oklch(0.5 0.15 260);
+  --st-high-strong: oklch(0.5 0.17 300);
+  --st-over-strong: oklch(0.52 0.21 355);
+  /* Phase 4: chart and body-map tokens. */
+  --chart-line: oklch(0.45 0.12 260);
+  --chart-grid: oklch(0.9 0 0);
+  --chart-axis: oklch(0.45 0 0);
+  --chart-track: oklch(0.94 0 0);
+  --chart-band: oklch(0.85 0.09 250 / 55%);
+  --chart-marker: oklch(0.3 0 0);
+  --chart-value: oklch(0.2 0 0);
+  --map-selected: oklch(0.2 0 0);
+  --map-dimmed-opacity: 0.25;
 }
 .dark {
   --st-none-bg: oklch(0.32 0 0);
@@ -114,4 +131,19 @@
   --st-over-bg: oklch(0.45 0.19 350);
   --st-over-fg: oklch(0.96 0.04 350);
   --body-silhouette: oklch(0.24 0 0);
+  --st-none-strong: oklch(0.6 0 0);
+  --st-below-strong: oklch(0.75 0.13 80);
+  --st-building-strong: oklch(0.72 0.1 195);
+  --st-optimal-strong: oklch(0.72 0.13 255);
+  --st-high-strong: oklch(0.72 0.15 300);
+  --st-over-strong: oklch(0.7 0.19 355);
+  --chart-line: oklch(0.78 0.11 255);
+  --chart-grid: oklch(0.32 0 0);
+  --chart-axis: oklch(0.72 0 0);
+  --chart-track: oklch(0.28 0 0);
+  --chart-band: oklch(0.4 0.12 255 / 60%);
+  --chart-marker: oklch(0.88 0 0);
+  --chart-value: oklch(0.97 0 0);
+  --map-selected: oklch(0.97 0 0);
+  --map-dimmed-opacity: 0.25;
 }
