@@ -42,7 +42,15 @@ A good session ends the streak.
 
 ## Bodyweight and variants {#progression-variants}
 
-For bodyweight exercises with no added load, hitting the top of the range suggests a harder **variant** instead of weight. Chains include inverted row, chin-up, pull-up; push-up, dip; crunch, hanging leg raise; and bodyweight squat, bodyweight lunge. At the end of a chain it suggests adding weight or a harder variation.
+For bodyweight exercises with no added load, hitting the top of the range suggests a harder **variant** instead of weight. Chains include inverted row, chin-up, pull-up; incline push-up, push-up, decline push-up, dip; crunch, hanging leg raise; and bodyweight squat, bodyweight lunge. At the end of a chain it suggests adding weight or a harder variation.
+
+## Fatigue hint on one exercise {#progression-exercise-hint}
+
+During a workout, a small grey note can appear under an exercise's target chip, that says what looks off and ends with "consider lighter sets". It means that one exercise looks fatigued (same signals as below) but not enough of your training does to suggest a full deload.
+
+- It shows only when a single exercise is flagged. If enough exercises are flagged for a full deload week, the **Consider a deload week** card is shown instead and the per-exercise notes are hidden.
+- Tap the **x** to dismiss it. It stays hidden for that exercise for a while, even after new sessions.
+- It never changes your data, targets or plan. The target chip still suggests what it suggested.
 
 ## Deload suggestions {#progression-deload}
 

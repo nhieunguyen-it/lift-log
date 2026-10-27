@@ -49,7 +49,8 @@ export async function getExerciseDeloadHint(
   if (signal.overall) return null;
   const flagged = signal.exercises.find((e) => e.exerciseId === exerciseId);
   if (!flagged) return null;
-  const key = `exercise:${exerciseId}:${signal.key}`;
+  // Per exercise only: a new session must not revive a hint the user just dismissed.
+  const key = `exercise:${exerciseId}`;
   const at = dismissals[key];
   if (at !== undefined && now - at < TRAINING.deload.dismissMs) return null;
   return { exerciseId, key, detail: flagged.detail };

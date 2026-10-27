@@ -65,6 +65,12 @@ Backup format **v3** adds programs, custom exercises (with tombstones) and deloa
 v2 files still import; sections they don't have are left untouched. Fixtures for all three live in
 `src/db/__fixtures__/`.
 
+Backup format **v4** adds running program blocks (`settings.programBlocks`, keyed by program id),
+the Analyze grouping choice and optional session tags (`programId`, `programDayId`, `blockWeek`).
+v1–v3 files still import (fixture per version). Blocks live in settings rather than on program rows
+so read-only built-in templates can run them too; none of this needed a Dexie schema bump (the
+schema stays at v2: the new session fields are not indexed).
+
 **Encryption (optional):** with a passphrase, export wraps the JSON in a self-describing envelope
 (`format: "lift-log-encrypted"`): PBKDF2-SHA-256 (iterations from `TRAINING.backup`, random salt) →
 AES-GCM-256 (random IV). Import detects the envelope and asks for the passphrase; a wrong one shows
@@ -79,15 +85,29 @@ sets per muscle (target sets × muscle weight, the same weights the analyzer use
 MEV or above MRV. "Start Day N" creates a session with the day's exercises and empty set rows.
 Exercises missing from My equipment are flagged with one-tap swaps.
 
+**Blocks (mesocycles).** Any program can run as a block of `TRAINING.blocks.defaultWeeks` weeks
+(`minWeeks`–`maxWeeks`). Chosen exercises (default: each day's first) gain `ramp.setsPerWeek` sets per
+week, at most `ramp.maxExtraSets` above base; the final week is a planned deload (every exercise at
+`deload.setsFraction` of its base sets, min 1, easy RIR). `projectBlock` (`src/program/block.ts`)
+returns each week's sets and plan check plus MRV warnings; the current week is derived from the block
+start and the week-start setting. The program view shows a week strip; "Start Day N" uses the current
+block week's sets and tags the session with the program day and block week.
+
+**Plan vs. actual.** With a program active, Analyze compares the week's plan (or block week) with
+what was logged (`comparePlanToActual`, `src/program/planVsActual.ts`): muscles that fell short first,
+plus days done and skipped (shown as "not done yet" while the week runs).
+
 ## Progression and deload rules
 
 Bodyweight exercises at the top of their rep range point to the next variant in
-`src/data/variantChains.ts` (seed data, `SEED_VERSION` 3). Deload detection
+`src/data/variantChains.ts` (seed data, `SEED_VERSION` 4; e.g. incline push-up → push-up → decline push-up → dip). Deload detection
 (`src/recommend/deload.ts`, all numbers in `TRAINING.deload`) flags an exercise over its last
 `lookbackSessions` sessions when the best e1RM drops by at least `e1rmDropFraction`, when average RIR
 falls by at least `rirDrop` while reps fall, or after `missesToDeload` sessions missing the range.
 When `exercisesForOverall` exercises are flagged, Workout and Analyze show a dismissible card
 suggesting a deload week (same exercises, `setsFraction` of the sets, easy RIR). It never changes data.
+When a single exercise is flagged without an overall signal, its workout target chip shows a small
+dismissible hint instead (same dismissal storage, keyed per exercise).
 
 ## Custom exercises
 
@@ -104,6 +124,23 @@ Topics are Markdown files in `src/guide/content/NN-slug.md`, bundled at build ti
 `{{targets.chest.mev}}` or `{{maxCountedRir}}`, resolved from `src/config/training.ts`. A unit test
 fails when a placeholder doesn't resolve or a known threshold appears as a literal
 (`src/guide/allowedLiterals.ts` lists the few allowed exceptions).
+
+## Analyze design
+
+The Analyze tab reads top to bottom without scrolling at 375px: a summary card (`summarizeWeek`:
+hard sets, Δ vs last week, a segmented status bar with text counts), then Needs attention (over MRV
+first, then below MEV), Plan vs. actual (with a program), the body map, suggestions, a collapsed
+12-week trend and the muscle list. The deload card only appears when active. Muscle rows show a range
+bar (MEV, MAV band, MRV, current value; scale ends at `charts.rangeBarHeadroom` × MRV) and a
+`charts.sparklineWeeks` sparkline, each with screen-reader text, grouped by muscle or by push / pull /
+legs / core (remembered). The legend doubles as a filter. Status colours and chart colours are theme
+tokens in `src/index.css` (`--st-*`, `--chart-*`) for light and dark; `src/lib/contrast.test.ts` checks
+WCAG AA, and status is always shown with a label or pattern as well. Body map shapes come from
+MuscleMap (see Credits); the map is lazy-loaded.
+
+Seed v4 adds arm isolation (dumbbell and cable curls, triceps pushdown, cable overhead extension)
+and incline/decline push-ups; the built-in templates were rebalanced so biceps and triceps land
+inside MAV in all three (16/16, 16.5/16, 16.5/16 weighted sets) with nothing above MRV.
 
 ## Seed versioning
 
@@ -141,3 +178,7 @@ start in Settings. Suggestions are general training heuristics, not medical advi
 
 Performance: `src/analyzer/analyzer.test.ts` runs a year of generated data (52 weeks x 5 sessions)
 through the analyzer and asserts it finishes in under 200 ms.
+
+## Credits
+
+The Analyze body map anatomy is derived from [MuscleMap](https://github.com/melihcolpan/MuscleMap) by Melih Colpan (MIT). See `THIRD_PARTY_NOTICES.md`.

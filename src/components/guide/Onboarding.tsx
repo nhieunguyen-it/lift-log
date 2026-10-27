@@ -51,7 +51,10 @@ export default function Onboarding({ programChooser }: OnboardingProps) {
     setClosed(true);
     void (async () => {
       // A brand-new user has nothing to catch up on, so skip the what's-new dialog too.
-      if (wasAuto) await setFlag('whatsNewPhase3Seen', true);
+      if (wasAuto) {
+        await setFlag('whatsNewPhase3Seen', true);
+        await setFlag('whatsNewPhase4Seen', true);
+      }
       await setFlag('onboardingDone', true);
     })();
   }

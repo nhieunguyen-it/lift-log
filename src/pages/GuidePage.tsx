@@ -61,7 +61,7 @@ export default function GuidePage() {
             Replay onboarding
           </Button>
           <Button variant="outline" size="sm" data-testid="guide-whats-new" onClick={openWhatsNew}>
-            What&apos;s new in phase 3
+            What&apos;s new in phase 4
           </Button>
         </div>
       </div>

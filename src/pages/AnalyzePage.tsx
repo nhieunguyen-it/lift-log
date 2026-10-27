@@ -6,7 +6,6 @@ import type { MuscleId } from '@/data';
 import { TRAINING } from '@/config/training';
 import { Card } from '@/components/ui/card';
 import AnalyzeSkeleton from '@/components/analyze/AnalyzeSkeleton';
-import BodyMap from '@/components/analyze/BodyMap';
 import CollapsibleSection from '@/components/analyze/CollapsibleSection';
 import MuscleDetailSheet from '@/components/analyze/MuscleDetailSheet';
 import MuscleList from '@/components/analyze/MuscleList';
@@ -16,6 +15,7 @@ import SummaryCard from '@/components/analyze/SummaryCard';
 import VolumeSuggestionList from '@/components/recommend/VolumeSuggestionList';
 import WeekSwitcher from '@/components/analyze/WeekSwitcher';
 import DeloadCard from '@/components/progress/DeloadCard';
+const BodyMap = lazy(() => import('@/components/analyze/BodyMap'));
 import { setAnalyzeGrouping, useAnalyzeGrouping, useAnalyzeView } from '@/db/analyzeHooks';
 import { useExercisesWithMuscles, useWeekStartsOn } from '@/db';
 
@@ -94,12 +94,18 @@ export default function AnalyzePage() {
           <PlanVsActualCard refTs={refTs} />
 
           <CollapsibleSection title="Body map" defaultOpen>
-            <BodyMap
-              muscles={analysis.result.current.muscles}
-              selected={selected}
-              onSelect={setSelected}
-              counts={analysis.summary.statusCounts}
-            />
+            <Suspense
+              fallback={
+                <div className="bg-muted h-72 animate-pulse rounded-xl motion-reduce:animate-none" />
+              }
+            >
+              <BodyMap
+                muscles={analysis.result.current.muscles}
+                selected={selected}
+                onSelect={setSelected}
+                counts={analysis.summary.statusCounts}
+              />
+            </Suspense>
           </CollapsibleSection>
 
           <section

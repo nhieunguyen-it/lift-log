@@ -3,7 +3,7 @@ import type { MuscleStatus, MuscleWeek } from '@/analyzer';
 import type { MuscleId } from '@/data';
 import { TRAINING } from '@/config/training';
 import { cn } from '@/lib/utils';
-import { VIEW_BOX, SILHOUETTE } from './bodyMapPaths';
+import { VIEW_BOXES, SILHOUETTE } from './bodyMapPaths';
 import type { BodyView } from './bodyMapPaths';
 import { regionsFor } from './muscleMapping';
 import { fmtSets, muscleName } from './muscleSort';
@@ -24,12 +24,22 @@ function Patterns({ uid }: { uid: string }) {
   return (
     <defs>
       {TEXTURED.map((s) => (
-        <pattern key={s} id={`${uid}-${s}`} width="4" height="4" patternUnits="userSpaceOnUse">
-          <rect width="4" height="4" fill={`var(--st-${s}-bg)`} />
-          {s === 'none' && <circle cx="2" cy="2" r="0.6" fill={`var(--st-${s}-fg)`} />}
-          {s === 'below' && <path d="M0 4L4 0" stroke={`var(--st-${s}-fg)`} strokeWidth="0.8" />}
+        <pattern key={s} id={`${uid}-${s}`} width="18" height="18" patternUnits="userSpaceOnUse">
+          <rect width="18" height="18" fill={`var(--st-${s}-bg)`} />
+          {s === 'none' && <circle cx="9" cy="9" r="2.6" fill={`var(--st-${s}-fg)`} />}
+          {s === 'below' && (
+            <path
+              d="M0 18L18 0M-4 4L4 -4M14 22L22 14"
+              stroke={`var(--st-${s}-fg)`}
+              strokeWidth="3"
+            />
+          )}
           {s === 'over' && (
-            <path d="M0 4L4 0M0 0L4 4" stroke={`var(--st-${s}-fg)`} strokeWidth="0.8" />
+            <path
+              d="M0 18L18 0M-4 4L4 -4M14 22L22 14M0 0L18 18M-4 14L4 22M14 -4L22 4"
+              stroke={`var(--st-${s}-fg)`}
+              strokeWidth="3"
+            />
           )}
         </pattern>
       ))}
@@ -57,15 +67,20 @@ function View({
       data-view={view}
     >
       <svg
-        viewBox={VIEW_BOX}
+        viewBox={VIEW_BOXES[view]}
         className="mx-auto h-auto w-full"
         role="group"
         aria-label={`${view === 'front' ? 'Front' : 'Back'} view`}
       >
         <Patterns uid={uid} />
-        {SILHOUETTE.map((d, i) => (
-          <path key={i} d={d} fill="var(--body-silhouette)" aria-hidden="true" />
-        ))}
+        <path
+          d={SILHOUETTE[view]}
+          fill="var(--body-silhouette)"
+          stroke="var(--background)"
+          strokeWidth="3"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        />
         {regionsFor(view).map((r) => {
           const m = muscles[r.muscleId];
           const open = () => onSelect(r.muscleId);
@@ -94,13 +109,30 @@ function View({
                   ? `url(#${uid}-${m.status})`
                   : `var(--st-${m.status}-bg)`
               }
-              stroke={isSel ? CHART.selected : `var(--st-${m.status}-fg)`}
-              strokeWidth={isSel ? 2 : 0.6}
+              stroke="var(--background)"
+              strokeWidth={4}
+              strokeLinejoin="round"
               style={{ opacity: dim ? 'var(--map-dimmed-opacity)' : undefined }}
-              className="analyze-fade cursor-pointer outline-none hover:opacity-80 focus-visible:[stroke-width:2.5]"
+              className="analyze-fade cursor-pointer outline-none hover:opacity-80 focus-visible:[stroke-width:9] focus-visible:[stroke:var(--map-selected)]"
             />
           );
         })}
+        {/* Selected outline drawn on top; separate so focused paths never move in the DOM. */}
+        {regionsFor(view)
+          .filter((r) => r.muscleId === selected)
+          .map((r) => (
+            <path
+              key={`sel-${r.muscleId}`}
+              d={r.d}
+              fill="none"
+              stroke={CHART.selected}
+              strokeWidth={9}
+              strokeLinejoin="round"
+              pointerEvents="none"
+              aria-hidden="true"
+              data-testid="body-map-selected"
+            />
+          ))}
       </svg>
     </div>
   );
@@ -116,7 +148,7 @@ export default function BodyMap({ muscles, selected, onSelect, counts }: Props) 
       className="flex items-start gap-3"
       style={{ ['--analyze-ms' as string]: `${TRAINING.analyzeUi.transitionMs}ms` }}
     >
-      <div className="w-36 shrink-0 space-y-1.5">
+      <div className="w-44 shrink-0 space-y-1.5">
         <div className="grid">
           <View view="front" active={view === 'front'} {...shared} />
           <View view="back" active={view === 'back'} {...shared} />

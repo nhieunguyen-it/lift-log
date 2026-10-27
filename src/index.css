@@ -86,7 +86,7 @@
 
 /* Analyze tab: muscle status palette (sequential, not red/green dependent). */
 :root {
-  --st-none-bg: oklch(0.92 0 0);
+  --st-none-bg: oklch(0.94 0 0);
   --st-none-fg: oklch(0.35 0 0);
   --st-below-bg: oklch(0.9 0.12 85);
   --st-below-fg: oklch(0.35 0.07 70);
@@ -98,7 +98,7 @@
   --st-high-fg: oklch(0.27 0.12 300);
   --st-over-bg: oklch(0.72 0.2 350);
   --st-over-fg: oklch(0.2 0.1 350);
-  --body-silhouette: oklch(0.96 0 0);
+  --body-silhouette: oklch(0.88 0 0);
   /* Phase 4: strong status tones for bars/markers (>= 3:1 against --card). */
   --st-none-strong: oklch(0.6 0 0);
   --st-below-strong: oklch(0.58 0.13 70);

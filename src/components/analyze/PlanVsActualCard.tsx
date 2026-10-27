@@ -29,7 +29,11 @@ export default function PlanVsActualCard({ refTs }: { refTs: number }) {
         </p>
       )}
       {short.length === 0 ? (
-        <p className="text-sm">Every muscle reached its planned sets.</p>
+        <p className="text-sm">
+          {inProgress
+            ? 'No muscle is behind plan so far.'
+            : 'Every muscle reached its planned sets.'}
+        </p>
       ) : (
         <ul className="divide-border divide-y rounded-lg border text-sm">
           {shown.map((m) => (

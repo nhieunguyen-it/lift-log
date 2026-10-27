@@ -232,7 +232,7 @@ export default function BlockPanel({ program }: { program: Program }) {
       </div>
 
       <Dialog open={confirmEnd} onOpenChange={setConfirmEnd}>
-        <DialogContent aria-describedby={undefined}>
+        <DialogContent>
           <DialogHeader>
             <DialogTitle>End this block?</DialogTitle>
             <DialogDescription>
