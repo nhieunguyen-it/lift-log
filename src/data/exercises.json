@@ -223,6 +223,43 @@
     ]
   },
   {
+    "id": "cable-curl",
+    "name": "Cable Curl",
+    "equipment": "cable",
+    "force": "pull",
+    "mechanic": "isolation",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "cable bicep curl",
+      "standing cable curl"
+    ],
+    "source": "Standing_Biceps_Cable_Curl",
+    "images": [
+      "/exercises/cable-curl/0.jpg",
+      "/exercises/cable-curl/1.jpg"
+    ]
+  },
+  {
+    "id": "cable-overhead-triceps-extension",
+    "name": "Cable Overhead Triceps Extension",
+    "equipment": "cable",
+    "force": "push",
+    "mechanic": "isolation",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "overhead extension",
+      "rope overhead extension",
+      "tricep extension"
+    ],
+    "source": "Cable_Rope_Overhead_Triceps_Extension",
+    "images": [
+      "/exercises/cable-overhead-triceps-extension/0.jpg",
+      "/exercises/cable-overhead-triceps-extension/1.jpg"
+    ]
+  },
+  {
     "id": "cable-pull-through",
     "name": "Cable Pull-Through",
     "equipment": "cable",
@@ -387,6 +424,24 @@
     ]
   },
   {
+    "id": "decline-push-up",
+    "name": "Decline Push-Up",
+    "equipment": "bodyweight",
+    "force": "push",
+    "mechanic": "compound",
+    "isBodyweight": true,
+    "level": "beginner",
+    "aliases": [
+      "decline pushup",
+      "feet elevated push-up"
+    ],
+    "source": "Decline_Push-Up",
+    "images": [
+      "/exercises/decline-push-up/0.jpg",
+      "/exercises/decline-push-up/1.jpg"
+    ]
+  },
+  {
     "id": "dip",
     "name": "Dip",
     "equipment": "bodyweight",
@@ -440,6 +495,25 @@
     "images": [
       "/exercises/dumbbell-bent-over-row/0.jpg",
       "/exercises/dumbbell-bent-over-row/1.jpg"
+    ]
+  },
+  {
+    "id": "dumbbell-bicep-curl",
+    "name": "Dumbbell Bicep Curl",
+    "equipment": "dumbbell",
+    "force": "pull",
+    "mechanic": "isolation",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "bicep curl",
+      "biceps curl",
+      "db curl"
+    ],
+    "source": "Dumbbell_Bicep_Curl",
+    "images": [
+      "/exercises/dumbbell-bicep-curl/0.jpg",
+      "/exercises/dumbbell-bicep-curl/1.jpg"
     ]
   },
   {
@@ -812,6 +886,24 @@
     "images": [
       "/exercises/incline-dumbbell-press/0.jpg",
       "/exercises/incline-dumbbell-press/1.jpg"
+    ]
+  },
+  {
+    "id": "incline-push-up",
+    "name": "Incline Push-Up",
+    "equipment": "bodyweight",
+    "force": "push",
+    "mechanic": "compound",
+    "isBodyweight": true,
+    "level": "beginner",
+    "aliases": [
+      "elevated push-up",
+      "incline pushup"
+    ],
+    "source": "Incline_Push-Up",
+    "images": [
+      "/exercises/incline-push-up/0.jpg",
+      "/exercises/incline-push-up/1.jpg"
     ]
   },
   {
@@ -1347,6 +1439,25 @@
     "images": [
       "/exercises/trap-bar-deadlift/0.jpg",
       "/exercises/trap-bar-deadlift/1.jpg"
+    ]
+  },
+  {
+    "id": "triceps-pushdown",
+    "name": "Triceps Pushdown",
+    "equipment": "cable",
+    "force": "push",
+    "mechanic": "isolation",
+    "isBodyweight": false,
+    "level": "beginner",
+    "aliases": [
+      "cable pushdown",
+      "pushdown",
+      "tricep pushdown"
+    ],
+    "source": "Triceps_Pushdown",
+    "images": [
+      "/exercises/triceps-pushdown/0.jpg",
+      "/exercises/triceps-pushdown/1.jpg"
     ]
   },
   {

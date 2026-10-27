@@ -17,8 +17,8 @@ describe('variant progression', () => {
       exercises,
     });
     expect(t.action).toBe('add_load_or_variant');
-    expect(t.nextVariantId).toBe('dip');
-    expect(t.label).toContain('Next: Dip');
+    expect(t.nextVariantId).toBe('decline-push-up');
+    expect(t.label).toContain('Next: Decline Push-Up');
   });
 
   it('keeps the generic behavior at the end of a chain', () => {

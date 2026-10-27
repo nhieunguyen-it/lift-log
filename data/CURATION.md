@@ -11,6 +11,12 @@ One line per exercise: the reason for each non-default weight (or other deviatio
 - **incline-barbell-bench-press**: front_delts .75: incline shifts load to the anterior deltoid
 - **close-grip-bench-press**: chest .75: still a major pressing contributor
 - **incline-dumbbell-press**: front_delts .75: incline shifts load to the anterior deltoid
+- **dumbbell-bicep-curl**: ISOLATION EXCEPTION: biceps. forearms .25: grip assist
+- **cable-curl**: ISOLATION EXCEPTION: biceps (default weights)
+- **triceps-pushdown**: ISOLATION EXCEPTION: triceps (default weights)
+- **cable-overhead-triceps-extension**: ISOLATION EXCEPTION: triceps (long head, lengthened position; default weights)
+- **incline-push-up**: abs .25: plank-style trunk bracing (easier push-up variant)
+- **decline-push-up**: front_delts .75: feet elevated shifts load to the anterior deltoid; abs .25: plank-style bracing; equipment null->bodyweight
 - **push-up**: abs .25: plank-style trunk bracing
 - **dip**: chest .75: source lists chest as secondary; dips load it heavily
 - **overhead-press**: upper_back .25: traps assist the lockout; source says shoulders+triceps only
@@ -81,8 +87,12 @@ Kept because no compound lift in the set covers the muscle well, or it is a very
 - **pallof-press** (obliques): obliques (anti-rotation); force pull->static; chest/triceps dropped
 - **crunch** (abs): abs
 - **barbell-shrug** (upper_back): upper_back (trap staple); weights simplified
+- **dumbbell-bicep-curl** (biceps): biceps primary, forearms .25; added in seed v4 so built-in templates can reach MAV for biceps
+- **cable-curl** (biceps): biceps; added in seed v4
+- **triceps-pushdown** (triceps): triceps; added in seed v4 so templates can reach MAV without over-pressing
+- **cable-overhead-triceps-extension** (triceps): triceps long head; added in seed v4
 - Ab exercises (plank, side-plank, hanging-leg-raise, cable-crunch, crunch, pallof-press) count as isolation in the source or here; abs/obliques need at least two options. Compound-classed ab work: ab-wheel-rollout, russian-twist, cable-wood-chop, dead-bug.
-- Muscles with only compound coverage and no exception: chest, triceps, biceps, lats, forearms, quads, hamstrings, glutes, adductors, lower_back. Notably no curls, triceps extensions/pushdowns, leg extensions/curls or flyes are included.
+- Muscles with only compound coverage and no exception: chest, lats, forearms, quads, hamstrings, glutes, adductors, lower_back. Notably no leg extensions/curls or flyes are included.
 
 ## Changes from the source
 
@@ -142,10 +152,14 @@ Kept because no compound lift in the set covers the muscle well, or it is a very
 - **smith-machine-squat** (Smith_Machine_Squat): force push->legs
 - **barbell-hack-squat** (Barbell_Hack_Squat): force push->legs
 
+- **incline-push-up** (Incline_Push-Up), **decline-push-up** (Decline_Push-Up): added in seed v4; chain incline-push-up -> push-up -> decline-push-up -> dip
+- **dumbbell-bicep-curl** (Dumbbell_Bicep_Curl), **cable-curl** (Standing_Biceps_Cable_Curl), **triceps-pushdown** (Triceps_Pushdown), **cable-overhead-triceps-extension** (Cable_Rope_Overhead_Triceps_Extension): added in seed v4
+- Images: all 12 fetched via scripts/fetch-images.mjs from free-exercise-db (no gaps).
+
 ## Custom / merged / dropped
 
 - No fully custom exercises (every entry has a free-exercise-db source id).
 - **kettlebell-swing** reuses One-Arm_Kettlebell_Swings as the two-handed swing (no two-hand entry in the source).
 - Merged: the source has dozens of near-duplicates (grip/stance/band/chain/smith/kettlebell variants, e.g. 6+ push-up variants, 15+ deadlift variants, 25 curls). One canonical entry is kept per movement; variant names are folded into `aliases` where common.
-- Dropped entirely: stretches, foam-roll, medicine-ball, exercise-ball, e-z-bar-only and plyometric/jump exercises, olympic lifts other than power clean, strongman and sled work, isolation arm/leg work (curls, extensions, flyes, leg curl/extension, wrist curls), handstand push-ups and one-arm variants (expert, niche).
+- Dropped entirely: stretches, foam-roll, medicine-ball, exercise-ball, e-z-bar-only and plyometric/jump exercises, olympic lifts other than power clean, strongman and sled work, isolation work other than the listed exceptions (leg curl/extension, flyes, wrist curls), handstand push-ups and one-arm variants (expert, niche).
 - Source muscle lists were rewritten wholesale where sloppy; the typical fixes: splitting `shoulders` into front/side/rear delts, setting `obliques` by hand, treating `middle back`+`traps` as upper_back, and demoting unrelated secondaries (e.g. chest/triceps on Pallof press).

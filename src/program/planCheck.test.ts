@@ -101,6 +101,20 @@ describe('built-in templates', () => {
     },
   );
 
+  it.each(BUILT_IN_PROGRAMS.map((p) => [p.name, p] as const))(
+    '%s lands biceps and triceps in MAV with nothing over MRV',
+    (_name, p) => {
+      const r = planCheck(p, exercises, exerciseMuscles, DEFAULT_TARGETS);
+      for (const m of ['biceps', 'triceps'] as const) {
+        expect(r.muscles[m].sets, m).toBeGreaterThanOrEqual(12);
+        expect(r.muscles[m].sets, m).toBeLessThanOrEqual(18);
+        expect(r.muscles[m].status, m).toBe('optimal');
+      }
+      for (const m of MUSCLE_IDS)
+        expect(r.muscles[m].sets, m).toBeLessThanOrEqual(r.muscles[m].target.mrv);
+    },
+  );
+
   it('has the expected ids and day counts', () => {
     expect(BUILT_IN_PROGRAMS.map((p) => [p.id, p.days.length])).toEqual([
       ['builtin-full-body', 3],

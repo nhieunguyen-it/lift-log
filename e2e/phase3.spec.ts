@@ -15,6 +15,7 @@ const FULL_BODY = {
         { exerciseId: 'leg-press', targetSets: 4 },
         { exerciseId: 'push-up', targetSets: 4 },
         { exerciseId: 'face-pull', targetSets: 4 },
+        { exerciseId: 'dumbbell-bicep-curl', targetSets: 3 },
         { exerciseId: 'russian-twist', targetSets: 4 },
       ],
     },

@@ -33,6 +33,7 @@ export const FULL_BODY: Program = template('full-body', 'Full Body 3x/week', [
     ['leg-press', 4],
     ['push-up', 4],
     ['face-pull', 4],
+    ['dumbbell-bicep-curl', 3],
     ['russian-twist', 4],
   ]),
   day('fb-b', 'Full Body B', [
@@ -43,6 +44,7 @@ export const FULL_BODY: Program = template('full-body', 'Full Body 3x/week', [
     ['single-leg-romanian-deadlift', 4],
     ['dumbbell-lateral-raise', 4],
     ['face-pull', 4],
+    ['cable-curl', 2],
     ['standing-calf-raise', 4],
   ]),
   day('fb-c', 'Full Body C', [
@@ -53,6 +55,7 @@ export const FULL_BODY: Program = template('full-body', 'Full Body 3x/week', [
     ['pull-up', 3],
     ['seated-calf-raise', 4],
     ['side-plank', 4],
+    ['triceps-pushdown', 2],
     ['russian-twist', 4],
   ]),
 ]);
@@ -65,6 +68,8 @@ export const UPPER_LOWER: Program = template('upper-lower', 'Upper/Lower 4x/week
     ['one-arm-dumbbell-row', 4],
     ['machine-chest-press', 3],
     ['push-up', 3],
+    ['cable-curl', 3],
+    ['triceps-pushdown', 3],
     ['face-pull', 4],
   ]),
   day('ul-l1', 'Lower 1', [
@@ -83,6 +88,7 @@ export const UPPER_LOWER: Program = template('upper-lower', 'Upper/Lower 4x/week
     ['push-up', 4],
     ['inverted-row', 3],
     ['dumbbell-lateral-raise', 4],
+    ['dumbbell-bicep-curl', 2],
     ['dumbbell-reverse-fly', 4],
   ]),
   day('ul-l2', 'Lower 2', [
@@ -102,6 +108,7 @@ export const PUSH_PULL_LEGS: Program = template('ppl', 'Push/Pull/Legs 6x/week',
     ['seated-dumbbell-press', 3],
     ['dumbbell-bench-press', 2],
     ['machine-chest-press', 2],
+    ['triceps-pushdown', 3],
     ['dumbbell-lateral-raise', 3],
   ]),
   day('ppl-pull1', 'Pull 1', [
@@ -109,6 +116,7 @@ export const PUSH_PULL_LEGS: Program = template('ppl', 'Push/Pull/Legs 6x/week',
     ['t-bar-row', 3],
     ['pull-up', 2],
     ['dumbbell-reverse-fly', 3],
+    ['dumbbell-bicep-curl', 3],
     ['face-pull', 2],
   ]),
   day('ppl-legs1', 'Legs 1', [
@@ -132,6 +140,7 @@ export const PUSH_PULL_LEGS: Program = template('ppl', 'Push/Pull/Legs 6x/week',
     ['one-arm-dumbbell-row', 2],
     ['inverted-row', 2],
     ['pull-up', 2],
+    ['cable-curl', 2],
     ['dumbbell-reverse-fly', 3],
   ]),
   day('ppl-legs2', 'Legs 2', [

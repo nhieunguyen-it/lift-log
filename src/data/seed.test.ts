@@ -7,7 +7,7 @@ import { VARIANT_CHAINS, nextVariantId } from './variantChains';
 
 describe('seed data', () => {
   it('has a numeric seed version', () => {
-    expect(SEED_VERSION).toBe(3);
+    expect(SEED_VERSION).toBe(4);
   });
 
   it('contains exactly the 17 muscle ids', () => {
@@ -184,8 +184,44 @@ describe('variant chains', () => {
   });
 
   it('resolves the next variant and stops at the end of a chain', () => {
-    expect(nextVariantId('push-up')).toBe('dip');
+    expect(nextVariantId('incline-push-up')).toBe('push-up');
+    expect(nextVariantId('push-up')).toBe('decline-push-up');
+    expect(nextVariantId('decline-push-up')).toBe('dip');
     expect(nextVariantId('dip')).toBeUndefined();
     expect(nextVariantId('barbell-bench-press')).toBeUndefined();
+  });
+
+  it('has no cycles and only bodyweight exercises', () => {
+    const byId = new Map(exercises.map((e) => [e.id, e]));
+    for (const chain of VARIANT_CHAINS) {
+      expect(new Set(chain).size).toBe(chain.length);
+      for (const id of chain) expect(byId.get(id)?.isBodyweight, id).toBe(true);
+      // following nextVariantId from the start terminates within the chain length
+      let cur: string | undefined = chain[0];
+      let steps = 0;
+      while (cur && steps <= chain.length) {
+        cur = nextVariantId(cur);
+        steps++;
+      }
+      expect(cur).toBeUndefined();
+    }
+  });
+
+  it('orders the push-up chain incline -> push-up -> decline', () => {
+    const chain = VARIANT_CHAINS.find((c) => c.includes('push-up'));
+    expect(chain?.slice(0, 3)).toEqual(['incline-push-up', 'push-up', 'decline-push-up']);
+  });
+});
+
+describe('arm isolation exercises (seed v4)', () => {
+  const primary = (muscle: string) =>
+    exercises.filter(
+      (e) =>
+        e.mechanic === 'isolation' &&
+        exerciseMuscles.some((l) => l.exerciseId === e.id && l.muscleId === muscle && l.weight === 1),
+    );
+  it('has >= 2 biceps and >= 2 triceps isolation exercises', () => {
+    expect(primary('biceps').length).toBeGreaterThanOrEqual(2);
+    expect(primary('triceps').length).toBeGreaterThanOrEqual(2);
   });
 });

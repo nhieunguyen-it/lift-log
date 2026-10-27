@@ -215,6 +215,16 @@
     "weight": 0.25
   },
   {
+    "exerciseId": "cable-curl",
+    "muscleId": "biceps",
+    "weight": 1
+  },
+  {
+    "exerciseId": "cable-overhead-triceps-extension",
+    "muscleId": "triceps",
+    "weight": 1
+  },
+  {
     "exerciseId": "cable-pull-through",
     "muscleId": "glutes",
     "weight": 1
@@ -375,6 +385,26 @@
     "weight": 0.5
   },
   {
+    "exerciseId": "decline-push-up",
+    "muscleId": "abs",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "decline-push-up",
+    "muscleId": "chest",
+    "weight": 1
+  },
+  {
+    "exerciseId": "decline-push-up",
+    "muscleId": "front_delts",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "decline-push-up",
+    "muscleId": "triceps",
+    "weight": 0.5
+  },
+  {
     "exerciseId": "dip",
     "muscleId": "chest",
     "weight": 0.75
@@ -428,6 +458,16 @@
     "exerciseId": "dumbbell-bent-over-row",
     "muscleId": "upper_back",
     "weight": 1
+  },
+  {
+    "exerciseId": "dumbbell-bicep-curl",
+    "muscleId": "biceps",
+    "weight": 1
+  },
+  {
+    "exerciseId": "dumbbell-bicep-curl",
+    "muscleId": "forearms",
+    "weight": 0.25
   },
   {
     "exerciseId": "dumbbell-floor-press",
@@ -796,6 +836,26 @@
   },
   {
     "exerciseId": "incline-dumbbell-press",
+    "muscleId": "triceps",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "incline-push-up",
+    "muscleId": "abs",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "incline-push-up",
+    "muscleId": "chest",
+    "weight": 1
+  },
+  {
+    "exerciseId": "incline-push-up",
+    "muscleId": "front_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "incline-push-up",
     "muscleId": "triceps",
     "weight": 0.5
   },
@@ -1408,6 +1468,11 @@
     "exerciseId": "trap-bar-deadlift",
     "muscleId": "upper_back",
     "weight": 0.5
+  },
+  {
+    "exerciseId": "triceps-pushdown",
+    "muscleId": "triceps",
+    "weight": 1
   },
   {
     "exerciseId": "upright-row",

@@ -5,7 +5,7 @@
  */
 export const VARIANT_CHAINS: readonly (readonly string[])[] = [
   ['inverted-row', 'chin-up', 'pull-up'],
-  ['push-up', 'dip'],
+  ['incline-push-up', 'push-up', 'decline-push-up', 'dip'],
   ['crunch', 'hanging-leg-raise'],
   ['bodyweight-squat', 'bodyweight-lunge'],
 ];

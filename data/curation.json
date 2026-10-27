@@ -7,7 +7,12 @@
     "force": "push",
     "mech": "compound",
     "level": "beginner",
-    "al": ["bench", "bench press", "flat bench", "bb bench"],
+    "al": [
+      "bench",
+      "bench press",
+      "flat bench",
+      "bb bench"
+    ],
     "m": "chest,front_delts:.5,triceps:.5"
   },
   {
@@ -18,7 +23,10 @@
     "force": "push",
     "mech": "compound",
     "level": "beginner",
-    "al": ["incline bench", "incline press"],
+    "al": [
+      "incline bench",
+      "incline press"
+    ],
     "m": "chest,front_delts:.75,triceps:.5",
     "note": "front_delts .75: incline shifts load to the anterior deltoid"
   },
@@ -30,7 +38,10 @@
     "force": "push",
     "mech": "compound",
     "level": "beginner",
-    "al": ["cgbp", "close grip bench"],
+    "al": [
+      "cgbp",
+      "close grip bench"
+    ],
     "m": "triceps,chest:.75,front_delts:.5",
     "note": "chest .75: still a major pressing contributor"
   },
@@ -42,7 +53,10 @@
     "force": "push",
     "mech": "compound",
     "level": "beginner",
-    "al": ["db bench", "db press"],
+    "al": [
+      "db bench",
+      "db press"
+    ],
     "m": "chest,front_delts:.5,triceps:.5"
   },
   {
@@ -53,7 +67,10 @@
     "force": "push",
     "mech": "compound",
     "level": "beginner",
-    "al": ["incline db press", "incline dumbbell bench"],
+    "al": [
+      "incline db press",
+      "incline dumbbell bench"
+    ],
     "m": "chest,front_delts:.75,triceps:.5",
     "note": "front_delts .75: incline shifts load to the anterior deltoid"
   },
@@ -65,7 +82,11 @@
     "force": "push",
     "mech": "compound",
     "level": "beginner",
-    "al": ["pushup", "press up", "press-up"],
+    "al": [
+      "pushup",
+      "press up",
+      "press-up"
+    ],
     "m": "chest,front_delts:.5,triceps:.5,abs:.25",
     "note": "abs .25: plank-style trunk bracing"
   },
@@ -77,7 +98,12 @@
     "force": "push",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["parallel bar dip", "tricep dip", "chest dip", "dips"],
+    "al": [
+      "parallel bar dip",
+      "tricep dip",
+      "chest dip",
+      "dips"
+    ],
     "m": "triceps,chest:.75,front_delts:.5",
     "note": "chest .75: source lists chest as secondary; dips load it heavily"
   },
@@ -89,7 +115,10 @@
     "force": "push",
     "mech": "compound",
     "level": "beginner",
-    "al": ["chest press", "seated chest press"],
+    "al": [
+      "chest press",
+      "seated chest press"
+    ],
     "m": "chest,front_delts:.5,triceps:.5"
   },
   {
@@ -100,7 +129,13 @@
     "force": "push",
     "mech": "compound",
     "level": "beginner",
-    "al": ["ohp", "military press", "shoulder press", "standing press", "barbell press"],
+    "al": [
+      "ohp",
+      "military press",
+      "shoulder press",
+      "standing press",
+      "barbell press"
+    ],
     "m": "front_delts,side_delts:.5,triceps:.5,upper_back:.25",
     "note": "upper_back .25: traps assist the lockout; source says shoulders+triceps only"
   },
@@ -112,7 +147,11 @@
     "force": "push",
     "mech": "compound",
     "level": "beginner",
-    "al": ["db shoulder press", "db ohp", "seated dumbbell press"],
+    "al": [
+      "db shoulder press",
+      "db ohp",
+      "seated dumbbell press"
+    ],
     "m": "front_delts,side_delts:.75,triceps:.5",
     "note": "side_delts .75: free dumbbells allow wider path, more lateral delt"
   },
@@ -124,7 +163,10 @@
     "force": "push",
     "mech": "compound",
     "level": "beginner",
-    "al": ["shoulder press machine", "military press machine"],
+    "al": [
+      "shoulder press machine",
+      "military press machine"
+    ],
     "m": "front_delts,side_delts:.5,triceps:.5"
   },
   {
@@ -135,7 +177,9 @@
     "force": "push",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["barbell push press"],
+    "al": [
+      "barbell push press"
+    ],
     "m": "front_delts,side_delts:.5,triceps:.75,quads:.5,glutes:.25",
     "note": "triceps .75: leg drive then heavy triceps lockout; quads .5 from the dip-drive; level lowered from expert"
   },
@@ -147,7 +191,9 @@
     "force": "pull",
     "mech": "compound",
     "level": "beginner",
-    "al": ["barbell upright row"],
+    "al": [
+      "barbell upright row"
+    ],
     "m": "side_delts,upper_back:.75,front_delts:.5,biceps:.25",
     "note": "upper_back .75: traps are co-primary; source lists only traps secondary"
   },
@@ -159,7 +205,12 @@
     "force": "push",
     "mech": "isolation",
     "level": "beginner",
-    "al": ["lateral raise", "side raise", "side lateral raise", "lat raise"],
+    "al": [
+      "lateral raise",
+      "side raise",
+      "side lateral raise",
+      "lat raise"
+    ],
     "m": "side_delts,front_delts:.25,upper_back:.25",
     "note": "ISOLATION EXCEPTION: side_delts. front_delts/upper_back .25: minor assist"
   },
@@ -171,7 +222,10 @@
     "force": "pull",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["face pulls", "rope face pull"],
+    "al": [
+      "face pulls",
+      "rope face pull"
+    ],
     "m": "rear_delts,upper_back:.75,side_delts:.25",
     "note": "upper_back .75 and rear_delts primary: source mapped to generic shoulders; side_delts .25 from external rotation"
   },
@@ -183,7 +237,12 @@
     "force": "pull",
     "mech": "isolation",
     "level": "beginner",
-    "al": ["rear delt fly", "reverse flyes", "bent over fly", "rear delt raise"],
+    "al": [
+      "rear delt fly",
+      "reverse flyes",
+      "bent over fly",
+      "rear delt raise"
+    ],
     "m": "rear_delts,upper_back:.5",
     "note": "ISOLATION EXCEPTION: rear_delts"
   },
@@ -195,7 +254,11 @@
     "force": "pull",
     "mech": "compound",
     "level": "beginner",
-    "al": ["pullup", "pullups", "pull up"],
+    "al": [
+      "pullup",
+      "pullups",
+      "pull up"
+    ],
     "m": "lats,biceps:.5,upper_back:.5,rear_delts:.25,forearms:.25",
     "note": "rear_delts .25 / forearms .25: grip and scapular retraction contribution"
   },
@@ -207,7 +270,11 @@
     "force": "pull",
     "mech": "compound",
     "level": "beginner",
-    "al": ["chinup", "chin up", "underhand pull-up"],
+    "al": [
+      "chinup",
+      "chin up",
+      "underhand pull-up"
+    ],
     "m": "lats,biceps:.75,upper_back:.5,forearms:.25",
     "note": "biceps .75: supinated grip raises biceps share"
   },
@@ -219,7 +286,11 @@
     "force": "pull",
     "mech": "compound",
     "level": "beginner",
-    "al": ["pulldown", "wide grip pulldown", "lat pull down"],
+    "al": [
+      "pulldown",
+      "wide grip pulldown",
+      "lat pull down"
+    ],
     "m": "lats,biceps:.5,upper_back:.5,rear_delts:.25",
     "note": "rear_delts .25: scapular retraction"
   },
@@ -231,7 +302,10 @@
     "force": "pull",
     "mech": "compound",
     "level": "beginner",
-    "al": ["neutral grip pulldown", "v-bar pulldown"],
+    "al": [
+      "neutral grip pulldown",
+      "v-bar pulldown"
+    ],
     "m": "lats,biceps:.5,upper_back:.5"
   },
   {
@@ -242,7 +316,12 @@
     "force": "pull",
     "mech": "compound",
     "level": "beginner",
-    "al": ["bent over row", "bb row", "pendlay row", "bent-over row"],
+    "al": [
+      "bent over row",
+      "bb row",
+      "pendlay row",
+      "bent-over row"
+    ],
     "m": "upper_back,lats:.75,rear_delts:.5,biceps:.5,lower_back:.5,forearms:.25",
     "note": "lats .75: source lists as secondary; lower_back .5 isometric hinge hold; forearms .25 grip"
   },
@@ -254,7 +333,11 @@
     "force": "pull",
     "mech": "compound",
     "level": "beginner",
-    "al": ["db row", "single arm row", "dumbbell row"],
+    "al": [
+      "db row",
+      "single arm row",
+      "dumbbell row"
+    ],
     "m": "lats,upper_back:.75,rear_delts:.5,biceps:.5",
     "note": "lats primary: the unsupported one-arm row is lat-dominant; upper_back .75"
   },
@@ -266,7 +349,11 @@
     "force": "pull",
     "mech": "compound",
     "level": "beginner",
-    "al": ["cable row", "low row", "seated row"],
+    "al": [
+      "cable row",
+      "low row",
+      "seated row"
+    ],
     "m": "upper_back,lats:.75,rear_delts:.5,biceps:.5",
     "note": "lats .75: source lists as secondary"
   },
@@ -278,7 +365,10 @@
     "force": "pull",
     "mech": "compound",
     "level": "beginner",
-    "al": ["tbar row", "landmine row"],
+    "al": [
+      "tbar row",
+      "landmine row"
+    ],
     "m": "upper_back,lats:.75,rear_delts:.5,biceps:.5,lower_back:.5",
     "note": "lower_back .5: isometric hinge hold"
   },
@@ -290,7 +380,11 @@
     "force": "pull",
     "mech": "compound",
     "level": "beginner",
-    "al": ["bodyweight row", "australian pull-up", "ring row"],
+    "al": [
+      "bodyweight row",
+      "australian pull-up",
+      "ring row"
+    ],
     "m": "upper_back,lats:.75,rear_delts:.5,biceps:.5,abs:.25",
     "note": "abs .25: plank-style bracing"
   },
@@ -302,7 +396,11 @@
     "force": "pull",
     "mech": "compound",
     "level": "beginner",
-    "al": ["chest supported row", "plate loaded row", "leverage row"],
+    "al": [
+      "chest supported row",
+      "plate loaded row",
+      "leverage row"
+    ],
     "m": "lats,upper_back:.75,rear_delts:.25,biceps:.5",
     "note": "upper_back .75 / rear_delts .25: scapular retraction"
   },
@@ -314,7 +412,11 @@
     "force": "pull",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["conventional deadlift", "dl", "barbell deadlift"],
+    "al": [
+      "conventional deadlift",
+      "dl",
+      "barbell deadlift"
+    ],
     "m": "glutes,hamstrings,lower_back:.75,quads:.5,upper_back:.75,lats:.5,forearms:.5",
     "note": "glutes+hamstrings co-primary 1.0, lower_back/upper_back .75, quads .5, lats .5, forearms .5: source marks lower back sole primary"
   },
@@ -326,7 +428,10 @@
     "force": "pull",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["sumo dl", "sumo pull"],
+    "al": [
+      "sumo dl",
+      "sumo pull"
+    ],
     "m": "glutes,quads:.75,hamstrings:.75,adductors:.75,lower_back:.5,upper_back:.5,forearms:.5",
     "note": "glutes primary and adductors .75: wide stance recruits adductors heavily; source lists hamstrings primary"
   },
@@ -338,7 +443,11 @@
     "force": "pull",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["rdl", "romanian dl", "stiff leg deadlift"],
+    "al": [
+      "rdl",
+      "romanian dl",
+      "stiff leg deadlift"
+    ],
     "m": "hamstrings,glutes:.75,lower_back:.5,forearms:.25",
     "note": "glutes .75: major hip extensor in the hinge"
   },
@@ -350,7 +459,10 @@
     "force": "pull",
     "mech": "compound",
     "level": "beginner",
-    "al": ["hex bar deadlift", "trap bar dl"],
+    "al": [
+      "hex bar deadlift",
+      "trap bar dl"
+    ],
     "m": "quads,glutes:.75,hamstrings:.75,lower_back:.5,upper_back:.5,forearms:.5",
     "note": "glutes/hamstrings .75: source lists them at secondary; upper_back, forearms .5 added"
   },
@@ -362,7 +474,10 @@
     "force": "pull",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["gm", "barbell good morning"],
+    "al": [
+      "gm",
+      "barbell good morning"
+    ],
     "m": "hamstrings,lower_back:.75,glutes:.75,abs:.25",
     "note": "lower_back .75 and glutes .75: spinal erectors work isometrically; force changed push->pull (hinge)"
   },
@@ -374,7 +489,11 @@
     "force": "pull",
     "mech": "compound",
     "level": "beginner",
-    "al": ["hyperextension", "hyper", "45 degree back extension"],
+    "al": [
+      "hyperextension",
+      "hyper",
+      "45 degree back extension"
+    ],
     "m": "lower_back,glutes:.5,hamstrings:.5",
     "note": "mechanic changed isolation->compound (hip + spinal extension); equipment other->bodyweight"
   },
@@ -386,7 +505,10 @@
     "force": "push",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["hip thrusts", "barbell glute bridge"],
+    "al": [
+      "hip thrusts",
+      "barbell glute bridge"
+    ],
     "m": "glutes,hamstrings:.5,quads:.25,adductors:.25",
     "note": "quads .25 / adductors .25 added; source lists calves, which are minimal"
   },
@@ -398,7 +520,11 @@
     "force": "push",
     "mech": "compound",
     "level": "beginner",
-    "al": ["bridge", "hip bridge", "butt lift"],
+    "al": [
+      "bridge",
+      "hip bridge",
+      "butt lift"
+    ],
     "m": "glutes,hamstrings:.5,lower_back:.25",
     "note": "mechanic changed isolation->compound (multi-joint hip extension); lower_back .25"
   },
@@ -410,7 +536,10 @@
     "force": "pull",
     "mech": "compound",
     "level": "beginner",
-    "al": ["pull through", "cable pullthrough"],
+    "al": [
+      "pull through",
+      "cable pullthrough"
+    ],
     "m": "glutes,hamstrings:.75,lower_back:.25",
     "note": "hamstrings .75: strong hinge component"
   },
@@ -422,7 +551,11 @@
     "force": "pull",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["kb swing", "russian swing", "swing"],
+    "al": [
+      "kb swing",
+      "russian swing",
+      "swing"
+    ],
     "m": "glutes,hamstrings:.75,lower_back:.5,front_delts:.25,calves:.25,abs:.25",
     "note": "renamed from One-Arm Kettlebell Swings to two-handed swing; glutes made primary (hip-drive dominant)"
   },
@@ -434,7 +567,11 @@
     "force": "pull",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["clean", "barbell clean", "hang clean"],
+    "al": [
+      "clean",
+      "barbell clean",
+      "hang clean"
+    ],
     "m": "glutes,quads:.75,hamstrings:.75,upper_back:.75,lower_back:.5,front_delts:.5,forearms:.5,calves:.25",
     "note": "trimmed from source (which lists 9 muscles): hip/knee extensors and traps dominate"
   },
@@ -446,7 +583,12 @@
     "force": "legs",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["squat", "back squat", "bb squat", "barbell squat"],
+    "al": [
+      "squat",
+      "back squat",
+      "bb squat",
+      "barbell squat"
+    ],
     "m": "quads,glutes:.75,adductors:.5,hamstrings:.5,lower_back:.5",
     "note": "glutes .75: strong hip extension out of the hole; adductors .5 added (not in source)"
   },
@@ -458,7 +600,9 @@
     "force": "legs",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["barbell front squat"],
+    "al": [
+      "barbell front squat"
+    ],
     "m": "quads,glutes:.5,adductors:.25,upper_back:.5,abs:.25,lower_back:.25",
     "note": "upper_back .5: front rack demands thoracic extension; level lowered from expert"
   },
@@ -470,7 +614,10 @@
     "force": "legs",
     "mech": "compound",
     "level": "beginner",
-    "al": ["db goblet squat", "kettlebell goblet squat"],
+    "al": [
+      "db goblet squat",
+      "kettlebell goblet squat"
+    ],
     "m": "quads,glutes:.5,adductors:.5,abs:.25",
     "note": "equipment changed kettlebell->dumbbell (either works); abs .25 from anterior load"
   },
@@ -482,7 +629,10 @@
     "force": "legs",
     "mech": "compound",
     "level": "beginner",
-    "al": ["air squat", "squat bodyweight"],
+    "al": [
+      "air squat",
+      "squat bodyweight"
+    ],
     "m": "quads,glutes:.5,hamstrings:.25,adductors:.25",
     "note": "hamstrings/adductors .25: light assist for unloaded squat"
   },
@@ -494,7 +644,10 @@
     "force": "legs",
     "mech": "compound",
     "level": "beginner",
-    "al": ["45 degree leg press", "machine leg press"],
+    "al": [
+      "45 degree leg press",
+      "machine leg press"
+    ],
     "m": "quads,glutes:.5,hamstrings:.25,adductors:.25,calves:.25",
     "note": "hamstrings .25: seated position limits hamstring contribution"
   },
@@ -506,7 +659,9 @@
     "force": "legs",
     "mech": "compound",
     "level": "beginner",
-    "al": ["machine hack squat"],
+    "al": [
+      "machine hack squat"
+    ],
     "m": "quads,glutes:.5,adductors:.25"
   },
   {
@@ -517,7 +672,11 @@
     "force": "legs",
     "mech": "compound",
     "level": "beginner",
-    "al": ["split squat", "bulgarian split squat", "bss"],
+    "al": [
+      "split squat",
+      "bulgarian split squat",
+      "bss"
+    ],
     "m": "quads,glutes:.75,hamstrings:.25,adductors:.25",
     "note": "glutes .75: deep stride lengthens glute loading"
   },
@@ -529,7 +688,12 @@
     "force": "legs",
     "mech": "compound",
     "level": "beginner",
-    "al": ["lunge", "lunges", "walking lunge", "db lunge"],
+    "al": [
+      "lunge",
+      "lunges",
+      "walking lunge",
+      "db lunge"
+    ],
     "m": "quads,glutes:.75,hamstrings:.5,adductors:.25",
     "note": "glutes .75: lunges are strong glute work"
   },
@@ -541,7 +705,11 @@
     "force": "legs",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["reverse lunge", "rear lunge", "back lunge"],
+    "al": [
+      "reverse lunge",
+      "rear lunge",
+      "back lunge"
+    ],
     "m": "quads,glutes:.75,hamstrings:.5",
     "note": "glutes .75: reverse lunge biases the glute more than forward lunge"
   },
@@ -553,7 +721,10 @@
     "force": "legs",
     "mech": "compound",
     "level": "beginner",
-    "al": ["bodyweight walking lunge", "walking lunges"],
+    "al": [
+      "bodyweight walking lunge",
+      "walking lunges"
+    ],
     "m": "quads,glutes:.75,hamstrings:.5",
     "note": "glutes .75: strong glute work in lunges"
   },
@@ -565,7 +736,11 @@
     "force": "legs",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["step up", "step-ups", "box step up"],
+    "al": [
+      "step up",
+      "step-ups",
+      "box step up"
+    ],
     "m": "quads,glutes:.75,hamstrings:.25,calves:.25",
     "note": "glutes .75: high step makes it glute-heavy"
   },
@@ -577,7 +752,11 @@
     "force": "legs",
     "mech": "compound",
     "level": "beginner",
-    "al": ["plie squat", "wide stance squat", "dumbbell sumo squat"],
+    "al": [
+      "plie squat",
+      "wide stance squat",
+      "dumbbell sumo squat"
+    ],
     "m": "quads,glutes:.75,adductors:.75,hamstrings:.25",
     "note": "adductors .75 / glutes .75: wide stance (source lists adductors nowhere); abs dropped"
   },
@@ -589,7 +768,11 @@
     "force": "pull",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["single leg rdl", "one leg rdl", "sl rdl"],
+    "al": [
+      "single leg rdl",
+      "one leg rdl",
+      "sl rdl"
+    ],
     "m": "hamstrings,glutes:.75,lower_back:.5,abs:.25,adductors:.25",
     "note": "equipment kettlebell->dumbbell (either works); stabilizers abs/adductors .25"
   },
@@ -601,7 +784,11 @@
     "force": "legs",
     "mech": "isolation",
     "level": "beginner",
-    "al": ["calf raise", "calf raises", "machine calf raise"],
+    "al": [
+      "calf raise",
+      "calf raises",
+      "machine calf raise"
+    ],
     "m": "calves",
     "note": "ISOLATION EXCEPTION: calves"
   },
@@ -613,7 +800,10 @@
     "force": "legs",
     "mech": "isolation",
     "level": "beginner",
-    "al": ["seated calf", "soleus raise"],
+    "al": [
+      "seated calf",
+      "soleus raise"
+    ],
     "m": "calves",
     "note": "ISOLATION EXCEPTION: calves (soleus bias)"
   },
@@ -625,7 +815,12 @@
     "force": "static",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["farmer walk", "farmers carry", "farmer carry", "loaded carry"],
+    "al": [
+      "farmer walk",
+      "farmers carry",
+      "farmer carry",
+      "loaded carry"
+    ],
     "m": "forearms,upper_back:.5,abs:.5,obliques:.5,glutes:.5,quads:.25,hamstrings:.25,calves:.25",
     "note": "equipment other->dumbbell; obliques added; force null->static"
   },
@@ -637,7 +832,10 @@
     "force": "static",
     "mech": "isolation",
     "level": "beginner",
-    "al": ["front plank", "forearm plank"],
+    "al": [
+      "front plank",
+      "forearm plank"
+    ],
     "m": "abs,obliques:.5,glutes:.25,front_delts:.25",
     "note": "AB EXCEPTION: abs"
   },
@@ -649,7 +847,9 @@
     "force": "static",
     "mech": "isolation",
     "level": "beginner",
-    "al": ["side bridge"],
+    "al": [
+      "side bridge"
+    ],
     "m": "obliques,abs:.5,glutes:.25,side_delts:.25",
     "note": "AB EXCEPTION: obliques (source maps to abdominals only)"
   },
@@ -661,7 +861,12 @@
     "force": "pull",
     "mech": "isolation",
     "level": "intermediate",
-    "al": ["hanging leg raises", "knee raise", "hanging knee raise", "toes to bar"],
+    "al": [
+      "hanging leg raises",
+      "knee raise",
+      "hanging knee raise",
+      "toes to bar"
+    ],
     "m": "abs,obliques:.25,forearms:.25",
     "note": "AB EXCEPTION: abs; level lowered from expert"
   },
@@ -673,7 +878,10 @@
     "force": "pull",
     "mech": "isolation",
     "level": "beginner",
-    "al": ["kneeling cable crunch", "rope crunch"],
+    "al": [
+      "kneeling cable crunch",
+      "rope crunch"
+    ],
     "m": "abs,obliques:.25",
     "note": "AB EXCEPTION: abs"
   },
@@ -685,7 +893,11 @@
     "force": "pull",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["ab roller", "ab wheel", "rollout"],
+    "al": [
+      "ab roller",
+      "ab wheel",
+      "rollout"
+    ],
     "m": "abs,lats:.5,front_delts:.25,lower_back:.25",
     "note": "AB EXCEPTION: abs; lats .5 (anti-extension via lats); bodyweight=true; shoulders->front_delts .25",
     "bw": true
@@ -698,7 +910,10 @@
     "force": "pull",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["weighted russian twist", "twist"],
+    "al": [
+      "weighted russian twist",
+      "twist"
+    ],
     "m": "obliques,abs:.75,lower_back:.25",
     "note": "AB EXCEPTION: obliques; source maps to abdominals only"
   },
@@ -710,7 +925,11 @@
     "force": "pull",
     "mech": "compound",
     "level": "beginner",
-    "al": ["woodchop", "wood chop", "cable chop"],
+    "al": [
+      "woodchop",
+      "wood chop",
+      "cable chop"
+    ],
     "m": "obliques,abs:.5,front_delts:.25,glutes:.25",
     "note": "AB EXCEPTION: obliques"
   },
@@ -722,7 +941,10 @@
     "force": "static",
     "mech": "isolation",
     "level": "beginner",
-    "al": ["anti-rotation press", "pallof"],
+    "al": [
+      "anti-rotation press",
+      "pallof"
+    ],
     "m": "obliques,abs:.75,front_delts:.25",
     "note": "AB EXCEPTION: obliques (anti-rotation); force pull->static; chest/triceps dropped"
   },
@@ -734,7 +956,9 @@
     "force": "static",
     "mech": "compound",
     "level": "beginner",
-    "al": ["deadbug"],
+    "al": [
+      "deadbug"
+    ],
     "m": "abs,obliques:.25,adductors:.25",
     "note": "AB EXCEPTION: abs"
   },
@@ -746,7 +970,10 @@
     "force": "pull",
     "mech": "isolation",
     "level": "beginner",
-    "al": ["crunches", "ab crunch"],
+    "al": [
+      "crunches",
+      "ab crunch"
+    ],
     "m": "abs,obliques:.25",
     "note": "AB EXCEPTION: abs"
   },
@@ -758,7 +985,9 @@
     "force": "push",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["floor press"],
+    "al": [
+      "floor press"
+    ],
     "m": "chest,triceps:.75,front_delts:.5",
     "note": "source lists triceps primary; floor press truncates ROM so chest still leads; triceps .75"
   },
@@ -770,7 +999,10 @@
     "force": "push",
     "mech": "compound",
     "level": "beginner",
-    "al": ["decline press", "decline bench"],
+    "al": [
+      "decline press",
+      "decline bench"
+    ],
     "m": "chest,triceps:.5,front_delts:.25",
     "note": "front_delts .25: decline reduces anterior delt involvement"
   },
@@ -782,7 +1014,10 @@
     "force": "push",
     "mech": "compound",
     "level": "beginner",
-    "al": ["standing cable press", "cable press"],
+    "al": [
+      "standing cable press",
+      "cable press"
+    ],
     "m": "chest,front_delts:.5,triceps:.5"
   },
   {
@@ -793,7 +1028,10 @@
     "force": "pull",
     "mech": "compound",
     "level": "beginner",
-    "al": ["db bent over row", "two dumbbell row"],
+    "al": [
+      "db bent over row",
+      "two dumbbell row"
+    ],
     "m": "upper_back,lats:.75,rear_delts:.5,biceps:.5,lower_back:.5",
     "note": "lower_back .5: isometric hinge hold"
   },
@@ -805,7 +1043,11 @@
     "force": "pull",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["underhand row", "yates row", "supinated row"],
+    "al": [
+      "underhand row",
+      "yates row",
+      "supinated row"
+    ],
     "m": "lats,upper_back:.75,biceps:.75,rear_delts:.25,lower_back:.5",
     "note": "lats primary and biceps .75: supinated grip shifts load to lats/biceps"
   },
@@ -817,7 +1059,10 @@
     "force": "pull",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["pullover", "db pullover"],
+    "al": [
+      "pullover",
+      "db pullover"
+    ],
     "m": "lats,chest:.75,triceps:.5,front_delts:.25",
     "note": "lats primary / chest .75: bi-articular lat+pec movement; force push->pull"
   },
@@ -829,7 +1074,11 @@
     "force": "pull",
     "mech": "isolation",
     "level": "beginner",
-    "al": ["shrug", "shrugs", "trap shrug"],
+    "al": [
+      "shrug",
+      "shrugs",
+      "trap shrug"
+    ],
     "m": "upper_back,forearms:.5",
     "note": "ISOLATION EXCEPTION: upper_back (trap staple); weights simplified"
   },
@@ -841,7 +1090,9 @@
     "force": "legs",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["barbell walking lunge"],
+    "al": [
+      "barbell walking lunge"
+    ],
     "m": "quads,glutes:.75,hamstrings:.5,adductors:.25",
     "note": "glutes .75: strong glute work in lunges"
   },
@@ -853,7 +1104,9 @@
     "force": "legs",
     "mech": "compound",
     "level": "beginner",
-    "al": ["smith squat"],
+    "al": [
+      "smith squat"
+    ],
     "m": "quads,glutes:.5,hamstrings:.25"
   },
   {
@@ -864,7 +1117,9 @@
     "force": "push",
     "mech": "compound",
     "level": "beginner",
-    "al": ["seated db press"],
+    "al": [
+      "seated db press"
+    ],
     "m": "front_delts,side_delts:.75,triceps:.5",
     "note": "side_delts .75: dumbbells allow wider path"
   },
@@ -876,8 +1131,103 @@
     "force": "legs",
     "mech": "compound",
     "level": "intermediate",
-    "al": ["rear hack squat"],
+    "al": [
+      "rear hack squat"
+    ],
     "m": "quads,glutes:.5,hamstrings:.25,forearms:.25",
     "note": "forearms .25: holding the bar behind the legs"
+  },
+  {
+    "src": "Dumbbell_Bicep_Curl",
+    "id": "dumbbell-bicep-curl",
+    "name": "Dumbbell Bicep Curl",
+    "eq": "dumbbell",
+    "force": "pull",
+    "mech": "isolation",
+    "level": "beginner",
+    "al": [
+      "db curl",
+      "bicep curl",
+      "biceps curl"
+    ],
+    "m": "biceps,forearms:.25",
+    "note": "forearms .25: grip assist; ISOLATION EXCEPTION: biceps"
+  },
+  {
+    "src": "Standing_Biceps_Cable_Curl",
+    "id": "cable-curl",
+    "name": "Cable Curl",
+    "eq": "cable",
+    "force": "pull",
+    "mech": "isolation",
+    "level": "beginner",
+    "al": [
+      "cable bicep curl",
+      "standing cable curl"
+    ],
+    "m": "biceps",
+    "note": "ISOLATION EXCEPTION: biceps"
+  },
+  {
+    "src": "Triceps_Pushdown",
+    "id": "triceps-pushdown",
+    "name": "Triceps Pushdown",
+    "eq": "cable",
+    "force": "push",
+    "mech": "isolation",
+    "level": "beginner",
+    "al": [
+      "pushdown",
+      "tricep pushdown",
+      "cable pushdown"
+    ],
+    "m": "triceps",
+    "note": "ISOLATION EXCEPTION: triceps"
+  },
+  {
+    "src": "Cable_Rope_Overhead_Triceps_Extension",
+    "id": "cable-overhead-triceps-extension",
+    "name": "Cable Overhead Triceps Extension",
+    "eq": "cable",
+    "force": "push",
+    "mech": "isolation",
+    "level": "beginner",
+    "al": [
+      "overhead extension",
+      "rope overhead extension",
+      "tricep extension"
+    ],
+    "m": "triceps",
+    "note": "ISOLATION EXCEPTION: triceps (long-head, lengthened position)"
+  },
+  {
+    "src": "Incline_Push-Up",
+    "id": "incline-push-up",
+    "name": "Incline Push-Up",
+    "eq": "bodyweight",
+    "force": "push",
+    "mech": "compound",
+    "level": "beginner",
+    "al": [
+      "incline pushup",
+      "elevated push-up"
+    ],
+    "m": "chest,front_delts:.5,triceps:.5,abs:.25",
+    "note": "abs .25: plank-style trunk bracing"
+  },
+  {
+    "src": "Decline_Push-Up",
+    "id": "decline-push-up",
+    "name": "Decline Push-Up",
+    "eq": "bodyweight",
+    "force": "push",
+    "mech": "compound",
+    "level": "beginner",
+    "al": [
+      "decline pushup",
+      "feet elevated push-up"
+    ],
+    "m": "chest,front_delts:.75,triceps:.5,abs:.25",
+    "note": "front_delts .75: feet elevated shifts load to the anterior deltoid; abs .25: plank-style trunk bracing; equipment null->bodyweight"
   }
 ]
