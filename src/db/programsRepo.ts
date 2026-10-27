@@ -4,16 +4,32 @@ import type { MergedExercise } from '@/data/merged';
 import { alternatives } from '@/recommend';
 import type { AlternativeScore } from '@/recommend';
 import { planCheck } from '@/program/planCheck';
+import {
+  applyBlockWeek,
+  blockWeekAt,
+  defaultRampExerciseIds,
+  newBlock,
+  projectBlock,
+} from '@/program/block';
 import { BUILT_IN_PROGRAMS, getBuiltInProgram } from '@/program/templates';
 import * as edit from '@/program/edit';
-import type { PlanCheck, Program, ProgramDay } from '@/program/types';
+import type {
+  BlockProjection,
+  PlanCheck,
+  Program,
+  ProgramBlock,
+  ProgramDay,
+} from '@/program/types';
 import { db, newId } from './db';
 import { loadMergedExercises } from './customExercisesRepo';
 import { addExercise, getActiveSession, startSession } from './sessionsRepo';
 import {
   getActiveProgramId,
   getEquipment,
+  getProgramBlocks,
   getTargetOverrides,
+  getWeekStartsOn,
+  setProgramBlocks,
   resolveTargets,
   setActiveProgramId,
 } from './settingsRepo';
@@ -134,6 +150,7 @@ export async function startProgramDay(
       db.sessionExercises,
       db.sets,
       db.programs,
+      db.settings,
       db.exercises,
       db.exerciseMuscles,
       db.customExercises,
@@ -152,8 +169,17 @@ export async function startProgramDay(
         throw new Error('None of this day’s exercises exist any more.');
       }
 
+      const block = (await getProgramBlocks())[programId];
+      const blockWeek = block ? blockWeekAt(block, now, await getWeekStartsOn()) : null;
+      const planned = block && blockWeek ? applyBlockWeek(program, block, blockWeek) : program;
+      const plannedDay = planned.days.find((d) => d.id === dayId) ?? day;
+
       const session = await startSession(now);
-      for (const pe of day.exercises) {
+      const tags: Partial<Session> = { programId, programDayId: dayId };
+      if (blockWeek) tags.blockWeek = blockWeek;
+      await db.sessions.update(session.id, tags);
+      Object.assign(session, tags);
+      for (const pe of plannedDay.exercises) {
         if (!known.has(pe.exerciseId)) continue;
         const se = await addExercise(session.id, pe.exerciseId);
         const rows: SetRow[] = Array.from({ length: pe.targetSets }, (_, order) => ({
@@ -211,4 +237,76 @@ export async function swapProgramExercise(
   newExerciseId: string,
 ): Promise<void> {
   await updateProgram(programId, (p) => edit.swapExercise(p, dayId, index, newExerciseId));
+}
+
+export interface StartBlockOpts {
+  /** Defaults to every day's first exercise. */
+  rampExerciseIds?: string[];
+  weeks?: number;
+  /** Defaults to now; week 1 is the calendar week containing it. */
+  now?: number;
+}
+
+/** Starts (or replaces) a block for a program; week 1 is the current week. */
+export async function startBlock(
+  programId: string,
+  opts: StartBlockOpts = {},
+): Promise<ProgramBlock> {
+  const program = await getProgram(programId);
+  if (!program) throw new Error(`Program not found: ${programId}`);
+  const block = newBlock(
+    opts.now ?? Date.now(),
+    await getWeekStartsOn(),
+    opts.rampExerciseIds ?? defaultRampExerciseIds(program),
+    opts.weeks,
+  );
+  await db.transaction('rw', db.settings, async () => {
+    await setProgramBlocks({ ...(await getProgramBlocks()), [programId]: block });
+  });
+  return block;
+}
+
+/** Restarts the running block: same settings, week 1 = this week. */
+export async function restartBlock(programId: string, now = Date.now()): Promise<ProgramBlock> {
+  const cur = (await getProgramBlocks())[programId];
+  if (!cur) throw new Error('No block to restart');
+  const next: ProgramBlock = {
+    ...cur,
+    startDate: newBlock(now, await getWeekStartsOn(), []).startDate,
+  };
+  await db.transaction('rw', db.settings, async () => {
+    await setProgramBlocks({ ...(await getProgramBlocks()), [programId]: next });
+  });
+  return next;
+}
+
+export async function endBlock(programId: string): Promise<void> {
+  await db.transaction('rw', db.settings, async () => {
+    const { [programId]: _gone, ...rest } = await getProgramBlocks();
+    void _gone;
+    await setProgramBlocks(rest);
+  });
+}
+
+export interface BlockView {
+  block: ProgramBlock;
+  /** 1-based current week; null when before the start or after the last week. */
+  currentWeek: number | null;
+  projection: BlockProjection;
+}
+
+/** `null` when the program has no block (or is gone). */
+export async function getBlockView(programId: string, now = Date.now()): Promise<BlockView | null> {
+  const [program, block, data, wso] = await Promise.all([
+    getProgram(programId),
+    getProgramBlocks().then((b) => b[programId]),
+    loadPlanData(),
+    getWeekStartsOn(),
+  ]);
+  if (!program || !block) return null;
+  return {
+    block,
+    currentWeek: blockWeekAt(block, now, wso),
+    projection: projectBlock(program, block, data),
+  };
 }

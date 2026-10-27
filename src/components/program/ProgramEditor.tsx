@@ -34,6 +34,7 @@ import {
 import * as programsRepo from '@/db/programsRepo';
 import * as edit from '@/program/edit';
 import type { Program, ProgramExercise } from '@/program/types';
+import BlockPanel from './BlockPanel';
 import CommitInput from './CommitInput';
 import PlanCheckView from './PlanCheckView';
 import ProgramSwapDialog from './ProgramSwapDialog';
@@ -353,6 +354,8 @@ export default function ProgramEditor({ programId }: Props) {
           </Button>
         )}
       </div>
+
+      <BlockPanel program={program} />
 
       {check && <PlanCheckView check={check} nameFor={(id) => nameFor(lookup, id)} />}
 

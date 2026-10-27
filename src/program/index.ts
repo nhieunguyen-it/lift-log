@@ -9,3 +9,4 @@ export {
   isBuiltInId,
 } from './templates';
 export * from './edit';
+export * from './block';

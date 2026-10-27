@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useActiveSession } from '@/db';
 import * as programsRepo from '@/db/programsRepo';
 import { useActiveProgram } from '@/db/programHooks';
+import { useBlockView } from '@/db/blockHooks';
 
 /**
  * Workout-tab card: when a program is active and no session is running, one button per day
@@ -12,6 +13,7 @@ import { useActiveProgram } from '@/db/programHooks';
 export default function StartFromProgram() {
   const program = useActiveProgram();
   const active = useActiveSession();
+  const blockView = useBlockView(program?.id);
   const [error, setError] = useState<string | null>(null);
   if (program === undefined || active === undefined) return null;
 
@@ -24,6 +26,12 @@ export default function StartFromProgram() {
       <h2 id="start-from-program-heading" className="text-lg font-medium">
         {program ? program.name : 'Programs'}
       </h2>
+      {program && blockView?.currentWeek != null && (
+        <p className="text-sm" data-testid="start-block-week">
+          Block week {blockView.currentWeek} of {blockView.block.weeks}
+          {blockView.currentWeek === blockView.block.weeks ? ' (deload)' : ''}
+        </p>
+      )}
       {program && !active && (
         <ul className="space-y-2">
           {program.days.map((d, i) => (
@@ -44,6 +52,14 @@ export default function StartFromProgram() {
               >
                 Start Day {i + 1}: {d.name}
               </Button>
+              {blockView?.currentWeek != null && (
+                <p className="text-muted-foreground px-1 text-xs" data-testid="start-day-sets">
+                  {blockView.projection.weeks[blockView.currentWeek - 1].exercises
+                    .filter((e) => e.dayId === d.id)
+                    .reduce((n, e) => n + e.sets, 0)}{' '}
+                  sets this week
+                </p>
+              )}
             </li>
           ))}
         </ul>
