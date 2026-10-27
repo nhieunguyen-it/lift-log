@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import ExerciseDetailDialog from '@/components/ExerciseDetailDialog';
 import ExercisePicker from '@/components/ExercisePicker';
 import TargetChip from '@/components/recommend/TargetChip';
+import ExerciseDeloadHint from '@/components/progress/ExerciseDeloadHint';
 import SwapExerciseDialog from '@/components/recommend/SwapExerciseDialog';
 import { CustomBadge } from '@/components/custom';
 import SetRowItem, { SET_GRID } from '@/components/SetRowItem';
@@ -120,6 +121,7 @@ export default function SessionEditor({ detail, unit }: Props) {
                 sessionExerciseId={se.id}
                 sets={sets}
               />
+              <ExerciseDeloadHint exerciseId={se.exerciseId} />
               {sets.length > 0 && (
                 <div
                   className={`${SET_GRID} text-muted-foreground text-center text-xs`}

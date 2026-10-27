@@ -11,6 +11,7 @@ import CollapsibleSection from '@/components/analyze/CollapsibleSection';
 import MuscleDetailSheet from '@/components/analyze/MuscleDetailSheet';
 import MuscleList from '@/components/analyze/MuscleList';
 import NeedsAttention from '@/components/analyze/NeedsAttention';
+import PlanVsActualCard from '@/components/analyze/PlanVsActualCard';
 import SummaryCard from '@/components/analyze/SummaryCard';
 import VolumeSuggestionList from '@/components/recommend/VolumeSuggestionList';
 import WeekSwitcher from '@/components/analyze/WeekSwitcher';
@@ -89,6 +90,8 @@ export default function AnalyzePage() {
           )}
           <SummaryCard summary={analysis.summary} />
           <NeedsAttention items={analysis.summary.needsAttention} onSelect={setSelected} />
+
+          <PlanVsActualCard refTs={refTs} />
 
           <CollapsibleSection title="Body map" defaultOpen>
             <BodyMap

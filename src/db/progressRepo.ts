@@ -27,6 +27,34 @@ export async function getDeloadSignal(now = Date.now()): Promise<DeloadSignal | 
   return signal;
 }
 
+/** Phase 4: one exercise flagged by deload detection while there is no overall signal. */
+export interface ExerciseDeloadHint {
+  exerciseId: string;
+  /** Dismissal key in the shared deload-dismissal storage. */
+  key: string;
+  /** e.g. "e1RM down 6% over 4 sessions". */
+  detail: string;
+}
+
+/**
+ * The per-exercise hint to show on a workout target chip, or null when the exercise isn't
+ * flagged, a full deload is suggested instead, or the hint was dismissed. Read-only.
+ */
+export async function getExerciseDeloadHint(
+  exerciseId: string,
+  now = Date.now(),
+): Promise<ExerciseDeloadHint | null> {
+  const [data, dismissals] = await Promise.all([loadTrainingData(), getDeloadDismissals()]);
+  const signal = detectDeload(data);
+  if (signal.overall) return null;
+  const flagged = signal.exercises.find((e) => e.exerciseId === exerciseId);
+  if (!flagged) return null;
+  const key = `exercise:${exerciseId}:${signal.key}`;
+  const at = dismissals[key];
+  if (at !== undefined && now - at < TRAINING.deload.dismissMs) return null;
+  return { exerciseId, key, detail: flagged.detail };
+}
+
 /** Hide this suggestion for `deload.dismissMs`. Also prunes expired dismissals. */
 export async function dismissDeload(key: string, now = Date.now()): Promise<void> {
   const current = await getDeloadDismissals();

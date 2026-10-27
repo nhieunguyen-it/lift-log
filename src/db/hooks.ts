@@ -43,3 +43,5 @@ export * from './customHooks';
 export { useAnalyzeView, useAnalyzeGrouping, setAnalyzeGrouping } from './analyzeHooks';
 export type { AnalyzeView, AnalyzeGrouping } from './analyzeHooks';
 export { useBlockView } from './blockHooks';
+export { usePlanVsActual } from './planVsActualHooks';
+export type { PlanVsActualView } from './planVsActualHooks';
