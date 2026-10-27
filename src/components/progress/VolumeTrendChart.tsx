@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { MUSCLES } from '@/data';
 import type { MuscleId } from '@/data';
 import { TRAINING } from '@/config/training';
+import { CHART } from '@/components/analyze/statusStyle';
 import { useLongTrend } from '@/db/progressHooks';
 import { fmtDay, paddedRange, round1, scale } from './chartMath';
 
@@ -75,19 +76,13 @@ export default function VolumeTrendChart({ muscleId, defaultMuscleId = 'chest' }
   return (
     <div className="space-y-2" data-testid="volume-trend">
       {selector}
-      <svg
-        viewBox={`0 0 ${W} ${H}`}
-        role="img"
-        aria-label={summary}
-        className="text-foreground h-auto w-full"
-      >
+      <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={summary} className="h-auto w-full">
         <rect
           x={PAD.l}
           y={y(target.mavHigh)}
           width={W - PAD.l - PAD.r}
           height={y(target.mavLow) - y(target.mavHigh)}
-          fill="currentColor"
-          opacity={0.07}
+          fill={CHART.band}
         />
         {(
           [
@@ -101,34 +96,28 @@ export default function VolumeTrendChart({ muscleId, defaultMuscleId = 'chest' }
               x2={W - PAD.r}
               y1={y(v)}
               y2={y(v)}
-              stroke="var(--muted-foreground)"
+              stroke={CHART.marker}
               strokeWidth={1}
               strokeDasharray="4 3"
             />
-            <text x={PAD.l + 2} y={y(v) - 2} fontSize={9} fill="var(--muted-foreground)">
+            <text x={PAD.l + 2} y={y(v) - 2} fontSize={9} fill={CHART.axis}>
               {label} {v}
             </text>
           </g>
         ))}
-        <line x1={PAD.l} x2={PAD.l} y1={PAD.t} y2={H - PAD.b} stroke="var(--border)" />
-        <line x1={PAD.l} x2={W - PAD.r} y1={y(0)} y2={y(0)} stroke="var(--border)" />
-        <text
-          x={PAD.l - 4}
-          y={y(0) + 3}
-          textAnchor="end"
-          fontSize={9}
-          fill="var(--muted-foreground)"
-        >
+        <line x1={PAD.l} x2={PAD.l} y1={PAD.t} y2={H - PAD.b} stroke={CHART.grid} />
+        <line x1={PAD.l} x2={W - PAD.r} y1={y(0)} y2={y(0)} stroke={CHART.grid} />
+        <text x={PAD.l - 4} y={y(0) + 3} textAnchor="end" fontSize={9} fill={CHART.axis}>
           0
         </text>
-        <path d={path} fill="none" stroke="currentColor" strokeWidth={2} strokeLinejoin="round" />
+        <path d={path} fill="none" stroke={CHART.line} strokeWidth={2} strokeLinejoin="round" />
         {vals.map((v, i) => (
-          <circle key={points[i].window.start} cx={x(i)} cy={y(v)} r={2.5} fill="currentColor" />
+          <circle key={points[i].window.start} cx={x(i)} cy={y(v)} r={2.5} fill={CHART.line} />
         ))}
-        <text x={PAD.l} y={H - 4} fontSize={9} fill="var(--muted-foreground)">
+        <text x={PAD.l} y={H - 4} fontSize={9} fill={CHART.axis}>
           {fmtDay(points[0].window.start)}
         </text>
-        <text x={W - PAD.r} y={H - 4} fontSize={9} textAnchor="end" fill="var(--muted-foreground)">
+        <text x={W - PAD.r} y={H - 4} fontSize={9} textAnchor="end" fill={CHART.axis}>
           this week
         </text>
       </svg>

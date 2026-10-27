@@ -147,3 +147,31 @@
   --map-selected: oklch(0.97 0 0);
   --map-dimmed-opacity: 0.25;
 }
+
+/* Analyze motion: respects prefers-reduced-motion. Duration comes from config via --analyze-ms. */
+@keyframes analyze-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.analyze-enter {
+  animation: analyze-fade-in var(--analyze-ms, 180ms) ease-out;
+}
+.analyze-fade {
+  transition:
+    opacity var(--analyze-ms, 180ms) ease,
+    visibility var(--analyze-ms, 180ms) ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .analyze-enter {
+    animation: none;
+  }
+  .analyze-fade {
+    transition: none;
+  }
+}

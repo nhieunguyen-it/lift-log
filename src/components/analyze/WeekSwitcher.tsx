@@ -24,7 +24,7 @@ export default function WeekSwitcher({
   onNext: () => void;
 }) {
   return (
-    <div className="flex items-center justify-between gap-2">
+    <div className="flex items-center gap-1">
       <Button
         variant="outline"
         size="icon"
@@ -35,11 +35,13 @@ export default function WeekSwitcher({
       >
         <ChevronLeft />
       </Button>
-      <div className="text-center" aria-live="polite">
-        <div className="font-medium" data-testid="week-label">
+      <div className="min-w-[5.5rem] text-center" aria-live="polite">
+        <div className="text-sm leading-tight font-medium" data-testid="week-label">
           {formatWeekRange(w)}
         </div>
-        <div className="text-muted-foreground text-xs">{isCurrent ? 'This week' : 'Past week'}</div>
+        <div className="text-muted-foreground text-[11px] leading-tight">
+          {isCurrent ? 'This week' : 'Past week'}
+        </div>
       </div>
       <Button
         variant="outline"

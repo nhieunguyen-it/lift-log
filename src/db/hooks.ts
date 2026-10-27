@@ -40,3 +40,5 @@ export const useEquipment = () => useLiveQuery(() => getEquipment(), []);
 export * from './programHooks';
 export * from './progressHooks';
 export * from './customHooks';
+export { useAnalyzeView, useAnalyzeGrouping, setAnalyzeGrouping } from './analyzeHooks';
+export type { AnalyzeView, AnalyzeGrouping } from './analyzeHooks';
