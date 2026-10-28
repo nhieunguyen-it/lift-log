@@ -99,7 +99,8 @@ export async function setActiveProgramId(id: string | null): Promise<void> {
 }
 
 /** Generic boolean flags. */
-export type SettingFlag = 'onboardingDone' | 'whatsNewPhase3Seen' | 'whatsNewPhase4Seen';
+export type SettingFlag =
+  'onboardingDone' | 'whatsNewPhase3Seen' | 'whatsNewPhase4Seen' | 'whatsNewPhase5Seen';
 
 export async function getFlag(flag: SettingFlag): Promise<boolean> {
   return (await db.settings.get(flag))?.value === true;

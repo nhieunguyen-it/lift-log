@@ -101,7 +101,7 @@ describe('backup v1/v2/v3/v4', () => {
     expect(await getActiveProgramId()).toBe('p1');
     expect(await getDeloadDismissals()).toEqual({ k1: 1761000000000 });
     const out = await backup.exportData(5);
-    expect(out.version).toBe(4);
+    expect(out.version).toBe(5);
     expect(out.programs).toEqual(v3.programs);
     expect(out.customExercises).toEqual(v3.customExercises);
     expect(backup.parseBackup(JSON.stringify(out)).ok).toBe(true);

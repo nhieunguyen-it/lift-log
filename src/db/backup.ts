@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import type { WeightUnit } from '@/lib/units';
-import { db } from './db';
+import { db, getBoundProfileName } from './db';
 import {
   EquipmentListSchema,
   TargetOverridesSchema,
@@ -32,10 +32,11 @@ import {
 
 /**
  * v2 adds optional phase-2 settings; v3 adds programs, custom exercises and deload
- * dismissals; v4 adds program blocks, the Analyze grouping and session program tags.
- * v1-v3 files still import (missing sections are left untouched).
+ * dismissals; v4 adds program blocks, the Analyze grouping and session program tags;
+ * v5 adds the optional exporting profile's name. v1-v4 files still import (missing sections
+ * are left untouched).
  */
-export const BACKUP_VERSION = 4;
+export const BACKUP_VERSION = 5;
 
 const SessionSchema = z.object({
   id: z.string().min(1),
@@ -115,8 +116,17 @@ export const ProgramSchema = z.object({
 
 export const BackupSchema = z.object({
   app: z.literal('lift-log'),
-  version: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(BACKUP_VERSION)]),
+  version: z.union([
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(BACKUP_VERSION),
+  ]),
   exportedAt: z.number(),
+  // v5: name of the profile that was exported; only used as the default name when importing
+  // into a new profile. Ignored when importing into the current profile.
+  profile: z.object({ name: z.string().min(1) }).optional(),
   settings: z.object({
     unit: z.enum(['kg', 'lbs']),
     weekStartsOn: z.number().int().min(0).max(6).optional(),
@@ -178,6 +188,7 @@ export async function exportData(now = Date.now()): Promise<Backup> {
     app: 'lift-log',
     version: BACKUP_VERSION,
     exportedAt: now,
+    profile: getBoundProfileName() ? { name: getBoundProfileName()! } : undefined,
     settings: {
       unit,
       weekStartsOn,
@@ -272,6 +283,7 @@ export async function importData(data: Backup): Promise<void> {
       await setFlag('onboardingDone', true);
       await setFlag('whatsNewPhase3Seen', true);
       await setFlag('whatsNewPhase4Seen', true);
+      await setFlag('whatsNewPhase5Seen', true);
     }
     if (st.activeProgramId !== undefined) await setActiveProgramId(st.activeProgramId);
     if (st.deloadDismissals !== undefined) await setDeloadDismissals(st.deloadDismissals);

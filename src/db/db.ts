@@ -43,7 +43,26 @@ export class LiftLogDB extends Dexie {
   }
 }
 
-/** Single app-wide database. Only src/db/** may import this. */
-export const db = new LiftLogDB();
+/**
+ * The database of the active profile. Only src/db/** may import this.
+ * It is a live binding: `bindDb()` swaps it once at startup (before render) to the active
+ * profile's database; it is never swapped under mounted UI (switching profiles reloads the app).
+ */
+export let db = new LiftLogDB();
+
+let boundProfileName: string | undefined;
+
+/** Points `db` at another profile's database (startup bootstrap, tests, import-into-new-profile). */
+export function bindDb(dbName: string, profileName?: string): LiftLogDB {
+  if (db.name !== dbName) {
+    db.close();
+    db = new LiftLogDB(dbName);
+  }
+  boundProfileName = profileName;
+  return db;
+}
+
+/** Display name of the profile `db` is bound to (undefined before bootstrap). */
+export const getBoundProfileName = (): string | undefined => boundProfileName;
 
 export const newId = (): string => crypto.randomUUID();
