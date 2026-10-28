@@ -3,7 +3,7 @@ import { PROFILES } from '@/config/profiles';
 export type NameCheck = { ok: true; name: string } | { ok: false; error: string };
 
 // Letters, digits, space, underscore and hyphen (any script).
-const ALLOWED = /^[\p{L}\p{N} _-]+$/u;
+const ALLOWED = /^[\p{L}\p{M}\p{N} _-]+$/u;
 
 export interface NameCandidate {
   id: string;
@@ -19,7 +19,7 @@ export function validateProfileName(
   existing: NameCandidate[],
   selfId?: string,
 ): NameCheck {
-  const name = raw.trim();
+  const name = raw.normalize('NFC').trim();
   if (name.length < PROFILES.nameMinLength) return { ok: false, error: 'Enter a name.' };
   if (name.length > PROFILES.nameMaxLength) {
     return { ok: false, error: `Use at most ${PROFILES.nameMaxLength} characters.` };
@@ -41,7 +41,8 @@ export function validateProfileName(
 export function suggestImportName(raw: string | undefined, existing: NameCandidate[]): string {
   const base =
     (raw ?? 'Imported')
-      .replace(/[^\p{L}\p{N} _-]/gu, '')
+      .normalize('NFC')
+      .replace(/[^\p{L}\p{M}\p{N} _-]/gu, '')
       .trim()
       .slice(0, PROFILES.nameMaxLength) || 'Imported';
   for (let i = 1; i < 100; i++) {

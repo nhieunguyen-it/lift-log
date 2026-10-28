@@ -71,10 +71,41 @@ v1–v3 files still import (fixture per version). Blocks live in settings rather
 so read-only built-in templates can run them too; none of this needed a Dexie schema bump (the
 schema stays at v2: the new session fields are not indexed).
 
+Backup format **v5** adds the optional exporting profile's name (see Profiles). v1–v4 still import.
+
 **Encryption (optional):** with a passphrase, export wraps the JSON in a self-describing envelope
 (`format: "lift-log-encrypted"`): PBKDF2-SHA-256 (iterations from `TRAINING.backup`, random salt) →
 AES-GCM-256 (random IV). Import detects the envelope and asks for the passphrase; a wrong one shows
 an error and writes nothing. A lost passphrase cannot be recovered.
+
+## Profiles
+
+Several people (or several training contexts) can share one device. Everything stays local: no
+accounts, no network.
+
+- **Storage layout.** One IndexedDB database per profile. A small registry database,
+  `lift-log-profiles` (table `profiles`: `id`, `name`, `createdAt`, `lastUsedAt`, optional `color`;
+  plus a `meta` table holding the active profile id), lists them.
+- **Default mapping.** The profile with id `default` is the original `lift-log` database, opened
+  as is: existing users keep their data with no migration and no copying. Every other profile
+  uses `lift-log-p-<uuid>`.
+- **Startup and switching.** `main.tsx` resolves the active profile from the registry and binds
+  the `db` singleton (`bindDb`, `src/db/db.ts`) before rendering. Switching sets the active id and
+  reloads the page, so every live query binds to the new database. Nothing is hot-swapped.
+- **Per profile.** Seed tables (`ensureSeed()` runs per database), sessions, settings, programs,
+  blocks, custom exercises, deload dismissals and the onboarding / What's new flags. A new profile
+  shows onboarding and skips What's new.
+- **Names and limits.** Letters, digits, space, `_` and `-`; trimmed; unique case-insensitively.
+  Max profiles, name lengths and the switcher list size live in `src/config/profiles.ts`.
+- **Deletion.** You can't delete the active profile or the only profile. Deleting runs
+  `Dexie.delete` on that profile's database only, then removes its registry row. It is
+  irreversible and asks you to type the name first.
+- **Backup v5.** Export and import act on the active profile. v5 adds an optional
+  `profile: { name }`; importing into the current profile ignores it, importing into a new profile
+  uses it as the default name. v1-v4 files still import; encryption is unchanged.
+- **Not a security boundary.** There is no PIN or password. Anyone with access to the browser can
+  switch profiles and the data is not encrypted at rest. Profiles keep training logs apart, not
+  secret.
 
 ## Programs
 

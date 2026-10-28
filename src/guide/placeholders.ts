@@ -1,7 +1,11 @@
+import { PROFILES } from '@/config/profiles';
 import { TRAINING } from '@/config/training';
 
 /** Values guide Markdown may reference with `{{path}}`. */
-export const GUIDE_CONTEXT = TRAINING as unknown as Record<string, unknown>;
+export const GUIDE_CONTEXT: Record<string, unknown> = {
+  ...(TRAINING as unknown as Record<string, unknown>),
+  profiles: { max: PROFILES.max, nameMaxLength: PROFILES.nameMaxLength },
+};
 
 const PLACEHOLDER = /\{\{\s*([\w.]+)\s*\}\}/g;
 

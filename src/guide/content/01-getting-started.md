@@ -23,6 +23,10 @@ Everything is stored in your browser's database (IndexedDB) on **this device onl
 - Another phone or browser starts empty. Move data with a backup (see Backup, restore and encryption).
 - Clearing site data for the app deletes your log. Export a backup now and then.
 
+## Profiles {#getting-started-profiles}
+
+Everything you have is in the **Default** profile. If more than one person uses the device, or you want to keep two training contexts apart, tap the avatar button in the header to switch or add profiles. See Profiles, starting with how to create one (`#profiles-create`).
+
 ## Units and week start {#getting-started-units}
 
 On first launch a short tour asks for your weight unit (kg or lbs) and which day your week starts on. You can skip it, and change both later in Settings. Weights are stored in kg and converted for display, so switching units never changes your history.

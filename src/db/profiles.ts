@@ -1,6 +1,6 @@
 import Dexie, { type EntityTable } from 'dexie';
 import { PROFILES, type ProfileColor } from '@/config/profiles';
-import { LiftLogDB, bindDb } from './db';
+import { LiftLogDB, bindDb, db } from './db';
 import { validateProfileName } from './profileNames';
 
 export interface Profile {
@@ -114,7 +114,12 @@ export async function createProfile(name: string, now = Date.now()): Promise<Pro
       PROFILES.colors[existing.length % PROFILES.colors.length],
   };
   await initProfileDb(profile.id);
-  await registry.profiles.add(profile);
+  try {
+    await registry.profiles.add(profile);
+  } catch (err) {
+    await Dexie.delete(resolveDbName(profile.id));
+    throw err;
+  }
   return profile;
 }
 
@@ -135,12 +140,13 @@ export async function renameProfile(id: string, name: string): Promise<Profile> 
 export async function deleteProfile(id: string): Promise<void> {
   const existing = await listProfiles();
   if (!existing.some((p) => p.id === id)) throw new ProfileError('Unknown profile.');
-  if (id === (await getActiveProfileId())) {
+  if (id === (await getActiveProfileId()) || resolveDbName(id) === db.name) {
     throw new ProfileError('Switch to another profile before deleting this one.');
   }
   if (existing.length <= 1) throw new ProfileError('You cannot delete the only profile.');
-  await Dexie.delete(resolveDbName(id));
+  // Row first: a crash in between leaves an orphan database, never a row pointing at nothing.
   await registry.profiles.delete(id);
+  await Dexie.delete(resolveDbName(id));
 }
 
 export async function touchProfile(id: string, now = Date.now()): Promise<void> {

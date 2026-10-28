@@ -23,6 +23,10 @@ The values must stay in order: MEV is at most MAV low, which is at most MAV high
 
 Tick the equipment you have. See Suggestions, alternatives and swaps.
 
+## Profiles {#settings-profiles}
+
+The **Profiles** section shows the current profile and lists all profiles with **Switch**, **Rename** and **Delete**, plus **New profile** and **Import backup into a new profile**. See Profiles.
+
 ## Guide and tour {#settings-guide}
 
 The **Guide** card opens this guide. From there you can replay the welcome tour any time.

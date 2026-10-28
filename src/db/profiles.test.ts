@@ -122,6 +122,7 @@ describe('registry', () => {
   it('does not resurrect a deleted Default profile', async () => {
     const a = await createProfile('Alex');
     await setActiveProfileId(a.id);
+    bindDb(resolveDbName(a.id), a.name);
     await deleteProfile(PROFILES.defaultId);
     const list = await listProfiles();
     expect(list.map((p) => p.id)).toEqual([a.id]);
@@ -283,6 +284,7 @@ describe('default database untouched', () => {
     expect(db.name).toBe(resolveDbName(b.id));
     await startSession();
     await setActiveProfileId(a.id);
+    bindDb(resolveDbName(a.id), a.name);
     await deleteProfile(b.id);
 
     bindDb('lift-log');

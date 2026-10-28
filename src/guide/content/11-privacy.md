@@ -4,6 +4,8 @@
 
 Lift Log has no account, no server and no analytics. Your workouts, settings and custom exercises are stored in your browser on this device. They are only shared if you export a file and send it somewhere yourself. Encrypted exports are protected by your passphrase.
 
+Profiles are not a lock. Anyone using this browser can open any profile, and there is no PIN. Each profile lives in its own local database on this device, and none are encrypted. Use an encrypted export to share a profile.
+
 ## Not medical advice {#privacy-disclaimer}
 
 > [!NOTE]
