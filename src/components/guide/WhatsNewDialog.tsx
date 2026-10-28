@@ -13,34 +13,37 @@ import { db } from '@/db/db';
 import { getFlag, setFlag } from '@/db/settingsRepo';
 import { onOpenWhatsNew } from './overlayEvents';
 
-/** Phase 4 highlights (plain text: nothing here needs a guide anchor). */
-export const PHASE4_ITEMS: { title: string; blurb: string }[] = [
+/** Phase 5 highlights (plain text: nothing here needs a guide anchor). */
+export const PHASE5_ITEMS: { title: string; blurb: string }[] = [
   {
-    title: 'Weekly summary',
-    blurb: 'Analyze opens with totals, a status bar and what needs attention.',
+    title: 'Profiles',
+    blurb: 'Keep separate training logs on one device. Your data so far is the Default profile.',
   },
-  { title: 'Legend filter', blurb: 'Tap a status in the legend to highlight just those muscles.' },
-  { title: 'Range bars', blurb: 'Each muscle shows where its sets sit against its target range.' },
+  { title: 'Profile switcher', blurb: 'Tap the circle at the top to switch or add a profile.' },
   {
-    title: 'Blocks with a planned deload',
-    blurb: 'Run a program as a block that ramps sets, then deloads.',
+    title: 'Fully separate',
+    blurb: 'Each profile has its own workouts, settings, programs and custom exercises.',
   },
-  { title: 'Plan vs. actual', blurb: 'See which planned days and sets you missed this week.' },
-  { title: 'Exercise hints', blurb: 'A dismissible note when one lift shows signs of fatigue.' },
   {
-    title: 'New exercises',
-    blurb: 'More arm and push-up variations: curls, pushdowns, incline and decline push-ups.',
+    title: 'Import into a new profile',
+    blurb: 'Restore a backup as its own profile without touching the current one.',
+  },
+  {
+    title: 'Not a lock',
+    blurb: 'Profiles are a convenience on this device, not a security feature.',
   },
 ];
 
 /**
  * Shows once to existing users (onboarding done or sessions logged); reopenable via event.
- * Automatic display is phase 4 only: if phase 3 was never seen either, both flags are marked
- * seen on dismiss so the two dialogs never stack. The manual reopen shows the same phase 4 list.
+ * Automatic display is phase 5 only: any earlier unseen flags are marked seen on dismiss so the
+ * dialogs never stack. New profiles start with every flag set. The manual reopen shows the same
+ * phase 5 list.
  */
 export default function WhatsNewDialog() {
   const seen3 = useLiveQuery(() => getFlag('whatsNewPhase3Seen'), []);
   const seen4 = useLiveQuery(() => getFlag('whatsNewPhase4Seen'), []);
+  const seen5 = useLiveQuery(() => getFlag('whatsNewPhase5Seen'), []);
   const onboardingDone = useLiveQuery(() => getFlag('onboardingDone'), []);
   const sessionCount = useLiveQuery(() => db.sessions.count(), []);
   const [dismissed, setDismissed] = useState(false);
@@ -49,13 +52,14 @@ export default function WhatsNewDialog() {
   useEffect(() => onOpenWhatsNew(() => setManual(true)), []);
 
   const existingUser = onboardingDone === true || (sessionCount ?? 0) > 0;
-  const auto = seen4 === false && existingUser && !dismissed;
+  const auto = seen5 === false && existingUser && !dismissed;
   const open = manual || auto;
 
   function dismiss() {
     setManual(false);
     setDismissed(true);
-    void setFlag('whatsNewPhase4Seen', true);
+    void setFlag('whatsNewPhase5Seen', true);
+    if (seen4 === false) void setFlag('whatsNewPhase4Seen', true);
     if (seen3 === false) void setFlag('whatsNewPhase3Seen', true);
   }
 
@@ -63,11 +67,11 @@ export default function WhatsNewDialog() {
     <Dialog open={open} onOpenChange={(o) => !o && dismiss()}>
       <DialogContent data-testid="whats-new-dialog" className="max-h-[85dvh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>What&apos;s new in phase 4</DialogTitle>
+          <DialogTitle>What&apos;s new in phase 5</DialogTitle>
           <DialogDescription>Everything stays on your device.</DialogDescription>
         </DialogHeader>
         <ul className="space-y-3">
-          {PHASE4_ITEMS.map((it) => (
+          {PHASE5_ITEMS.map((it) => (
             <li key={it.title}>
               <p className="font-medium">{it.title}</p>
               <p className="text-muted-foreground text-sm">{it.blurb}</p>

@@ -288,7 +288,7 @@ async function clearSetting(page: Page, ...keys: string[]) {
 }
 
 rawTest(
-  "what's new for phase 4 shows once to existing users, without stacking",
+  "what's new (now phase 5) shows once to existing users, without stacking",
   async ({ page }) => {
     await page.goto('/');
     await page.getByTestId('onboarding-skip').click();
@@ -298,14 +298,14 @@ rawTest(
     await expect(page.getByTestId('start-workout')).toBeVisible();
     await expect(page.getByTestId('whats-new-dialog')).toBeHidden();
 
-    // Existing user who has seen neither: only the phase 4 dialog, then nothing more.
-    await clearSetting(page, 'whatsNewPhase3Seen', 'whatsNewPhase4Seen');
+    // Existing user who has seen none: only the latest (phase 5) dialog, then nothing more.
+    await clearSetting(page, 'whatsNewPhase3Seen', 'whatsNewPhase4Seen', 'whatsNewPhase5Seen');
     await page.reload();
     const dlg = page.getByTestId('whats-new-dialog');
     await expect(dlg).toBeVisible();
-    await expect(dlg.getByRole('heading', { name: "What's new in phase 4" })).toBeVisible();
-    await expect(dlg).toContainText('Legend filter');
-    await expect(dlg).toContainText('Plan vs. actual');
+    await expect(dlg.getByRole('heading', { name: "What's new in phase 5" })).toBeVisible();
+    await expect(dlg).toContainText('Profile switcher');
+    await expect(dlg).toContainText('Not a lock');
     await page.getByTestId('whats-new-dismiss').click();
     await expect(dlg).toBeHidden();
     await page.waitForTimeout(300);

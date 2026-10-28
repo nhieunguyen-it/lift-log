@@ -2,6 +2,8 @@ import { Activity, Dumbbell, History, ListChecks, Settings } from 'lucide-react'
 import { NavLink, Outlet } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import GuideOverlays from '@/components/guide/GuideOverlays';
+import ProfileBadge from '@/components/profile/ProfileBadge';
+import ProfileSwitcher from '@/components/profile/ProfileSwitcher';
 import OnboardingProgramChooser from '@/components/program/OnboardingProgramChooser';
 
 const tabs = [
@@ -16,6 +18,10 @@ export default function AppShell() {
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-xl flex-col">
       <main className="flex-1 px-4 pt-[calc(env(safe-area-inset-top)+1rem)] pb-[calc(env(safe-area-inset-bottom)+5.5rem)]">
+        <header className="mb-3 flex items-center justify-between gap-2">
+          <ProfileBadge testId="profile-active-name" />
+          <ProfileSwitcher />
+        </header>
         <Outlet />
       </main>
       <GuideOverlays programChooser={<OnboardingProgramChooser />} />

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { Suspense, lazy, useRef, useState } from 'react';
 import { ChevronRight, Download, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import HelpButton from '@/components/guide/HelpButton';
@@ -18,7 +18,8 @@ import ExportPassphraseFields, {
   validatePassphrase,
 } from '@/components/backup/ExportPassphraseFields';
 import ImportPassphraseDialog from '@/components/backup/ImportPassphraseDialog';
-import { backup, settingsRepo, useUnit } from '@/db';
+import ProfileBadge from '@/components/profile/ProfileBadge';
+import { backup, settingsRepo, useActiveProfileName, useUnit } from '@/db';
 import {
   BackupCryptoError,
   decryptBackup,
@@ -29,8 +30,12 @@ import type { Backup, EncryptedBackupEnvelope } from '@/db/backup';
 import type { WeightUnit } from '@/lib/units';
 import { cn } from '@/lib/utils';
 
+// Profile management is only loaded when Settings opens.
+const ProfileManager = lazy(() => import('@/components/profile/ProfileManager'));
+
 export default function SettingsPage() {
   const unit = useUnit();
+  const profileName = useActiveProfileName();
   const fileRef = useRef<HTMLInputElement>(null);
   const [pending, setPending] = useState<Backup | null>(null);
   // Separate from `pending` so the dialog text doesn't flash "0 workouts" while it animates out.
@@ -128,6 +133,13 @@ export default function SettingsPage() {
         <h1 className="text-2xl font-semibold">Settings</h1>
         <HelpButton anchor="settings" label="settings" />
       </div>
+      <p className="text-muted-foreground -mt-4 flex items-center gap-2 text-sm">
+        Profile: <ProfileBadge testId="profile-settings-name" />
+      </p>
+
+      <Suspense fallback={<p role="status">Loading profiles…</p>}>
+        <ProfileManager />
+      </Suspense>
 
       <div className="space-y-2">
         <h2 className="text-lg font-medium">Weight unit</h2>
@@ -244,8 +256,9 @@ export default function SettingsPage() {
           <DialogHeader>
             <DialogTitle>Replace all data?</DialogTitle>
             <DialogDescription>
-              This replaces your current workouts with {pending?.sessions.length ?? 0} workouts and{' '}
-              {pending?.sets.length ?? 0} sets from the file. This cannot be undone.
+              This replaces the workouts in the profile “{profileName}” with{' '}
+              {pending?.sessions.length ?? 0} workouts and {pending?.sets.length ?? 0} sets from the
+              file. This cannot be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

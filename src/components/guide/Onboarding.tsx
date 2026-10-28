@@ -54,6 +54,7 @@ export default function Onboarding({ programChooser }: OnboardingProps) {
       if (wasAuto) {
         await setFlag('whatsNewPhase3Seen', true);
         await setFlag('whatsNewPhase4Seen', true);
+        await setFlag('whatsNewPhase5Seen', true);
       }
       await setFlag('onboardingDone', true);
     })();
