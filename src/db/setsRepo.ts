@@ -106,18 +106,16 @@ export async function updateSet(setId: string, patch: SetPatch): Promise<void> {
 
 export async function setDone(setId: string, done: boolean, patch: SetPatch = {}): Promise<void> {
   const markDone = done && patch.reps !== 0;
-  await db.transaction('rw', [db.sets, db.sessionExercises, db.sessions], async () => {
-    const completedAt = markDone ? Date.now() : undefined;
-    await db.sets.update(setId, { ...patch, completedAt });
-    if (completedAt === undefined) return;
-    // Ticking a set while paused means the lifter is training again.
-    const set = await db.sets.get(setId);
-    const se = set && (await db.sessionExercises.get(set.sessionExerciseId));
-    const session = se && (await db.sessions.get(se.sessionId));
-    if (session && session.finishedAt === undefined && isPaused(session)) {
-      await resumeSession(session.id, completedAt);
-    }
-  });
+  const completedAt = markDone ? Date.now() : undefined;
+  await db.sets.update(setId, { ...patch, completedAt });
+  if (completedAt === undefined) return;
+  // Ticking a set while paused means the lifter is training again.
+  const set = await db.sets.get(setId);
+  const se = set && (await db.sessionExercises.get(set.sessionExerciseId));
+  const session = se && (await db.sessions.get(se.sessionId));
+  if (session && session.finishedAt === undefined && isPaused(session)) {
+    await resumeSession(session.id, completedAt);
+  }
 }
 
 export async function deleteSet(setId: string): Promise<void> {
