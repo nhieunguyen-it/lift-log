@@ -11,13 +11,13 @@ detail, Finish dialog preview) becomes **active time**: time since start minus p
 
 ## Decisions
 
-| Question | Decision |
-|---|---|
-| Pausable? | Yes — Pause / Resume button next to the timer. |
-| What does "duration" mean for a paused workout? | Active time only (paused time excluded), everywhere. |
-| Completing a set while paused | Auto-resumes the timer at the set's `completedAt`. |
-| Pause state storage | Running total + open pause on the session (approach A). |
-| Persistence | Derived from stored session fields, so it survives reloads, app close and profile switches. |
+| Question                                        | Decision                                                                                    |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| Pausable?                                       | Yes — Pause / Resume button next to the timer.                                              |
+| What does "duration" mean for a paused workout? | Active time only (paused time excluded), everywhere.                                        |
+| Completing a set while paused                   | Auto-resumes the timer at the set's `completedAt`.                                          |
+| Pause state storage                             | Running total + open pause on the session (approach A).                                     |
+| Persistence                                     | Derived from stored session fields, so it survives reloads, app close and profile switches. |
 
 Rejected: a list of pause intervals (exact but more data and logic than needed); timer state in
 `localStorage` (not backed up, not visible to History).
@@ -59,9 +59,9 @@ Invariant: a finished session never has `pausedAt` set.
 
 ### `src/db/setsRepo.ts`
 
-- `setDone(setId, true, …)` — in one transaction over `sets`, `sessionExercises`, `sessions`:
-  after stamping `completedAt`, look up the parent session; if it is paused, resume it at that
-  `completedAt`. `setDone(false)` and `updateSet` do not touch pause state.
+- `setDone(setId, true, …)` — sequential, guarded writes (not one transaction, which would defer
+  live-query delivery): after stamping `completedAt`, look up the parent session; if it is paused
+  and unfinished, resume it at that `completedAt`. `setDone(false)` and `updateSet` do not touch pause state.
 
 ### Stale "Finish it" (`src/components/StaleSessionPrompt.tsx`)
 
@@ -111,20 +111,24 @@ a set, and that recorded duration excludes paused time.
 ## Testing (TDD)
 
 Unit (Vitest):
+
 - `activeMs`: never paused; closed pauses only; open pause; open pause starting after `end`
   (contributes 0); never negative.
 - `formatClock`: `0` → `00:00`, `59:59`, `1:00:00`, `10:05:03`.
 
 Repo (Vitest + fake-indexeddb):
+
 - pause → resume accumulates `pausedMs`; double pause and resume-when-running are no-ops.
 - `finishSession` while paused closes the pause and leaves no `pausedAt`.
 - `summarize` subtracts closed and open pauses.
 - `setDone(true)` on a paused session resumes it at `completedAt`; `setDone(false)` does not.
 
 Backup:
+
 - Round-trip of a session with `pausedMs` / `pausedAt`; a v5 file without them still imports.
 
 E2E (Playwright, `page.clock` for determinism):
+
 - Start workout → timer ticks → Pause freezes it → Resume continues → pause again, tick a set →
   timer auto-resumes → Finish → summary duration equals active time.
 

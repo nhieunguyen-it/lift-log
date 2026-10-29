@@ -29,7 +29,7 @@ The arrow buttons on an exercise card move it up or down. The swap button replac
 
 ## Workout timer {#logging-timer}
 
-The clock under the workout title counts active training time. Tap **Pause** to freeze it, for example during a long break, and **Resume** to carry on. Ticking a set done resumes it automatically. History and the finish summary show active time, so paused minutes are not counted.
+The clock under the status line counts active training time. Tap the pause button beside it to freeze the clock, for example during a long break, and the play button to carry on. Ticking a set done resumes it automatically. History and the finish summary show active time, so paused minutes are not counted.
 
 ## Finish a workout {#logging-finish}
 
