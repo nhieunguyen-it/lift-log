@@ -34,10 +34,12 @@
 ### Task 1: Pure timer helpers
 
 **Files:**
+
 - Create: `src/lib/workoutTimer.ts`
 - Test: `src/lib/workoutTimer.test.ts`
 
 **Interfaces:**
+
 - Produces:
   - `type PauseFields = Pick<Session, 'startedAt' | 'pausedMs' | 'pausedAt'>` (import `Session` type from `@/db/types`)
   - `activeMs(session: PauseFields, end: number): number`
@@ -53,7 +55,9 @@ describe('activeMs', () => {
   it('subtracts closed pauses', () =>
     expect(activeMs({ startedAt: 0, pausedMs: 5 * MIN }, 30 * MIN)).toBe(25 * MIN));
   it('subtracts an open pause up to end', () =>
-    expect(activeMs({ startedAt: 0, pausedMs: 5 * MIN, pausedAt: 20 * MIN }, 30 * MIN)).toBe(15 * MIN));
+    expect(activeMs({ startedAt: 0, pausedMs: 5 * MIN, pausedAt: 20 * MIN }, 30 * MIN)).toBe(
+      15 * MIN,
+    ));
   it('open pause starting after end contributes 0', () =>
     expect(activeMs({ startedAt: 0, pausedAt: 40 * MIN }, 30 * MIN)).toBe(30 * MIN));
   it('never negative', () =>
@@ -84,12 +88,14 @@ it('isPaused', () => {
 ### Task 2: Session pause state in repos (+ auto-resume)
 
 **Files:**
+
 - Modify: `src/db/types.ts` (`Session`)
 - Modify: `src/db/sessionsRepo.ts` (`summarize`, `finishSession`; add `pauseSession`, `resumeSession`)
 - Modify: `src/db/setsRepo.ts` (`setDone`)
 - Test: `src/db/workoutTimer.test.ts` (new; same setup as `repos.test.ts`: `import 'fake-indexeddb/auto'`, `beforeEach(resetDb)`)
 
 **Interfaces:**
+
 - Consumes: `activeMs`, `isPaused` from Task 1.
 - Produces:
   - `Session.pausedMs?: number` — doc: "Sum of all closed pauses, in ms."
@@ -132,14 +138,18 @@ it('stale finish at an earlier time ignores a later open pause', async () => {
   expect(summary?.durationMs).toBe(2_000);
   expect((await db.sessions.get(s.id))?.pausedAt).toBeUndefined();
 });
-it('summarize subtracts closed and open pauses', async () => { /* pause 10→30, pause again at 80; summarize(detail, 100).durationMs === 60 */ });
+it('summarize subtracts closed and open pauses', async () => {
+  /* pause 10→30, pause again at 80; summarize(detail, 100).durationMs === 60 */
+});
 it('ticking a set done auto-resumes at completedAt', async () => {
   vi.useFakeTimers({ now: 0, toFake: ['Date'] });
   // start(0), add exercise + set with reps 5, pause at 10, vi.setSystemTime(70), setDone(true)
   // expect pausedAt undefined and pausedMs === 60
   vi.useRealTimers();
 });
-it('un-ticking a set while paused stays paused', async () => { /* setDone(false) → pausedAt unchanged */ });
+it('un-ticking a set while paused stays paused', async () => {
+  /* setDone(false) → pausedAt unchanged */
+});
 it('ticking a set in a finished session leaves pause fields alone', async () => {
   /* finish session, snapshot the session row, setDone(true) on its set → session row toEqual snapshot */
 });
@@ -154,7 +164,7 @@ Write the bodies left as comments with the stated values; each asserts exactly w
   - `resumeSession`: filter `pausedAt !== undefined`; `modify` callback adds `Math.max(0, now - pausedAt)` to `pausedMs ?? 0` and deletes `pausedAt`.
   - `finishSession`: in the existing unfinished-only `modify`, switch to a callback that sets `finishedAt = now` and, if paused, folds `Math.max(0, now - pausedAt)` into `pausedMs` and deletes `pausedAt`.
   - `summarize`: `durationMs: activeMs(detail.session, end)`.
-  - `setDone`: wrap in `db.transaction('rw', [db.sets, db.sessionExercises, db.sessions], …)`; when `markDone`, look up set → sessionExercise → session; if `isPaused(session)` and `session.finishedAt === undefined`, call `sessionsRepo.resumeSession(session.id, completedAt)` (import from `./sessionsRepo`; it does not import `setsRepo`, so no cycle).
+  - `setDone`: sequential, guarded writes, deliberately **not** one `db.transaction` (an explicit transaction defers live-query delivery via `setTimeout(0)`, which starves under Playwright's fake clock). Stamp `completedAt`; when `markDone`, look up set → sessionExercise → session; if `session.finishedAt === undefined` and `isPaused(session)`, call `resumeSession(session.id, completedAt)` (import from `./sessionsRepo`; it does not import `setsRepo`, so no cycle). Each write is atomic and `resumeSession` only acts on a paused, unfinished session, so the sequence is safe.
 - [ ] **Step 4: Run** `npx vitest run src/db` — Expected: PASS, including existing `repos.test.ts` (unpaused durations unchanged).
 - [ ] **Step 5: Commit** — `git commit -m "feat(timer): store pause state and count active time"`
 
@@ -163,10 +173,12 @@ Write the bodies left as comments with the stated values; each asserts exactly w
 ### Task 3: Backup carries pause fields
 
 **Files:**
+
 - Modify: `src/db/backup.ts` (`SessionSchema`, and the header comment noting the v5 additive fields)
 - Test: `src/db/backupV5.test.ts` (add one `it`)
 
 **Interfaces:**
+
 - Consumes: `Session.pausedMs`, `Session.pausedAt` from Task 2.
 
 - [ ] **Step 1: Write failing test** — `'roundtrips session pause fields'`: `bindDb('lift-log')`, `ensureSeed()`, add session `{ id: 's1', startedAt: 0, pausedMs: 1234, pausedAt: 5000 }`, `exportData()`, wipe tables, `importData(exported)`, expect `db.sessions.get('s1')` to equal the original object. (Existing `it.each` over v1–v5 fixtures already covers files without the fields.)
@@ -180,12 +192,14 @@ Write the bodies left as comments with the stated values; each asserts exactly w
 ### Task 4: Timer UI, page wiring, guide, e2e
 
 **Files:**
+
 - Create: `src/components/WorkoutTimer.tsx`
 - Modify: `src/pages/WorkoutPage.tsx` (in-progress header block, ~lines 83–101)
 - Modify: `src/guide/content/02-logging.md` (new `## Workout timer {#logging-timer}` section before `## Finish a workout`)
 - Test: `e2e/workoutTimer.spec.ts` (new; `import { expect, test } from './fixtures'`)
 
 **Interfaces:**
+
 - Consumes: `activeMs`, `isPaused`, `formatClock` (Task 1); `sessionsRepo.pauseSession` / `resumeSession` (Task 2).
 - Produces: `export default function WorkoutTimer({ session }: { session: Session })`
 
@@ -195,7 +209,10 @@ Write the bodies left as comments with the stated values; each asserts exactly w
 test('timer ticks, pauses, auto-resumes on a ticked set, and survives reload', async ({ page }) => {
   await page.clock.install({ time: new Date('2026-10-29T18:00:00') });
   await page.goto('/');
-  await page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: 'Workout' }).click();
+  await page
+    .getByRole('navigation', { name: 'Primary' })
+    .getByRole('link', { name: 'Workout' })
+    .click();
   await page.getByTestId('start-workout').click();
   const timer = page.getByTestId('workout-timer');
   await expect(timer).toHaveText('00:00');
@@ -220,7 +237,10 @@ test('timer ticks, pauses, auto-resumes on a ticked set, and survives reload', a
   await page.clock.runFor('05:00');
   await page.getByTestId('add-exercise').click();
   await page.getByTestId('picker-search').fill('barbell bench press');
-  await page.locator('[data-testid="picker-item"]', { hasText: 'Barbell Bench Press' }).first().click();
+  await page
+    .locator('[data-testid="picker-item"]', { hasText: 'Barbell Bench Press' })
+    .first()
+    .click();
   await page.getByTestId('add-set').click();
   const row = page.getByTestId('set-row').first();
   await row.getByTestId('reps-input').fill('5');

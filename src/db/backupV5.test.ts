@@ -131,6 +131,33 @@ describe('session pause fields in backups', () => {
     await importData(exported);
     expect(await db.sessions.get('s1')).toEqual(session);
   });
+
+  async function importSessions(sessions: object[]): Promise<void> {
+    bindDb('lift-log', 'Default');
+    await ensureSeed();
+    const exported = await exportData();
+    const parsed = parseBackup(JSON.stringify({ ...exported, sessions }));
+    expect(parsed.ok).toBe(true);
+    if (!parsed.ok) return;
+    await Promise.all(db.tables.map((t) => t.clear()));
+    await ensureSeed();
+    await importData(parsed.data);
+  }
+
+  it('folds an open pause of a finished session into pausedMs on import', async () => {
+    await importSessions([
+      { id: 's1', startedAt: 0, finishedAt: 10_000, pausedAt: 6_000, pausedMs: 1_000 },
+    ]);
+    const got = await db.sessions.get('s1');
+    expect(got?.pausedMs).toBe(5_000);
+    expect(got).not.toHaveProperty('pausedAt');
+  });
+
+  it('keeps an open pause on an unfinished session', async () => {
+    const session = { id: 's2', startedAt: 0, pausedAt: 6_000, pausedMs: 1_000 };
+    await importSessions([session]);
+    expect(await db.sessions.get('s2')).toEqual(session);
+  });
 });
 
 describe('encrypted round-trip (v5)', () => {
