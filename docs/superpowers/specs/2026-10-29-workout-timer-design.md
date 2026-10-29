@@ -1,7 +1,7 @@
 # Workout timer — design
 
 Date: 2026-10-29
-Status: approved in brainstorming, awaiting spec review
+Status: implemented
 
 ## Goal
 

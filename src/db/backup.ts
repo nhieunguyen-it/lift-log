@@ -38,18 +38,26 @@ import {
  */
 export const BACKUP_VERSION = 5;
 
-const SessionSchema = z.object({
-  id: z.string().min(1),
-  startedAt: z.number(),
-  finishedAt: z.number().optional(),
-  notes: z.string().optional(),
-  programId: z.string().min(1).optional(),
-  programDayId: z.string().min(1).optional(),
-  blockWeek: z.number().int().min(1).optional(),
-  // v5: workout timer pause state (absent in older files).
-  pausedMs: z.number().min(0).optional(),
-  pausedAt: z.number().optional(),
-});
+const SessionSchema = z
+  .object({
+    id: z.string().min(1),
+    startedAt: z.number(),
+    finishedAt: z.number().optional(),
+    notes: z.string().optional(),
+    programId: z.string().min(1).optional(),
+    programDayId: z.string().min(1).optional(),
+    blockWeek: z.number().int().min(1).optional(),
+    // v5: workout timer pause state (absent in older files).
+    pausedMs: z.number().min(0).optional(),
+    pausedAt: z.number().optional(),
+  })
+  // A finished session is never paused: fold a stray open pause into pausedMs.
+  .transform(({ pausedAt, ...s }) => {
+    if (s.finishedAt === undefined || pausedAt === undefined) {
+      return pausedAt === undefined ? s : { ...s, pausedAt };
+    }
+    return { ...s, pausedMs: (s.pausedMs ?? 0) + Math.max(0, s.finishedAt - pausedAt) };
+  });
 const SessionExerciseSchema = z.object({
   id: z.string().min(1),
   sessionId: z.string().min(1),
