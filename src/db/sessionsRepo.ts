@@ -1,4 +1,5 @@
 import type { Exercise } from '@/data';
+import { activeMs } from '@/lib/workoutTimer';
 import { db, newId } from './db';
 import type { Session, SessionExercise, SessionSummary, SetRow } from './types';
 
@@ -114,7 +115,7 @@ export function summarize(detail: SessionDetail, now = Date.now()): SessionSumma
     }
   }
   return {
-    durationMs: Math.max(0, end - detail.session.startedAt),
+    durationMs: activeMs(detail.session, end),
     exerciseCount: detail.exercises.length,
     workingSets,
     volumeKg,
@@ -125,14 +126,41 @@ export async function finishSession(
   sessionId: string,
   now = Date.now(),
 ): Promise<SessionSummary | undefined> {
-  // Finishing twice keeps the original end time.
+  // Finishing twice keeps the original end time. An open pause is closed at `now`.
   await db.sessions
     .where('id')
     .equals(sessionId)
     .filter((s) => s.finishedAt === undefined)
-    .modify({ finishedAt: now });
+    .modify((s) => {
+      s.finishedAt = now;
+      if (s.pausedAt !== undefined) {
+        s.pausedMs = (s.pausedMs ?? 0) + Math.max(0, now - s.pausedAt);
+        delete s.pausedAt;
+      }
+    });
   const detail = await getSessionDetail(sessionId);
   return detail && summarize(detail, detail.session.finishedAt ?? now);
+}
+
+/** Starts a pause. No-op if the session is finished or already paused. */
+export async function pauseSession(sessionId: string, now = Date.now()): Promise<void> {
+  await db.sessions
+    .where('id')
+    .equals(sessionId)
+    .filter((s) => s.finishedAt === undefined && s.pausedAt === undefined)
+    .modify({ pausedAt: now });
+}
+
+/** Ends the current pause. No-op if the session is not paused. */
+export async function resumeSession(sessionId: string, now = Date.now()): Promise<void> {
+  await db.sessions
+    .where('id')
+    .equals(sessionId)
+    .filter((s) => s.pausedAt !== undefined)
+    .modify((s) => {
+      s.pausedMs = (s.pausedMs ?? 0) + Math.max(0, now - (s.pausedAt ?? now));
+      delete s.pausedAt;
+    });
 }
 
 export async function deleteSession(sessionId: string): Promise<void> {
