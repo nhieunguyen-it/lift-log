@@ -106,6 +106,9 @@ export async function updateSet(setId: string, patch: SetPatch): Promise<void> {
 
 export async function setDone(setId: string, done: boolean, patch: SetPatch = {}): Promise<void> {
   const markDone = done && patch.reps !== 0;
+  // Deliberately not one db.transaction: an explicit transaction defers live-query
+  // delivery via setTimeout(0). Each write is atomic and resumeSession only acts
+  // on a paused, unfinished session, so the sequence is safe.
   const completedAt = markDone ? Date.now() : undefined;
   await db.sets.update(setId, { ...patch, completedAt });
   if (completedAt === undefined) return;

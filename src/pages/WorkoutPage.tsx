@@ -97,7 +97,7 @@ export default function WorkoutPage() {
               minute: '2-digit',
             })}
           </p>
-          <WorkoutTimer session={active} />
+          <WorkoutTimer key={`${active.id}:${active.pausedAt ?? 'run'}`} session={active} />
         </div>
         <Button data-testid="finish-workout" onClick={() => setFinishOpen(true)}>
           Finish

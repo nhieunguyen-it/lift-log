@@ -92,4 +92,14 @@ describe('session pause state', () => {
     await sets.setDone(setId, true);
     expect(await db.sessions.get(sessionId)).toEqual(snapshot);
   });
+
+  it('a finished row with a stray pausedAt is not resumed', async () => {
+    const { sessionId, setId } = await sessionWithSet();
+    await db.sessions.update(sessionId, { finishedAt: 100, pausedAt: 50 });
+    await sessions.resumeSession(sessionId, 200);
+    await sets.setDone(setId, true);
+    const row = await db.sessions.get(sessionId);
+    expect(row?.pausedAt).toBe(50);
+    expect(row?.pausedMs).toBeUndefined();
+  });
 });

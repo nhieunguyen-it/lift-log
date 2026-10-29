@@ -156,7 +156,7 @@ export async function resumeSession(sessionId: string, now = Date.now()): Promis
   await db.sessions
     .where('id')
     .equals(sessionId)
-    .filter((s) => s.pausedAt !== undefined)
+    .filter((s) => s.finishedAt === undefined && s.pausedAt !== undefined)
     .modify((s) => {
       s.pausedMs = (s.pausedMs ?? 0) + Math.max(0, now - (s.pausedAt ?? now));
       delete s.pausedAt;
