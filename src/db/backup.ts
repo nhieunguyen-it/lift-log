@@ -33,8 +33,8 @@ import {
 /**
  * v2 adds optional phase-2 settings; v3 adds programs, custom exercises and deload
  * dismissals; v4 adds program blocks, the Analyze grouping and session program tags;
- * v5 adds the optional exporting profile's name. v1-v4 files still import (missing sections
- * are left untouched).
+ * v5 adds the optional exporting profile's name and optional session `pausedMs`/`pausedAt`
+ * timer fields. v1-v4 files still import (missing sections are left untouched).
  */
 export const BACKUP_VERSION = 5;
 
@@ -46,6 +46,9 @@ const SessionSchema = z.object({
   programId: z.string().min(1).optional(),
   programDayId: z.string().min(1).optional(),
   blockWeek: z.number().int().min(1).optional(),
+  // v5: workout timer pause state (absent in older files).
+  pausedMs: z.number().min(0).optional(),
+  pausedAt: z.number().optional(),
 });
 const SessionExerciseSchema = z.object({
   id: z.string().min(1),

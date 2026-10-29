@@ -119,6 +119,20 @@ describe('importIntoNewProfile', () => {
   });
 });
 
+describe('session pause fields in backups', () => {
+  it('roundtrips session pause fields', async () => {
+    bindDb('lift-log', 'Default');
+    await ensureSeed();
+    const session = { id: 's1', startedAt: 0, pausedMs: 1234, pausedAt: 5000 };
+    await db.sessions.add(session);
+    const exported = await exportData();
+    await Promise.all(db.tables.map((t) => t.clear()));
+    await ensureSeed();
+    await importData(exported);
+    expect(await db.sessions.get('s1')).toEqual(session);
+  });
+});
+
 describe('encrypted round-trip (v5)', () => {
   it('encrypts an export and imports the decrypted result', async () => {
     bindDb('lift-log', 'Default');
