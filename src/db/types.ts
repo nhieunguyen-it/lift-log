@@ -22,6 +22,10 @@ export interface Session {
   programDayId?: string;
   /** Phase 4: block week (1-based) the day was started in, if a block was running. */
   blockWeek?: number;
+  /** Sum of all closed pauses, in ms. */
+  pausedMs?: number;
+  /** Set while the session is paused: when the current pause began. */
+  pausedAt?: number;
 }
 
 export interface SessionExercise {
