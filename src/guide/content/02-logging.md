@@ -27,6 +27,10 @@ Tick **Warm-up** on a set to mark it. Warm-up sets show a **W** instead of a num
 
 The arrow buttons on an exercise card move it up or down. The swap button replaces the exercise with a similar one and keeps your sets (see Alternatives and swaps). The trash button removes the exercise; you are asked first if it has sets.
 
+## Workout timer {#logging-timer}
+
+The clock under the workout title counts active training time. Tap **Pause** to freeze it, for example during a long break, and **Resume** to carry on. Ticking a set done resumes it automatically. History and the finish summary show active time, so paused minutes are not counted.
+
 ## Finish a workout {#logging-finish}
 
 Press **Finish**. The dialog reminds you that only completed, non-warm-up sets count and shows a summary. Choose **Finish workout** to save it to History, or **Keep going**. **Discard workout** deletes the whole session.

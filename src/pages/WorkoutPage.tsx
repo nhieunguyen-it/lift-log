@@ -13,6 +13,7 @@ import DeloadCard from '@/components/progress/DeloadCard';
 import StartFromProgram from '@/components/program/StartFromProgram';
 import SessionEditor from '@/components/SessionEditor';
 import SummaryStats from '@/components/SummaryStats';
+import WorkoutTimer from '@/components/WorkoutTimer';
 import StaleSessionPrompt, { isStale } from '@/components/StaleSessionPrompt';
 import {
   sessionsRepo,
@@ -21,6 +22,7 @@ import {
   useUnit,
   type SessionSummary,
 } from '@/db';
+import { isPaused } from '@/lib/workoutTimer';
 
 export default function WorkoutPage() {
   const active = useActiveSession();
@@ -89,12 +91,13 @@ export default function WorkoutPage() {
             <HelpButton anchor="logging" label="logging a workout" />
           </div>
           <p className="text-muted-foreground text-xs" data-testid="session-status">
-            In progress · started{' '}
+            {isPaused(active) ? 'Paused' : 'In progress'} · started{' '}
             {new Date(active.startedAt).toLocaleTimeString([], {
               hour: '2-digit',
               minute: '2-digit',
             })}
           </p>
+          <WorkoutTimer session={active} />
         </div>
         <Button data-testid="finish-workout" onClick={() => setFinishOpen(true)}>
           Finish
