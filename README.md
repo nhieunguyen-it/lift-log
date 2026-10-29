@@ -210,6 +210,18 @@ start in Settings. Suggestions are general training heuristics, not medical advi
 Performance: `src/analyzer/analyzer.test.ts` runs a year of generated data (52 weeks x 5 sessions)
 through the analyzer and asserts it finishes in under 200 ms.
 
+## Deploy
+
+Hosted on Vercel via Git integration: import the GitHub repo in the Vercel dashboard (framework
+preset Vite, no env vars). Pushes to `main` deploy to production; other branches get preview URLs.
+`vercel.json` holds the settings:
+
+- `installCommand` is `npx -y npm@11 ci` because Vercel's images ship npm 10, which crashes on vite 8.
+- Every path rewrites to `index.html` so `BrowserRouter` deep links survive a reload (real files are
+  served first).
+- `sw.js` and `index.html` are `no-cache` so the `autoUpdate` service worker picks up new deploys;
+  hashed `/assets/*` are cached immutably.
+
 ## Credits
 
 The Analyze body map anatomy is derived from [MuscleMap](https://github.com/melihcolpan/MuscleMap) by Melih Colpan (MIT). See `THIRD_PARTY_NOTICES.md`.
