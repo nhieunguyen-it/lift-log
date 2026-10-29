@@ -9,17 +9,12 @@ export default function WorkoutTimer({ session }: { session: Session }) {
   const [now, setNow] = useState(Date.now);
   const paused = isPaused(session);
 
-  // While paused the clock reads off `pausedAt`; on resume, catch up at once
-  // rather than waiting out the first interval.
+  // Ticks only while running. The parent keys this component on the pause
+  // state, so a resume remounts it with a fresh `now`.
   useEffect(() => {
     if (session.pausedAt !== undefined) return;
-    const tick = () => setNow(Date.now());
-    const catchUp = setTimeout(tick, 0);
-    const id = setInterval(tick, 1000);
-    return () => {
-      clearTimeout(catchUp);
-      clearInterval(id);
-    };
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
   }, [session.pausedAt]);
 
   return (
