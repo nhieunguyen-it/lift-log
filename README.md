@@ -225,3 +225,10 @@ preset Vite, no env vars). Pushes to `main` deploy to production; other branches
 ## Credits
 
 The Analyze body map anatomy is derived from [MuscleMap](https://github.com/melihcolpan/MuscleMap) by Melih Colpan (MIT). See `THIRD_PARTY_NOTICES.md`.
+
+## License
+
+Copyright (C) 2026 Nhieu Nguyen. Licensed under the [GNU Affero General Public License v3.0 or later](LICENSE)
+(AGPL-3.0-or-later): if you modify lift-log and run it for others, including as a hosted web app, you
+must offer them your source. Third-party code and data keep their own licenses; see
+`THIRD_PARTY_NOTICES.md`.

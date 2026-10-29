@@ -25,3 +25,7 @@ Body map anatomy paths (male front/back) in `src/components/analyze/bodyMapPaths
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
+
+## free-exercise-db
+
+Exercise data (`data/raw/`, derived exercise definitions) and exercise images in `public/exercises/` come from [free-exercise-db](https://github.com/yuhonas/free-exercise-db) by yuhonas, released under the [Unlicense](https://unlicense.org/) (public domain). See `data/README.md`.
