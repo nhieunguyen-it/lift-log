@@ -22,7 +22,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import ExercisePicker from '@/components/ExercisePicker';
-import { CustomBadge } from '@/components/custom';
+import { CustomBadge, ExercisePlaceholder } from '@/components/custom';
 import { TRAINING } from '@/config/training';
 import { nameFor, useExerciseLookup } from '@/db/customHooks';
 import { useEquipment } from '@/db/hooks';
@@ -216,7 +216,20 @@ export default function ProgramEditor({ programId }: Props) {
                       data-exercise-id={pe.exerciseId}
                     >
                       <div className="flex items-start justify-between gap-2">
-                        <div className="min-w-0">
+                        {ex?.images[0] ? (
+                          <img
+                            src={ex.images[0]}
+                            alt=""
+                            loading="lazy"
+                            width={40}
+                            height={40}
+                            data-testid="program-exercise-image"
+                            className="bg-muted size-10 shrink-0 rounded object-cover"
+                          />
+                        ) : (
+                          <ExercisePlaceholder size={40} className="rounded" />
+                        )}
+                        <div className="min-w-0 flex-1">
                           <p className="font-medium break-words">{name}</p>
                           <div className="mt-1 flex flex-wrap gap-1">
                             {ex?.isCustom && <CustomBadge />}
