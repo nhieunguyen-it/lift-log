@@ -59,6 +59,11 @@ export default function ExercisePicker({ open, onOpenChange, onPick }: Props) {
       <DialogContent
         className="top-0 left-0 h-dvh w-full max-w-none translate-x-0 translate-y-0 grid-rows-[auto_auto_minmax(0,1fr)] content-start rounded-none border-0 sm:max-w-none"
         data-testid="exercise-picker"
+        onOpenAutoFocus={(e) => {
+          // Keep the keyboard closed so the list stays visible on mobile.
+          e.preventDefault();
+          (e.currentTarget as HTMLElement).focus();
+        }}
       >
         <DialogHeader>
           <DialogTitle>Add exercise</DialogTitle>
@@ -116,35 +121,37 @@ export default function ExercisePicker({ open, onOpenChange, onPick }: Props) {
                 type="button"
                 data-testid="picker-item"
                 data-exercise-id={exercise.id}
-                className="hover:bg-accent flex min-h-14 w-full flex-col items-start justify-center rounded-md px-2 py-1.5 text-left"
+                className="hover:bg-accent flex w-full items-center gap-3 rounded-md px-2 py-1.5 text-left"
                 onClick={() => {
                   onPick(exercise.id);
                   onOpenChange(false);
                 }}
               >
-                <span className="flex items-center gap-2 font-medium">
-                  {exercise.images[0] ? (
-                    <img
-                      src={exercise.images[0]}
-                      alt=""
-                      loading="lazy"
-                      width={40}
-                      height={40}
-                      className="bg-muted size-10 rounded object-cover"
-                    />
-                  ) : (
-                    <ExercisePlaceholder size={40} className="rounded" />
-                  )}
-                  {exercise.name}
-                  {exercise.isCustom && <CustomBadge />}
-                  {recentSet.has(exercise.id) && <Badge variant="secondary">Recent</Badge>}
-                </span>
-                <span className="text-muted-foreground text-xs">
-                  {exercise.equipment} ·{' '}
-                  {links
-                    .filter((l) => l.weight >= 0.5)
-                    .map((l) => muscles?.find((m) => m.id === l.muscleId)?.name ?? l.muscleId)
-                    .join(', ')}
+                {exercise.images[0] ? (
+                  <img
+                    src={exercise.images[0]}
+                    alt=""
+                    loading="lazy"
+                    width={80}
+                    height={80}
+                    className="bg-muted size-20 shrink-0 rounded object-cover"
+                  />
+                ) : (
+                  <ExercisePlaceholder size={80} className="rounded" />
+                )}
+                <span className="flex min-w-0 flex-col">
+                  <span className="flex flex-wrap items-center gap-2 font-medium">
+                    {exercise.name}
+                    {exercise.isCustom && <CustomBadge />}
+                    {recentSet.has(exercise.id) && <Badge variant="secondary">Recent</Badge>}
+                  </span>
+                  <span className="text-muted-foreground text-xs">
+                    {exercise.equipment} ·{' '}
+                    {links
+                      .filter((l) => l.weight >= 0.5)
+                      .map((l) => muscles?.find((m) => m.id === l.muscleId)?.name ?? l.muscleId)
+                      .join(', ')}
+                  </span>
                 </span>
               </button>
             </li>

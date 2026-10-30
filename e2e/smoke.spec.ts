@@ -101,3 +101,11 @@ test('exercise detail shows two loaded images', async ({ page }) => {
       .toBeGreaterThan(0);
   }
 });
+
+test('exercise picker opens without focusing search', async ({ page }) => {
+  await page.goto('/');
+  await page.getByTestId('start-workout').click();
+  await page.getByTestId('add-exercise').click();
+  await expect(page.getByTestId('exercise-picker')).toBeFocused();
+  await expect(page.getByTestId('picker-search')).not.toBeFocused();
+});

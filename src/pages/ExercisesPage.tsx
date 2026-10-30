@@ -78,12 +78,12 @@ export default function ExercisesPage() {
                   src={exercise.images[0]}
                   alt=""
                   loading="lazy"
-                  width={56}
-                  height={56}
-                  className="bg-muted size-14 shrink-0 rounded-md object-cover"
+                  width={80}
+                  height={80}
+                  className="bg-muted size-20 shrink-0 rounded-md object-cover"
                 />
               ) : (
-                <ExercisePlaceholder size={56} />
+                <ExercisePlaceholder size={80} />
               )}
               <span className="min-w-0">
                 <span className="flex items-center gap-2 font-medium">
