@@ -46,3 +46,4 @@ export { useBlockView } from './blockHooks';
 export { usePlanVsActual } from './planVsActualHooks';
 export type { PlanVsActualView } from './planVsActualHooks';
 export { useProfiles, useActiveProfileName } from './profileHooks';
+export * from './cardioHooks';

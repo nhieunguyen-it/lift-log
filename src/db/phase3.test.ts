@@ -52,7 +52,7 @@ describe('Dexie v1 -> v2 migration', () => {
 
     const next = new LiftLogDB(name);
     await next.open();
-    expect(next.verno).toBe(2);
+    expect(next.verno).toBe(3);
     expect(await next.sessions.toArray()).toEqual([{ id: 's1', startedAt: 1, finishedAt: 2 }]);
     expect((await next.sets.get('x'))?.weightKg).toBe(100);
     expect((await next.settings.get('unit'))?.value).toBe('lbs');

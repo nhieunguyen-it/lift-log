@@ -1,12 +1,14 @@
 import type { Exercise } from '@/data';
 import { activeMs } from '@/lib/workoutTimer';
 import { db, newId } from './db';
-import type { Session, SessionExercise, SessionSummary, SetRow } from './types';
+import type { CardioEntry, Session, SessionExercise, SessionSummary, SetRow } from './types';
 
 export interface SessionExerciseDetail {
   sessionExercise: SessionExercise;
   exercise: Exercise | undefined;
   sets: SetRow[];
+  /** Ordered cardio entries; `[]` for strength exercises. */
+  cardio: CardioEntry[];
 }
 
 export interface SessionDetail {
@@ -74,10 +76,11 @@ export async function moveExercise(sessionExerciseId: string, dir: 'up' | 'down'
 }
 
 export async function removeExercise(sessionExerciseId: string): Promise<void> {
-  await db.transaction('rw', [db.sessionExercises, db.sets], async () => {
+  await db.transaction('rw', [db.sessionExercises, db.sets, db.cardioEntries], async () => {
     const se = await db.sessionExercises.get(sessionExerciseId);
     if (!se) return;
     await db.sets.where('sessionExerciseId').equals(sessionExerciseId).delete();
+    await db.cardioEntries.where('sessionExerciseId').equals(sessionExerciseId).delete();
     await db.sessionExercises.delete(sessionExerciseId);
     await renumberExercises(se.sessionId);
   });
@@ -89,14 +92,16 @@ export async function getSessionDetail(sessionId: string): Promise<SessionDetail
   const ses = await orderedExercises(sessionId);
   const exercises = await Promise.all(
     ses.map(async (sessionExercise) => {
-      const [exercise, sets] = await Promise.all([
+      const [exercise, sets, cardio] = await Promise.all([
         db.exercises
           .get(sessionExercise.exerciseId)
           .then((e) => e ?? db.customExercises.get(sessionExercise.exerciseId)),
         db.sets.where('sessionExerciseId').equals(sessionExercise.id).toArray(),
+        db.cardioEntries.where('sessionExerciseId').equals(sessionExercise.id).toArray(),
       ]);
       sets.sort((a, b) => a.order - b.order);
-      return { sessionExercise, exercise, sets };
+      cardio.sort((a, b) => a.order - b.order);
+      return { sessionExercise, exercise, sets, cardio };
     }),
   );
   return { session, exercises };
@@ -164,12 +169,19 @@ export async function resumeSession(sessionId: string, now = Date.now()): Promis
 }
 
 export async function deleteSession(sessionId: string): Promise<void> {
-  await db.transaction('rw', [db.sessions, db.sessionExercises, db.sets], async () => {
-    const ses = await db.sessionExercises.where('sessionId').equals(sessionId).toArray();
-    for (const se of ses) await db.sets.where('sessionExerciseId').equals(se.id).delete();
-    await db.sessionExercises.where('sessionId').equals(sessionId).delete();
-    await db.sessions.delete(sessionId);
-  });
+  await db.transaction(
+    'rw',
+    [db.sessions, db.sessionExercises, db.sets, db.cardioEntries],
+    async () => {
+      const ses = await db.sessionExercises.where('sessionId').equals(sessionId).toArray();
+      for (const se of ses) {
+        await db.sets.where('sessionExerciseId').equals(se.id).delete();
+        await db.cardioEntries.where('sessionExerciseId').equals(se.id).delete();
+      }
+      await db.sessionExercises.where('sessionId').equals(sessionId).delete();
+      await db.sessions.delete(sessionId);
+    },
+  );
 }
 
 /** Finished sessions, newest first. */

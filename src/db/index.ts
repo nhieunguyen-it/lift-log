@@ -3,6 +3,8 @@ export * from './seed';
 export * from './hooks';
 export * as sessionsRepo from './sessionsRepo';
 export * as setsRepo from './setsRepo';
+export * as cardioRepo from './cardioRepo';
+export type { CardioHistoryItem } from './cardioRepo';
 export * as exercisesRepo from './exercisesRepo';
 export * as settingsRepo from './settingsRepo';
 export * as backup from './backup';

@@ -1,6 +1,7 @@
 import Dexie, { type EntityTable } from 'dexie';
 import type { Exercise, ExerciseMuscle, Muscle } from '@/data';
 import type {
+  CardioEntry,
   CustomExerciseMuscleRow,
   CustomExerciseRow,
   ProgramRow,
@@ -22,6 +23,8 @@ export class LiftLogDB extends Dexie {
   customExercises!: EntityTable<CustomExerciseRow, 'id'>;
   customExerciseMuscles!: Dexie.Table<CustomExerciseMuscleRow, [string, string]>;
   programs!: EntityTable<ProgramRow, 'id'>;
+  // v3: timed cardio blocks under a session exercise.
+  cardioEntries!: EntityTable<CardioEntry, 'id'>;
 
   constructor(name = 'lift-log') {
     super(name);
@@ -39,6 +42,10 @@ export class LiftLogDB extends Dexie {
       customExercises: 'id, deletedAt',
       customExerciseMuscles: '[exerciseId+muscleId], exerciseId, muscleId',
       programs: 'id, updatedAt',
+    });
+    // v3 only adds the cardio table.
+    this.version(3).stores({
+      cardioEntries: 'id, sessionExerciseId, [sessionExerciseId+order]',
     });
   }
 }
