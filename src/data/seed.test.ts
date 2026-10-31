@@ -7,7 +7,7 @@ import { VARIANT_CHAINS, nextVariantId } from './variantChains';
 
 describe('seed data', () => {
   it('has a numeric seed version', () => {
-    expect(SEED_VERSION).toBe(4);
+    expect(SEED_VERSION).toBe(5);
   });
 
   it('contains exactly the 17 muscle ids', () => {
@@ -15,9 +15,9 @@ describe('seed data', () => {
     expect(muscles.map((m) => m.id).sort()).toEqual([...MUSCLE_IDS].sort());
   });
 
-  it('has between 60 and 80 exercises', () => {
+  it('has between 60 and 90 exercises', () => {
     expect(exercises.length).toBeGreaterThanOrEqual(60);
-    expect(exercises.length).toBeLessThanOrEqual(80);
+    expect(exercises.length).toBeLessThanOrEqual(90);
   });
 
   it('has unique exercise ids', () => {
@@ -62,6 +62,44 @@ describe('seed data', () => {
   it('has no duplicate (exerciseId, muscleId) pairs', () => {
     const keys = exerciseMuscles.map((l) => `${l.exerciseId}::${l.muscleId}`);
     expect(new Set(keys).size).toBe(keys.length);
+  });
+
+  it('ships the four cardio exercises with profiles', () => {
+    const byId = new Map(exercises.map((e) => [e.id, e]));
+    expect(byId.get('running')).toMatchObject({ tracking: 'cardio', cardioProfile: 'running' });
+    expect(byId.get('cycling-outdoor')).toMatchObject({ cardioProfile: 'cycling' });
+    expect(byId.get('swimming-freestyle')).toMatchObject({
+      cardioProfile: 'swim-freestyle',
+      images: [],
+    });
+    expect(byId.get('swimming-breaststroke')).toMatchObject({
+      cardioProfile: 'swim-breaststroke',
+      images: [],
+    });
+    expect(byId.get('barbell-back-squat')?.tracking).toBe('strength');
+  });
+
+  it('maps cardio muscles as reviewed', () => {
+    const w = (id: string) =>
+      Object.fromEntries(
+        exerciseMuscles.filter((l) => l.exerciseId === id).map((l) => [l.muscleId, l.weight]),
+      );
+    expect(w('running')).toEqual({ quads: 1, glutes: 0.5, hamstrings: 0.5, calves: 0.5 });
+    expect(w('cycling-outdoor')).toEqual({ quads: 1, glutes: 0.5, hamstrings: 0.25, calves: 0.25 });
+    expect(w('swimming-freestyle')).toEqual({
+      lats: 1,
+      front_delts: 0.5,
+      upper_back: 0.5,
+      triceps: 0.25,
+      abs: 0.25,
+    });
+    expect(w('swimming-breaststroke')).toEqual({
+      chest: 1,
+      quads: 0.5,
+      adductors: 0.5,
+      lats: 0.5,
+      glutes: 0.25,
+    });
   });
 
   it('sets isBodyweight true for every bodyweight-equipment exercise', () => {
@@ -147,9 +185,10 @@ describe('validateSeed', () => {
 });
 
 describe('exercise images', () => {
-  it('has >= 2 images per exercise (>= 1 for static force)', () => {
+  it('has >= 2 images per strength exercise (>= 1 for static force, 0 for cardio)', () => {
     for (const e of exercises) {
-      expect(e.images.length, e.id).toBeGreaterThanOrEqual(e.force === 'static' ? 1 : 2);
+      const min = e.tracking === 'cardio' ? 0 : e.force === 'static' ? 1 : 2;
+      expect(e.images.length, e.id).toBeGreaterThanOrEqual(min);
     }
   });
 
@@ -223,5 +262,32 @@ describe('arm isolation exercises (seed v4)', () => {
   it('has >= 2 biceps and >= 2 triceps isolation exercises', () => {
     expect(primary('biceps').length).toBeGreaterThanOrEqual(2);
     expect(primary('triceps').length).toBeGreaterThanOrEqual(2);
+  });
+
+});
+
+describe('cardio validation', () => {
+  const base = { muscles, exercises, exerciseMuscles };
+
+  it('allows 0 images for cardio but not strength', () => {
+    const swim = exercises.find((e) => e.id === 'swimming-freestyle');
+    expect(swim?.images).toEqual([]);
+    expect(() => validateSeed(base)).not.toThrow();
+    const squat = exercises.find((e) => e.id === 'barbell-back-squat');
+    if (!squat) throw new Error('missing squat');
+    const bad = exercises.map((e) => (e === squat ? { ...e, images: e.images.slice(0, 1) } : e));
+    expect(() => validateSeed({ ...base, exercises: bad })).toThrow(/need >= 2/);
+  });
+
+  it('requires cardioProfile exactly when tracking is cardio', () => {
+    const run = exercises.find((e) => e.id === 'running');
+    const squat = exercises.find((e) => e.id === 'barbell-back-squat');
+    if (!run || !squat) throw new Error('missing exercises');
+    const noProfile = exercises.map((e) => (e === run ? { ...e, cardioProfile: undefined } : e));
+    expect(() => validateSeed({ ...base, exercises: noProfile })).toThrow(/cardioProfile/);
+    const strengthWithProfile = exercises.map((e) =>
+      e === squat ? { ...e, cardioProfile: 'running' as const } : e,
+    );
+    expect(() => validateSeed({ ...base, exercises: strengthWithProfile })).toThrow(/cardioProfile/);
   });
 });

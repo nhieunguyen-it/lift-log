@@ -28,8 +28,8 @@ prints per-muscle coverage, and exits non-zero on any rule violation. Bump `SEED
 - **Source:** the same repo's `exercises/<id>/0.jpg` (start) and `1.jpg` (end), Unlicense (public domain).
 - Downloaded to `data/raw-images/` (gitignored, untrusted: only checked for JPEG magic bytes), then
   resized to max 480px, JPEG q70 into `public/exercises/<exerciseId>/<n>.jpg` (committed, ~5 MB for 148 files).
-- `build-seed.mjs` writes `images: ["/exercises/<id>/0.jpg", ...]`; every exercise needs >= 2 images
-  (>= 1 when `force` is `static`). Bump `SEED_VERSION` when they change.
+- `build-seed.mjs` writes `images: ["/exercises/<id>/0.jpg", ...]`; every strength exercise needs >= 2 images
+  (>= 1 when `force` is `static`; cardio entries may have 0). Bump `SEED_VERSION` when they change.
 
 ```sh
 node scripts/fetch-images.mjs     # needs data/raw/free-exercise-db.json; skips existing files

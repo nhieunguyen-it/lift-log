@@ -14,6 +14,7 @@ const rawById = new Map(raw.map((r) => [r.id, r]));
 let count = 0;
 let bytes = 0;
 for (const c of cfg) {
+  if (!c.src) continue;
   const r = rawById.get(c.src);
   r.images.forEach((rel, i) => {
     const src = path.join(ROOT, 'data/raw-images', rel);

@@ -163,3 +163,10 @@ Kept because no compound lift in the set covers the muscle well, or it is a very
 - Merged: the source has dozens of near-duplicates (grip/stance/band/chain/smith/kettlebell variants, e.g. 6+ push-up variants, 15+ deadlift variants, 25 curls). One canonical entry is kept per movement; variant names are folded into `aliases` where common.
 - Dropped entirely: stretches, foam-roll, medicine-ball, exercise-ball, e-z-bar-only and plyometric/jump exercises, olympic lifts other than power clean, strongman and sled work, isolation work other than the listed exceptions (leg curl/extension, flyes, wrist curls), handstand push-ups and one-arm variants (expert, niche).
 - Source muscle lists were rewritten wholesale where sloppy; the typical fixes: splitting `shoulders` into front/side/rear delts, setting `obliques` by hand, treating `middle back`+`traps` as upper_back, and demoting unrelated secondaries (e.g. chest/triceps on Pallof press).
+
+## Cardio (seed v5)
+
+- **running** (Trail_Running_Walking), **cycling-outdoor** (Bicycling), **swimming-freestyle**, **swimming-breaststroke**: logged by duration + intensity (`tracking: cardio`, `cardioProfile` picks the pace table). The two swims have no source entry in free-exercise-db, so they are `source: manual` with `images: []`.
+- Running and cycling are quad-dominant (quads 1.0), with glutes at .5; running loads hamstrings and calves at .5, cycling at .25 (seated, lower impact on the posterior chain).
+- Freestyle is a pulling stroke led by the lats (1.0), with front delts and upper back at .5 and triceps/abs at .25 (arm extension, body-line bracing).
+- Breaststroke is a press-and-sweep stroke plus a whip kick: chest 1.0, quads/adductors/lats .5, glutes .25.

@@ -19,6 +19,7 @@ const SAFE = /^[A-Za-z0-9_\-()]+\/\d+\.jpg$/;
 
 const jobs = [];
 for (const c of cfg) {
+  if (!c.src) continue;
   const r = rawById.get(c.src);
   if (!r) throw new Error(`source ${c.src} missing`);
   for (const rel of r.images) {

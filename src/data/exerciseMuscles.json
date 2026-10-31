@@ -320,6 +320,26 @@
     "weight": 0.25
   },
   {
+    "exerciseId": "cycling-outdoor",
+    "muscleId": "calves",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "cycling-outdoor",
+    "muscleId": "glutes",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "cycling-outdoor",
+    "muscleId": "hamstrings",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "cycling-outdoor",
+    "muscleId": "quads",
+    "weight": 1
+  },
+  {
     "exerciseId": "dead-bug",
     "muscleId": "abs",
     "weight": 1
@@ -1238,6 +1258,26 @@
     "exerciseId": "romanian-deadlift",
     "muscleId": "lower_back",
     "weight": 0.5
+  },
+  {
+    "exerciseId": "running",
+    "muscleId": "calves",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "running",
+    "muscleId": "glutes",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "running",
+    "muscleId": "hamstrings",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "running",
+    "muscleId": "quads",
+    "weight": 1
   },
   {
     "exerciseId": "russian-twist",
@@ -1413,6 +1453,56 @@
     "exerciseId": "sumo-squat",
     "muscleId": "quads",
     "weight": 1
+  },
+  {
+    "exerciseId": "swimming-breaststroke",
+    "muscleId": "adductors",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "swimming-breaststroke",
+    "muscleId": "chest",
+    "weight": 1
+  },
+  {
+    "exerciseId": "swimming-breaststroke",
+    "muscleId": "glutes",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "swimming-breaststroke",
+    "muscleId": "lats",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "swimming-breaststroke",
+    "muscleId": "quads",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "swimming-freestyle",
+    "muscleId": "abs",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "swimming-freestyle",
+    "muscleId": "front_delts",
+    "weight": 0.5
+  },
+  {
+    "exerciseId": "swimming-freestyle",
+    "muscleId": "lats",
+    "weight": 1
+  },
+  {
+    "exerciseId": "swimming-freestyle",
+    "muscleId": "triceps",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "swimming-freestyle",
+    "muscleId": "upper_back",
+    "weight": 0.5
   },
   {
     "exerciseId": "t-bar-row",

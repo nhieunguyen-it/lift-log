@@ -1229,5 +1229,67 @@
     ],
     "m": "chest,front_delts:.75,triceps:.5,abs:.25",
     "note": "front_delts .75: feet elevated shifts load to the anterior deltoid; abs .25: plank-style trunk bracing; equipment null->bodyweight"
+  },
+  {
+    "src": "Trail_Running_Walking",
+    "id": "running",
+    "name": "Running",
+    "eq": "bodyweight",
+    "force": "legs",
+    "mech": "compound",
+    "level": "beginner",
+    "cardio": "running",
+    "al": [
+      "run",
+      "jog",
+      "jogging"
+    ],
+    "m": "quads,glutes:.5,hamstrings:.5,calves:.5"
+  },
+  {
+    "src": "Bicycling",
+    "id": "cycling-outdoor",
+    "name": "Cycling (outdoor)",
+    "eq": "other",
+    "force": "legs",
+    "mech": "compound",
+    "level": "beginner",
+    "bw": true,
+    "cardio": "cycling",
+    "al": [
+      "bike",
+      "cycle",
+      "cycling"
+    ],
+    "m": "quads,glutes:.5,hamstrings:.25,calves:.25"
+  },
+  {
+    "id": "swimming-freestyle",
+    "name": "Swimming (Freestyle)",
+    "eq": "bodyweight",
+    "force": "pull",
+    "mech": "compound",
+    "level": "beginner",
+    "cardio": "swim-freestyle",
+    "al": [
+      "swim",
+      "front crawl",
+      "freestyle"
+    ],
+    "m": "lats,front_delts:.5,upper_back:.5,triceps:.25,abs:.25"
+  },
+  {
+    "id": "swimming-breaststroke",
+    "name": "Swimming (Breaststroke)",
+    "eq": "bodyweight",
+    "force": "pull",
+    "mech": "compound",
+    "level": "beginner",
+    "cardio": "swim-breaststroke",
+    "al": [
+      "swim",
+      "breaststroke"
+    ],
+    "m": "chest,quads:.5,adductors:.5,lats:.5,glutes:.25"
   }
 ]

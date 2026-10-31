@@ -42,6 +42,7 @@ const EQUIPMENT = [
 ];
 const FORCES = ['push', 'pull', 'static', 'legs'];
 const MECHANICS = ['compound', 'isolation'];
+const CARDIO_PROFILES = ['running', 'cycling', 'swim-freestyle', 'swim-breaststroke'];
 const LEVELS = ['beginner', 'intermediate', 'expert'];
 
 // free-exercise-db muscle name -> our muscle id (see data/README.md).
@@ -114,21 +115,32 @@ const seenSrc = new Set();
 
 for (const c of cfg) {
   const where = `exercise ${c.id}`;
-  const r = rawById.get(c.src);
-  if (!r) {
+  const manual = c.src === undefined;
+  if (c.cardio !== undefined && !CARDIO_PROFILES.includes(c.cardio))
+    fail(`${where}: bad cardio profile ${c.cardio}`);
+  if (manual) {
+    // Source-less entries are allowed only for cardio and must be fully specified.
+    if (c.cardio === undefined) fail(`${where}: entry without src must set cardio`);
+    for (const k of ['eq', 'force', 'mech', 'level', 'm'])
+      if (c[k] === undefined) fail(`${where}: entry without src must set ${k}`);
+  }
+  const r = manual ? undefined : rawById.get(c.src);
+  if (!manual && !r) {
     fail(`${where}: source id "${c.src}" not found in raw data`);
     continue;
   }
   if (seenIds.has(c.id)) fail(`${where}: duplicate id`);
   seenIds.add(c.id);
-  if (seenSrc.has(c.src)) fail(`${where}: source ${c.src} used twice`);
-  seenSrc.add(c.src);
+  if (!manual) {
+    if (seenSrc.has(c.src)) fail(`${where}: source ${c.src} used twice`);
+    seenSrc.add(c.src);
+  }
   if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(c.id)) fail(`${where}: id is not a kebab slug`);
 
-  const equipment = c.eq ?? EQUIPMENT_MAP[r.equipment] ?? 'other';
-  const force = c.force ?? r.force;
-  const mechanic = c.mech ?? r.mechanic;
-  const level = c.level ?? r.level;
+  const equipment = c.eq ?? EQUIPMENT_MAP[r?.equipment] ?? 'other';
+  const force = c.force ?? r?.force;
+  const mechanic = c.mech ?? r?.mechanic;
+  const level = c.level ?? r?.level;
   if (!EQUIPMENT.includes(equipment)) fail(`${where}: bad equipment ${equipment}`);
   if (!FORCES.includes(force)) fail(`${where}: bad force ${force}`);
   if (!MECHANICS.includes(mechanic)) fail(`${where}: bad mechanic ${mechanic}`);
@@ -142,11 +154,13 @@ for (const c of cfg) {
     mechanic,
     isBodyweight: c.bw === true || equipment === 'bodyweight',
     level,
+    tracking: c.cardio ? 'cardio' : 'strength',
+    ...(c.cardio ? { cardioProfile: c.cardio } : {}),
     aliases: [...new Set(c.al ?? [])].sort(),
-    source: c.src,
-    images: r.images.map((_, i) => `/exercises/${c.id}/${i}.jpg`),
+    source: manual ? 'manual' : c.src,
+    images: manual ? [] : r.images.map((_, i) => `/exercises/${c.id}/${i}.jpg`),
   });
-  if (r.images.length < (force === 'static' ? 1 : 2))
+  if (!manual && r.images.length < (force === 'static' ? 1 : 2))
     fail(`${where}: only ${r.images.length} source image(s)`);
 
   const muscles = c.m ? parseMuscles(c.m, where) : autoMuscles(r);
@@ -167,8 +181,8 @@ links.sort((a, b) =>
         : 0,
 );
 
-if (exercises.length < 60 || exercises.length > 80)
-  fail(`exercise count ${exercises.length} not within 60-80`);
+if (exercises.length < 60 || exercises.length > 90)
+  fail(`exercise count ${exercises.length} not within 60-90`);
 
 const coverage = Object.fromEntries(MUSCLE_IDS.map((m) => [m, 0]));
 for (const l of links) coverage[l.muscleId] += 1;

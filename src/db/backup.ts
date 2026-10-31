@@ -87,6 +87,7 @@ export const CustomExerciseSchema = z.object({
   mechanic: z.enum(['compound', 'isolation']),
   isBodyweight: z.boolean(),
   level: z.enum(['beginner', 'intermediate', 'expert']),
+  tracking: z.literal('strength').optional(),
   aliases: z.array(z.string()),
   source: z.string(),
   images: z.array(z.string()),
@@ -214,7 +215,8 @@ export async function exportData(now = Date.now()): Promise<Backup> {
     sessionExercises,
     sets,
     programs: programs.filter((p) => !p.builtIn).map((p) => ({ ...p, builtIn: false as const })),
-    customExercises,
+    // Custom exercises are always strength-tracked (cardio is seed-only).
+    customExercises: customExercises as NonNullable<Backup['customExercises']>,
     customExerciseMuscles,
   };
 }

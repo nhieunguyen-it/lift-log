@@ -90,6 +90,7 @@ export async function createCustomExercise(input: CustomExerciseInput): Promise<
     mechanic: v.mechanic,
     isBodyweight: v.isBodyweight,
     level: 'beginner',
+    tracking: 'strength',
     aliases: [],
     source: 'custom',
     images: [],
