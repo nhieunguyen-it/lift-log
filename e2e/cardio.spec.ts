@@ -77,3 +77,20 @@ test('swimming detail shows placeholder and cardio history, no e1RM chart', asyn
   await expect(dlg.getByTestId('cardio-history')).toBeVisible();
   await expect(dlg.getByTestId('exercise-e1rm')).toHaveCount(0);
 });
+
+test('cardio minutes credit quads in the Analyze detail sheet', async ({ page }) => {
+  const card = await startWithRunning(page);
+  await card.getByTestId('add-entry').click();
+  const entry = card.getByTestId('cardio-entry');
+  await entry.getByTestId('cardio-minutes').fill('30');
+  await entry.getByTestId('cardio-minutes').blur();
+  await entry.getByTestId('cardio-done').click();
+  await expect(entry.getByTestId('cardio-done')).toHaveAttribute('data-state', 'checked');
+
+  await page
+    .getByRole('navigation', { name: 'Primary' })
+    .getByRole('link', { name: 'Analyze' })
+    .click();
+  await page.getByRole('button', { name: /^Quads 3 sets/ }).click();
+  await expect(page.getByTestId('contributions')).toContainText('Running · 30 min → 3.0 sets');
+});

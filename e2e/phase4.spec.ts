@@ -288,7 +288,7 @@ async function clearSetting(page: Page, ...keys: string[]) {
 }
 
 rawTest(
-  "what's new (now phase 5) shows once to existing users, without stacking",
+  "what's new (now cardio) shows once to existing users, without stacking",
   async ({ page }) => {
     await page.goto('/');
     await page.getByTestId('onboarding-skip').click();
@@ -298,14 +298,20 @@ rawTest(
     await expect(page.getByTestId('start-workout')).toBeVisible();
     await expect(page.getByTestId('whats-new-dialog')).toBeHidden();
 
-    // Existing user who has seen none: only the latest (phase 5) dialog, then nothing more.
-    await clearSetting(page, 'whatsNewPhase3Seen', 'whatsNewPhase4Seen', 'whatsNewPhase5Seen');
+    // Existing user who has seen none: only the latest (cardio) dialog, then nothing more.
+    await clearSetting(
+      page,
+      'whatsNewPhase3Seen',
+      'whatsNewPhase4Seen',
+      'whatsNewPhase5Seen',
+      'whatsNewCardioSeen',
+    );
     await page.reload();
     const dlg = page.getByTestId('whats-new-dialog');
     await expect(dlg).toBeVisible();
-    await expect(dlg.getByRole('heading', { name: "What's new in phase 5" })).toBeVisible();
-    await expect(dlg).toContainText('Profile switcher');
-    await expect(dlg).toContainText('Not a lock');
+    await expect(dlg.getByRole('heading', { name: "What's new: cardio" })).toBeVisible();
+    await expect(dlg).toContainText('Cardio exercises');
+    await expect(dlg).toContainText('Counts toward muscles');
     await page.getByTestId('whats-new-dismiss').click();
     await expect(dlg).toBeHidden();
     await page.waitForTimeout(300);

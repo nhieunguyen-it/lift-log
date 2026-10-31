@@ -100,13 +100,24 @@ function Body({
               const w = c.sets > 0 ? c.weightedSets / c.sets : 0;
               return (
                 <li key={c.exerciseId}>
-                  <div className="flex justify-between gap-2">
-                    <span className="min-w-0 truncate">{exerciseName(c.exerciseId)}</span>
-                    <span className="text-muted-foreground shrink-0 text-xs">
-                      {fmtSets(c.sets)} sets × {Math.round(w * 100) / 100} ={' '}
-                      {c.weightedSets.toFixed(1)} ({Math.round(c.pct)}%)
-                    </span>
-                  </div>
+                  {c.minutes !== undefined ? (
+                    <div className="flex justify-between gap-2">
+                      <span className="min-w-0 truncate">
+                        {`${exerciseName(c.exerciseId)} · ${c.minutes} min → ${c.weightedSets.toFixed(1)} sets`}
+                      </span>
+                      <span className="text-muted-foreground shrink-0 text-xs">
+                        ({Math.round(c.pct)}%)
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="flex justify-between gap-2">
+                      <span className="min-w-0 truncate">{exerciseName(c.exerciseId)}</span>
+                      <span className="text-muted-foreground shrink-0 text-xs">
+                        {fmtSets(c.sets)} sets × {Math.round(w * 100) / 100} ={' '}
+                        {c.weightedSets.toFixed(1)} ({Math.round(c.pct)}%)
+                      </span>
+                    </div>
+                  )}
                   <div
                     className="h-2 overflow-hidden rounded-full"
                     style={{ backgroundColor: CHART.track }}

@@ -123,6 +123,8 @@ export interface ContributionBar {
   exerciseId: string;
   sets: number;
   weightedSets: number;
+  /** Cardio minutes (cardio contributions only). */
+  minutes?: number;
   /** Share of the muscle's weighted volume, 0-100. */
   pct: number;
 }
@@ -133,6 +135,7 @@ export function contributionBars(contributions: MuscleContribution[]): Contribut
     exerciseId: c.exerciseId,
     sets: c.sets,
     weightedSets: r1(c.weightedSets),
+    ...(c.minutes !== undefined ? { minutes: c.minutes } : {}),
     pct: total === 0 ? 0 : (c.weightedSets / total) * 100,
   }));
 }

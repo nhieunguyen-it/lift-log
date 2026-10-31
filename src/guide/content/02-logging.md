@@ -19,6 +19,10 @@ Tick **Done** when the set is finished. A set needs at least one rep before it c
 > [!TIP]
 > Tap the target chip at the top of a card to fill the next empty set with the suggested weight and reps. See Progression targets.
 
+## Cardio {#logging-cardio}
+
+Running, Cycling (outdoor) and Swimming (Freestyle and Breaststroke) are logged as **minutes**, not reps. Press **Add entry** on the card, type the minutes and choose how it felt: **Relaxed** (the default), **Moderate** or **Hard**. The entry shows an estimated distance and pace for that intensity; it is a rough guide, not a measurement. Tick the entry as done to count it. Cardio has no weight, reps, RIR or warm-ups.
+
 ## Warm-ups {#logging-warmups}
 
 Tick **Warm-up** on a set to mark it. Warm-up sets show a **W** instead of a number and never count toward volume or progression.

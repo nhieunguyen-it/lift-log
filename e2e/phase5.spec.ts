@@ -102,7 +102,7 @@ rawTest('onboarding runs per profile and does not touch Default flags', async ({
   await expect(page.getByTestId('onboarding-dialog')).toBeVisible();
 });
 
-rawTest("what's new phase 5 shows once for Default, never for a new profile", async ({ page }) => {
+rawTest("what's new (cardio) shows once for Default, never for a new profile", async ({ page }) => {
   await openAndSkipOnboarding(page);
   await clearSetting(
     page,
@@ -110,10 +110,11 @@ rawTest("what's new phase 5 shows once for Default, never for a new profile", as
     'whatsNewPhase3Seen',
     'whatsNewPhase4Seen',
     'whatsNewPhase5Seen',
+    'whatsNewCardioSeen',
   );
   await page.reload();
   const dlg = page.getByTestId('whats-new-dialog');
-  await expect(dlg.getByRole('heading', { name: "What's new in phase 5" })).toBeVisible();
+  await expect(dlg.getByRole('heading', { name: "What's new: cardio" })).toBeVisible();
   await page.getByTestId('whats-new-dismiss').click();
   await expect(dlg).toBeHidden();
   await page.reload();

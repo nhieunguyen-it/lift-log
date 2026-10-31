@@ -93,6 +93,7 @@ async function initProfileDb(id: string): Promise<void> {
       { key: 'whatsNewPhase3Seen', value: true },
       { key: 'whatsNewPhase4Seen', value: true },
       { key: 'whatsNewPhase5Seen', value: true },
+      { key: 'whatsNewCardioSeen', value: true },
     ]);
   } finally {
     fresh.close();

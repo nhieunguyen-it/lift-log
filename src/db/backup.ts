@@ -325,6 +325,7 @@ export async function importData(data: Backup): Promise<void> {
       await setFlag('whatsNewPhase3Seen', true);
       await setFlag('whatsNewPhase4Seen', true);
       await setFlag('whatsNewPhase5Seen', true);
+      await setFlag('whatsNewCardioSeen', true);
     }
     if (st.activeProgramId !== undefined) await setActiveProgramId(st.activeProgramId);
     if (st.deloadDismissals !== undefined) await setDeloadDismissals(st.deloadDismissals);

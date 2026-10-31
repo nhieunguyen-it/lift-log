@@ -88,6 +88,10 @@ Below the map, every muscle has a row with its sets this week, its MAV range, a 
 
 Use **Sort by** to order the rows (the default, **Needs most**, puts muscles furthest from their target first). The toggle **By muscle** / **By group** switches between one flat list and sections by push, pull and legs; Lift Log remembers your choice. Only the first {{analyzeUi.collapsedRows}} rows are shown until you press **Show all**.
 
+## How cardio counts {#analyze-cardio}
+
+Cardio entries add to the muscles the activity works. Every {{cardio.minutesPerSet}} relaxed minutes count as one set. Moderate minutes count {{cardio.intensityMultiplier.moderate}} times as much and hard minutes {{cardio.intensityMultiplier.hard}} times, so harder cardio earns more. One cardio exercise earns at most {{cardio.maxSetsPerSession}} sets per workout, however long you go. Those sets are then weighted per muscle like any other exercise. In a muscle's detail sheet a cardio row reads like "Running · 30 min → 3.0 sets".
+
 ## Muscle details {#analyze-detail}
 
 ![Detail sheet for chest with landmarks, contributing exercises and quick actions](/guide/analyze-detail.png)

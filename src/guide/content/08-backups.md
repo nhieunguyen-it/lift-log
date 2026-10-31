@@ -19,7 +19,7 @@ Type a **passphrase** (at least eight characters) and confirm it before exportin
 
 Press **Import JSON** and choose a file. For an encrypted file you are asked for the passphrase first; a wrong one shows an error and nothing changes. Then a confirmation shows how many workouts and sets the file holds. **Replace data** swaps your current data for the file. This cannot be undone, so export first if unsure.
 
-Import accepts backup files from every version of the app (v1 to v5), and **Replace data** only replaces the current profile.
+Import accepts backup files from every version of the app (v1 to v6; v6 adds cardio entries), and **Replace data** only replaces the current profile.
 
 ## Import into a new profile {#backups-import-profile}
 

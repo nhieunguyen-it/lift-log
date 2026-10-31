@@ -228,6 +228,7 @@ describe('database isolation', () => {
     expect(await getFlag('whatsNewPhase3Seen')).toBe(true);
     expect(await getFlag('whatsNewPhase4Seen')).toBe(true);
     expect(await getFlag('whatsNewPhase5Seen')).toBe(true);
+    expect(await getFlag('whatsNewCardioSeen')).toBe(true);
     expect(await getFlag('onboardingDone')).toBe(false);
     expect(await db.settings.get('onboardingDone')).toBeUndefined();
   });
