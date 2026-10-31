@@ -44,7 +44,7 @@ export function HistoryPage() {
         </p>
       )}
       <ul className="space-y-3">
-        {items.map(({ session, summary, exerciseNames }) => (
+        {items.map(({ session, summary, exerciseNames, cardioLines }) => (
           <li key={session.id}>
             <Link
               to={`/history/${session.id}`}
@@ -63,6 +63,11 @@ export function HistoryPage() {
                       .map((n) => (isCustomId(n) ? nameFor(lookup, n) : n))
                       .join(', ') || 'No exercises'}
                   </p>
+                  {cardioLines.length > 0 && (
+                    <p className="text-muted-foreground text-xs" data-testid="history-cardio">
+                      {cardioLines.join(' · ')}
+                    </p>
+                  )}
                 </CardContent>
               </Card>
             </Link>

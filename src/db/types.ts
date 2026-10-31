@@ -75,4 +75,6 @@ export interface SessionSummary {
   exerciseCount: number;
   workingSets: number;
   volumeKg: number;
+  /** Counted cardio minutes (completed entries with a duration). */
+  cardioMinutes: number;
 }

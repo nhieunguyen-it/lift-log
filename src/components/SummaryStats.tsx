@@ -15,9 +15,13 @@ export default function SummaryStats({
     ['Working sets', String(summary.workingSets), 'summary-sets'],
     ['Total volume', formatVolume(summary.volumeKg, unit), 'summary-volume'],
   ] as const;
+  const cardio: Array<readonly [string, string, string]> =
+    summary.cardioMinutes > 0
+      ? [['Cardio', `${Math.round(summary.cardioMinutes)} min`, 'summary-cardio']]
+      : [];
   return (
     <dl className="grid grid-cols-2 gap-3" data-testid="summary">
-      {items.map(([label, value, id]) => (
+      {[...items, ...cardio].map(([label, value, id]) => (
         <div key={id} className="rounded-lg border p-3">
           <dt className="text-muted-foreground text-xs">{label}</dt>
           <dd className="text-xl font-semibold" data-testid={id}>

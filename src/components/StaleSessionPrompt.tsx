@@ -7,12 +7,15 @@ export function isStale(startedAt: number, now = Date.now()): boolean {
   return now - startedAt > TRAINING.staleSessionMs;
 }
 
-/** End time for a stale session: its last completed set, else its start. */
+/** End time for a stale session: its last completed set or cardio entry, else its start. */
 export function staleFinishTime(detail: SessionDetail): number {
   let end = detail.session.startedAt;
   for (const e of detail.exercises) {
     for (const s of e.sets) {
       if (s.completedAt !== undefined && s.completedAt > end) end = s.completedAt;
+    }
+    for (const c of e.cardio) {
+      if (c.completedAt !== undefined && c.completedAt > end) end = c.completedAt;
     }
   }
   return end;

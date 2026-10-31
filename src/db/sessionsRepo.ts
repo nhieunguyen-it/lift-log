@@ -1,3 +1,9 @@
+import {
+  countedMinutes,
+  estimateDistanceKm,
+  formatDistance,
+  isCountedEntry,
+} from '@/analyzer/cardio';
 import type { Exercise } from '@/data';
 import { activeMs } from '@/lib/workoutTimer';
 import { db, newId } from './db';
@@ -20,6 +26,8 @@ export interface HistoryItem {
   session: Session;
   summary: SessionSummary;
   exerciseNames: string[];
+  /** One line per cardio exercise with counted minutes, e.g. "Running 30 min · ≈ 4.3 km". */
+  cardioLines: string[];
 }
 
 export async function getActiveSession(): Promise<Session | undefined> {
@@ -112,7 +120,9 @@ export function summarize(detail: SessionDetail, now = Date.now()): SessionSumma
   const end = detail.session.finishedAt ?? now;
   let workingSets = 0;
   let volumeKg = 0;
+  let cardioMinutes = 0;
   for (const e of detail.exercises) {
+    cardioMinutes += countedMinutes(e.cardio);
     for (const s of e.sets) {
       if (s.isWarmup || s.completedAt === undefined) continue;
       workingSets += 1;
@@ -124,7 +134,27 @@ export function summarize(detail: SessionDetail, now = Date.now()): SessionSumma
     exerciseCount: detail.exercises.length,
     workingSets,
     volumeKg,
+    cardioMinutes,
   };
+}
+
+/** One summary line per cardio exercise that has counted minutes. */
+export function cardioLines(detail: SessionDetail): string[] {
+  const lines: string[] = [];
+  for (const e of detail.exercises) {
+    const counted = e.cardio.filter(isCountedEntry);
+    if (counted.length === 0) continue;
+    const name = e.exercise?.name ?? e.sessionExercise.exerciseId;
+    let line = `${name} ${Math.round(countedMinutes(counted))} min`;
+    const profile = e.exercise?.cardioProfile;
+    const kms = counted.map((c) => estimateDistanceKm(profile, c.intensity, c.durationSec));
+    if (profile && kms.every((k) => k !== undefined)) {
+      const km = kms.reduce<number>((a, k) => a + (k ?? 0), 0);
+      line += ` · ≈ ${formatDistance(profile, km)}`;
+    }
+    lines.push(line);
+  }
+  return lines;
 }
 
 export async function finishSession(
@@ -197,6 +227,7 @@ export async function listHistory(): Promise<HistoryItem[]> {
       session: s,
       summary: summarize(detail),
       exerciseNames: detail.exercises.map((e) => e.exercise?.name ?? e.sessionExercise.exerciseId),
+      cardioLines: cardioLines(detail),
     });
   }
   return items;

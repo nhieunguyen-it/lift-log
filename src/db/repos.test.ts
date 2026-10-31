@@ -10,6 +10,8 @@ import phase1Export from './__fixtures__/phase1-export.json';
 import * as backup from './backup';
 import * as settingsRepo from './settingsRepo';
 import { getUnit, setUnit } from './settingsRepo';
+import * as cardioRepo from './cardioRepo';
+import { staleFinishTime } from '@/components/StaleSessionPrompt';
 
 const [A, B, C] = exercises.map((e) => e.id);
 
@@ -83,6 +85,7 @@ describe('sessions', () => {
       exerciseCount: 1,
       workingSets: 2,
       volumeKg: 1000,
+      cardioMinutes: 0,
     });
   });
 
@@ -319,5 +322,49 @@ describe('swapExercise', () => {
     expect(d?.exercises[0].exercise?.id).toBe(C);
     expect(d?.exercises[0].sets).toHaveLength(1);
     expect(d?.exercises[0].sets[0].weightKg).toBe(50);
+  });
+});
+
+describe('cardio in summaries', () => {
+  async function runSession(withSquat: boolean) {
+    const s = await sessions.startSession(1_000);
+    if (withSquat) {
+      const se = await sessions.addExercise(s.id, A);
+      for (let i = 0; i < 3; i++) {
+        const row = await sets.addSet(se.id);
+        await sets.updateSet(row.id, { weightKg: 100, reps: 5 });
+        await sets.setDone(row.id, true);
+      }
+    }
+    const run = await sessions.addExercise(s.id, 'running');
+    const entry = await cardioRepo.addEntry(run.id);
+    await cardioRepo.updateEntry(entry.id, { durationSec: 1800 });
+    await cardioRepo.setEntryDone(entry.id, true);
+    return { s, entry };
+  }
+
+  it('keeps cardio out of working sets and volume but counts minutes', async () => {
+    const { s } = await runSession(true);
+    const detail = (await sessions.getSessionDetail(s.id))!;
+    const sum = sessions.summarize(detail);
+    expect(sum.workingSets).toBe(3);
+    expect(sum.volumeKg).toBe(1500);
+    expect(sum.cardioMinutes).toBe(30);
+  });
+
+  it('lists a cardio-only session in history with a distance line', async () => {
+    const { s } = await runSession(false);
+    await sessions.finishSession(s.id, 5_000_000);
+    const [item] = await sessions.listHistory();
+    expect(item.summary.workingSets).toBe(0);
+    expect(item.cardioLines).toHaveLength(1);
+    expect(item.cardioLines).toEqual(['Running 30 min · ≈ 4.3 km']);
+  });
+
+  it('staleFinishTime counts completed cardio entries', async () => {
+    const { s, entry } = await runSession(false);
+    const detail = (await sessions.getSessionDetail(s.id))!;
+    const done = (await db.cardioEntries.get(entry.id))!.completedAt!;
+    expect(staleFinishTime(detail)).toBe(done);
   });
 });
