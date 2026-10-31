@@ -15,6 +15,7 @@ import {
 } from './settingsRepo';
 import type { WeekStartDay } from '@/analyzer/types';
 import { EQUIPMENT, MuscleIdSchema } from '@/data/schema';
+import { CARDIO_INTENSITIES } from './types';
 import { CUSTOM_ID_PREFIX } from '@/data/merged';
 import {
   DeloadDismissalsSchema,
@@ -34,9 +35,10 @@ import {
  * v2 adds optional phase-2 settings; v3 adds programs, custom exercises and deload
  * dismissals; v4 adds program blocks, the Analyze grouping and session program tags;
  * v5 adds the optional exporting profile's name and optional session `pausedMs`/`pausedAt`
- * timer fields. v1-v4 files still import (missing sections are left untouched).
+ * timer fields; v6 adds cardio entries. v1-v5 files still import (missing sections are left
+ * untouched; cardio entries are always replaced because sessions are).
  */
-export const BACKUP_VERSION = 5;
+export const BACKUP_VERSION = 6;
 
 const SessionSchema = z
   .object({
@@ -72,6 +74,14 @@ const SetSchema = z.object({
   reps: z.number().min(0),
   rir: z.number().min(0).optional(),
   isWarmup: z.boolean(),
+  completedAt: z.number().optional(),
+});
+export const CardioEntrySchema = z.object({
+  id: z.string().min(1),
+  sessionExerciseId: z.string().min(1),
+  order: z.number().int(),
+  durationSec: z.number().int().min(0),
+  intensity: z.enum(CARDIO_INTENSITIES),
   completedAt: z.number().optional(),
 });
 
@@ -133,6 +143,7 @@ export const BackupSchema = z.object({
     z.literal(2),
     z.literal(3),
     z.literal(4),
+    z.literal(5),
     z.literal(BACKUP_VERSION),
   ]),
   exportedAt: z.number(),
@@ -153,6 +164,8 @@ export const BackupSchema = z.object({
   sessions: z.array(SessionSchema),
   sessionExercises: z.array(SessionExerciseSchema),
   sets: z.array(SetSchema),
+  // v6 (absent in older files).
+  cardioEntries: z.array(CardioEntrySchema).optional(),
   // v3 sections (absent in v1/v2 files).
   programs: z.array(ProgramSchema).optional(),
   customExercises: z.array(CustomExerciseSchema).optional(),
@@ -167,6 +180,7 @@ export async function exportData(now = Date.now()): Promise<Backup> {
     sessions,
     sessionExercises,
     sets,
+    cardioEntries,
     unit,
     weekStartsOn,
     targetOverrides,
@@ -183,6 +197,7 @@ export async function exportData(now = Date.now()): Promise<Backup> {
       db.sessions.toArray(),
       db.sessionExercises.toArray(),
       db.sets.toArray(),
+      db.cardioEntries.toArray(),
       getUnit(),
       getWeekStartsOn(),
       getTargetOverrides(),
@@ -214,6 +229,7 @@ export async function exportData(now = Date.now()): Promise<Backup> {
     sessions,
     sessionExercises,
     sets,
+    cardioEntries,
     programs: programs.filter((p) => !p.builtIn).map((p) => ({ ...p, builtIn: false as const })),
     // Custom exercises are always strength-tracked (cardio is seed-only).
     customExercises: customExercises as NonNullable<Backup['customExercises']>,
@@ -225,6 +241,7 @@ const USER_TABLES = () => [
   db.sessions,
   db.sessionExercises,
   db.sets,
+  db.cardioEntries,
   db.settings,
   db.programs,
   db.customExercises,
@@ -258,11 +275,15 @@ export function parseBackup(text: string): ParseResult {
   if (d.sets.some((s) => !seIds.has(s.sessionExerciseId))) {
     return { ok: false, error: 'Invalid backup: set references unknown exercise entry.' };
   }
+  if ((d.cardioEntries ?? []).some((c) => !seIds.has(c.sessionExerciseId))) {
+    return { ok: false, error: 'Invalid backup: cardio entry references unknown exercise entry.' };
+  }
   const dup = (ids: string[]) => new Set(ids).size !== ids.length;
   if (
     dup(d.sessions.map((s) => s.id)) ||
     dup(d.sessionExercises.map((s) => s.id)) ||
     dup(d.sets.map((s) => s.id)) ||
+    dup((d.cardioEntries ?? []).map((c) => c.id)) ||
     dup((d.programs ?? []).map((p) => p.id)) ||
     dup((d.customExercises ?? []).map((c) => c.id))
   ) {
@@ -282,10 +303,17 @@ export function parseBackup(text: string): ParseResult {
 export async function importData(data: Backup): Promise<void> {
   const valid = BackupSchema.parse(data);
   await db.transaction('rw', USER_TABLES(), async () => {
-    await Promise.all([db.sessions.clear(), db.sessionExercises.clear(), db.sets.clear()]);
+    // Cardio entries hang off session exercises, so they are always replaced with sessions.
+    await Promise.all([
+      db.sessions.clear(),
+      db.sessionExercises.clear(),
+      db.sets.clear(),
+      db.cardioEntries.clear(),
+    ]);
     await db.sessions.bulkAdd(valid.sessions);
     await db.sessionExercises.bulkAdd(valid.sessionExercises);
     await db.sets.bulkAdd(valid.sets);
+    await db.cardioEntries.bulkAdd(valid.cardioEntries ?? []);
     const st = valid.settings;
     await setUnit(st.unit as WeightUnit);
     if (st.weekStartsOn !== undefined) await setWeekStartsOn(st.weekStartsOn as WeekStartDay);

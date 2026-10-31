@@ -1,0 +1,68 @@
+{
+  "app": "lift-log",
+  "version": 6,
+  "exportedAt": 1700004000000,
+  "settings": {
+    "unit": "kg",
+    "weekStartsOn": 1,
+    "targetOverrides": {},
+    "equipment": [
+      "barbell",
+      "dumbbell",
+      "cable",
+      "machine",
+      "bodyweight",
+      "kettlebell",
+      "band",
+      "other"
+    ],
+    "activeProgramId": null,
+    "deloadDismissals": {},
+    "programBlocks": {},
+    "analyzeGrouping": "muscle"
+  },
+  "sessions": [
+    {
+      "id": "d119a00e-0c3d-4d77-94f5-bdeb676aa52a",
+      "startedAt": 1700000000000,
+      "finishedAt": 1700003600000
+    }
+  ],
+  "sessionExercises": [
+    {
+      "id": "6b1f20ea-c8f0-41ad-9c96-29d71eb35a81",
+      "sessionId": "d119a00e-0c3d-4d77-94f5-bdeb676aa52a",
+      "exerciseId": "barbell-bench-press",
+      "order": 0
+    },
+    {
+      "id": "faae5ec5-aae8-4b60-a1ed-812652395886",
+      "sessionId": "d119a00e-0c3d-4d77-94f5-bdeb676aa52a",
+      "exerciseId": "running",
+      "order": 1
+    }
+  ],
+  "sets": [
+    {
+      "id": "e3b03846-a66a-43b5-8e25-673fa833b247",
+      "sessionExerciseId": "6b1f20ea-c8f0-41ad-9c96-29d71eb35a81",
+      "order": 0,
+      "reps": 8,
+      "isWarmup": false,
+      "weightKg": 60
+    }
+  ],
+  "cardioEntries": [
+    {
+      "id": "91bddfdc-be8d-463c-92a6-800135c694e2",
+      "sessionExerciseId": "faae5ec5-aae8-4b60-a1ed-812652395886",
+      "order": 0,
+      "durationSec": 1800,
+      "intensity": "relaxed",
+      "completedAt": 1793439845716
+    }
+  ],
+  "programs": [],
+  "customExercises": [],
+  "customExerciseMuscles": []
+}
