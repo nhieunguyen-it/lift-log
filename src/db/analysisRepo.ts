@@ -23,6 +23,7 @@ export async function loadTrainingData(): Promise<TrainingData> {
       db.sessions,
       db.sessionExercises,
       db.sets,
+      db.cardioEntries,
       db.exercises,
       db.exerciseMuscles,
       db.customExercises,
@@ -30,13 +31,14 @@ export async function loadTrainingData(): Promise<TrainingData> {
     ],
     async () => {
       // Tombstoned customs are included so logged history still counts toward volume.
-      const [sessions, sessionExercises, sets, merged] = await Promise.all([
+      const [sessions, sessionExercises, sets, cardioEntries, merged] = await Promise.all([
         db.sessions.toArray(),
         db.sessionExercises.toArray(),
         db.sets.toArray(),
+        db.cardioEntries.toArray(),
         loadMergedExercises(true),
       ]);
-      return { sessions, sessionExercises, sets, ...merged };
+      return { sessions, sessionExercises, sets, cardioEntries, ...merged };
     },
   );
 }

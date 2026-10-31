@@ -206,6 +206,43 @@ describe('volumeSuggestions', () => {
   });
 });
 
+describe('cardio exclusion', () => {
+  const cardioIds = new Set(exercises.filter((e) => e.tracking === 'cardio').map((e) => e.id));
+  it('alternatives never lists cardio and returns [] for a cardio source', () => {
+    expect(cardioIds.size).toBeGreaterThan(0);
+    const res = alternatives({
+      exerciseId: 'barbell-back-squat',
+      availableEquipment: ALL,
+      exercisesDoneThisWeek: [],
+      exercises,
+      exerciseMuscles,
+    });
+    expect(res.some((r) => cardioIds.has(r.exerciseId))).toBe(false);
+    expect(
+      alternatives({
+        exerciseId: 'running',
+        availableEquipment: ALL,
+        exercisesDoneThisWeek: [],
+        exercises,
+        exerciseMuscles,
+      }),
+    ).toEqual([]);
+  });
+  it('volumeSuggestions for low quads lists no cardio ids', () => {
+    const res = volumeSuggestions({
+      week: weekWith({ quads: 0 }),
+      exercises,
+      exerciseMuscles,
+      availableEquipment: ALL,
+    });
+    const add = res.find((r) => r.kind === 'add' && r.muscleId === 'quads');
+    expect(add).toBeDefined();
+    if (add && add.kind === 'add') {
+      for (const s of add.exercises) expect(cardioIds.has(s.exerciseId)).toBe(false);
+    }
+  });
+});
+
 describe('alternatives', () => {
   const base = {
     exerciseId: 'barbell-bench-press',
@@ -255,6 +292,7 @@ describe('volume suggestions skip deleted custom exercises', () => {
       sessions: [],
       sessionExercises: [],
       sets: [],
+      cardioEntries: [],
       exercises: [...exercises, tomb],
       exerciseMuscles: [...exerciseMuscles, ...links],
     };

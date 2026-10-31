@@ -1,4 +1,5 @@
 import type { MergedExercise } from '@/data/merged';
+import { isCardio } from '@/analyzer/cardio';
 import type { Equipment, Exercise, ExerciseMuscle, MuscleId } from '@/data';
 import { MUSCLE_IDS } from '@/data';
 import { TRAINING } from '@/config/training';
@@ -39,6 +40,7 @@ export function volumeSuggestions(args: {
         .filter(
           (c): c is { em: ExerciseMuscle; ex: Exercise } =>
             !!c.ex &&
+            !isCardio(c.ex) &&
             (c.ex as MergedExercise).deletedAt === undefined &&
             isAvailable(c.ex, availableEquipment),
         )

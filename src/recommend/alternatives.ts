@@ -4,6 +4,7 @@ import { TRAINING } from '@/config/training';
 import type { TrainingConfig } from '@/config/training';
 import type { AlternativeScore, AlternativesInput } from './types';
 import { isAvailable } from './volume';
+import { isCardio } from '@/analyzer/cardio';
 
 export function cosineSimilarity(a: Record<string, number>, b: Record<string, number>): number {
   let dot = 0;
@@ -41,13 +42,14 @@ export function alternatives(
   }
   const source = exercises.find((e) => e.id === exerciseId);
   const sourceVec = vectors.get(exerciseId);
-  if (!source || !sourceVec) return [];
+  if (!source || !sourceVec || isCardio(source)) return [];
   const done = new Set(exercisesDoneThisWeek);
 
   return exercises
     .filter(
       (e) =>
         e.id !== exerciseId &&
+        !isCardio(e) &&
         (e as { deletedAt?: number }).deletedAt === undefined &&
         isAvailable(e, available),
     )

@@ -1,6 +1,7 @@
 import { exerciseMuscles, exercises } from '@/data';
 import type { Session, SessionExercise, SetRow } from '@/db/types';
 import type { TrainingData } from './types';
+import { isCardio } from './cardio';
 
 const DAY = 86_400_000;
 
@@ -70,6 +71,7 @@ export function makeData(...parts: SessionParts[]): TrainingData {
     sessions: parts.flatMap((p) => p.sessions),
     sessionExercises: parts.flatMap((p) => p.sessionExercises),
     sets: parts.flatMap((p) => p.sets),
+    cardioEntries: [],
     exercises,
     exerciseMuscles,
   };
@@ -85,7 +87,7 @@ export interface GenerateOptions {
 export function generateTrainingData(opts: GenerateOptions): TrainingData {
   const rng = createRng(opts.seed);
   const withMuscles = new Set(exerciseMuscles.map((m) => m.exerciseId));
-  const pool = exercises.filter((e) => withMuscles.has(e.id));
+  const pool = exercises.filter((e) => withMuscles.has(e.id) && !isCardio(e));
   const pick = (n: number) => Math.floor(rng() * n);
   const parts: SessionParts[] = [];
   for (let w = 0; w < opts.weeks; w++) {

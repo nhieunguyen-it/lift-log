@@ -1,6 +1,6 @@
 /** Shared analyzer types. Pure data: no React or Dexie. */
 import type { Exercise, ExerciseMuscle, MuscleId } from '@/data';
-import type { Session, SessionExercise, SetRow } from '@/db/types';
+import type { CardioEntry, Session, SessionExercise, SetRow } from '@/db/types';
 import type { VolumeTarget } from '@/config/training';
 
 /** 0 = Sunday, 1 = Monday ... 6 = Saturday (same as Date#getDay). */
@@ -11,6 +11,7 @@ export interface TrainingData {
   sessions: Session[];
   sessionExercises: SessionExercise[];
   sets: SetRow[];
+  cardioEntries: CardioEntry[];
   exercises: Exercise[];
   exerciseMuscles: ExerciseMuscle[];
 }
@@ -30,6 +31,8 @@ export interface MuscleContribution {
   sets: number;
   /** sets x muscle weight: this exercise's share of the muscle's volume. */
   weightedSets: number;
+  /** Counted minutes; set only for cardio exercises. */
+  minutes?: number;
 }
 
 export interface MuscleWeek {

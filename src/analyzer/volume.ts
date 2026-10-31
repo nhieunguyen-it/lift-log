@@ -1,8 +1,9 @@
 import { MUSCLE_IDS } from '@/data';
 import type { MuscleId } from '@/data';
-import type { SetRow } from '@/db/types';
+import type { CardioEntry, SetRow } from '@/db/types';
 import type { VolumeTarget } from '@/config/training';
 import { TRAINING } from '@/config/training';
+import { cardioSetCredit, countedMinutes, isCardio, isCountedEntry } from './cardio';
 import { shiftWeek, weekWindow } from './week';
 import type {
   AnalyzerOptions,
@@ -44,13 +45,21 @@ export function isCountedSet(set: SetRow, maxCountedRir: number): boolean {
   );
 }
 
-/** Single pass: counted sets per exercise, bucketed into the given windows (by session start). */
+interface Bucket {
+  sets: number;
+  minutes: number;
+}
+
+/**
+ * Single pass: counted sets (and cardio set-equivalents + minutes) per exercise, bucketed into
+ * the given windows (by session start).
+ */
 function bucketSets(
   data: TrainingData,
   windows: WeekWindow[],
   maxCountedRir: number,
-): Map<string, number>[] {
-  const buckets = windows.map(() => new Map<string, number>());
+): Map<string, Bucket>[] {
+  const buckets = windows.map(() => new Map<string, Bucket>());
   const sessionStart = new Map<string, number>();
   for (const s of data.sessions) sessionStart.set(s.id, s.startedAt);
   const seInfo = new Map<string, { sessionId: string; exerciseId: string }>();
@@ -59,19 +68,49 @@ function bucketSets(
   }
   const lo = windows[0].start;
   const hi = windows[windows.length - 1].end;
-  for (const set of data.sets) {
-    if (!isCountedSet(set, maxCountedRir)) continue;
-    const se = seInfo.get(set.sessionExerciseId);
-    if (!se) continue;
+  const bucketFor = (
+    sessionExerciseId: string,
+  ): { m: Map<string, Bucket>; exerciseId: string } | null => {
+    const se = seInfo.get(sessionExerciseId);
+    if (!se) return null;
     const startedAt = sessionStart.get(se.sessionId);
-    if (startedAt === undefined || startedAt < lo || startedAt >= hi) continue;
+    if (startedAt === undefined || startedAt < lo || startedAt >= hi) return null;
     for (let i = 0; i < windows.length; i++) {
       if (startedAt >= windows[i].start && startedAt < windows[i].end) {
-        const m = buckets[i];
-        m.set(se.exerciseId, (m.get(se.exerciseId) ?? 0) + 1);
-        break;
+        return { m: buckets[i], exerciseId: se.exerciseId };
       }
     }
+    return null;
+  };
+  const add = (m: Map<string, Bucket>, exerciseId: string, sets: number, minutes: number) => {
+    const b = m.get(exerciseId);
+    if (b) {
+      b.sets += sets;
+      b.minutes += minutes;
+    } else m.set(exerciseId, { sets, minutes });
+  };
+  for (const set of data.sets) {
+    if (!isCountedSet(set, maxCountedRir)) continue;
+    const hit = bucketFor(set.sessionExerciseId);
+    if (hit) add(hit.m, hit.exerciseId, 1, 0);
+  }
+
+  // Cardio: credit is computed once per session exercise (it is capped per session).
+  const cardioById = new Map<string, boolean>();
+  for (const e of data.exercises) {
+    if (isCardio(e) && e.cardioProfile !== undefined) cardioById.set(e.id, true);
+  }
+  const bySe = new Map<string, CardioEntry[]>();
+  for (const entry of data.cardioEntries) {
+    if (!isCountedEntry(entry)) continue;
+    const list = bySe.get(entry.sessionExerciseId);
+    if (list) list.push(entry);
+    else bySe.set(entry.sessionExerciseId, [entry]);
+  }
+  for (const [seId, entries] of bySe) {
+    const hit = bucketFor(seId);
+    if (!hit || !cardioById.has(hit.exerciseId)) continue;
+    add(hit.m, hit.exerciseId, cardioSetCredit(entries), countedMinutes(entries));
   }
   return buckets;
 }
@@ -91,7 +130,7 @@ function muscleWeightsByExercise(
 
 function buildWeek(
   window: WeekWindow,
-  exerciseSets: Map<string, number>,
+  exerciseSets: Map<string, Bucket>,
   weights: Map<string, { muscleId: MuscleId; weight: number }[]>,
   opts: AnalyzerOptions,
 ): WeekAnalysis {
@@ -101,10 +140,12 @@ function buildWeek(
     contribs[id] = [];
     totals[id] = 0;
   }
-  for (const [exerciseId, sets] of exerciseSets) {
+  for (const [exerciseId, { sets, minutes }] of exerciseSets) {
     for (const { muscleId, weight } of weights.get(exerciseId) ?? []) {
       const weightedSets = sets * weight;
-      contribs[muscleId].push({ exerciseId, sets, weightedSets });
+      const contribution: MuscleContribution = { exerciseId, sets, weightedSets };
+      if (minutes > 0) contribution.minutes = minutes;
+      contribs[muscleId].push(contribution);
       totals[muscleId] += weightedSets;
     }
   }

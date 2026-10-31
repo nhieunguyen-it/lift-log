@@ -12,6 +12,8 @@ import {
 } from './index';
 import type { VolumeTarget } from '@/config/training';
 import { generateTrainingData, makeData, makeSession } from './fixtures';
+import type { CardioEntry } from '@/db/types';
+import type { TrainingData } from './types';
 
 const T: VolumeTarget = { mev: 8, mavLow: 12, mavHigh: 18, mrv: 22 };
 // Local-time helper: month is 0-based.
@@ -224,5 +226,96 @@ describe('performance', () => {
     const a = generateTrainingData({ weeks: 2, sessionsPerWeek: 3, startTs: 0, seed: 7 });
     const b = generateTrainingData({ weeks: 2, sessionsPerWeek: 3, startTs: 0, seed: 7 });
     expect(a).toEqual(b);
+  });
+});
+
+describe('cardio credit', () => {
+  const WED = at(2026, 2, 4, 12);
+  const PREV = at(2026, 1, 25, 12);
+  function withCardio(
+    base: TrainingData,
+    sessionId: string,
+    startedAt: number,
+    entries: Array<Partial<CardioEntry> & { durationSec: number }>,
+    exerciseId = 'running',
+  ): TrainingData {
+    const seId = `${sessionId}-cardio`;
+    return {
+      ...base,
+      sessions: [...base.sessions, { id: sessionId, startedAt, finishedAt: startedAt + 3_600_000 }],
+      sessionExercises: [...base.sessionExercises, { id: seId, sessionId, exerciseId, order: 0 }],
+      cardioEntries: [
+        ...base.cardioEntries,
+        ...entries.map((e, i): CardioEntry => ({
+          id: `${seId}-c${i}`,
+          sessionExerciseId: seId,
+          order: i,
+          intensity: 'relaxed',
+          completedAt: startedAt + 60_000,
+          ...e,
+        })),
+      ],
+    };
+  }
+  const empty = (): TrainingData => ({ ...makeData(), cardioEntries: [] });
+
+  it('credits 30 min relaxed running as 3 quads sets', () => {
+    const data = withCardio(empty(), 'c1', WED, [{ durationSec: 1800 }]);
+    const { current } = analyze(data, WED, opts);
+    expect(current.muscles.quads.sets).toBe(3);
+    expect(current.muscles.glutes.sets).toBe(1.5);
+    expect(current.muscles.hamstrings.sets).toBe(1.5);
+    expect(current.muscles.calves.sets).toBe(1.5);
+    expect(current.muscles.quads.contributions).toContainEqual({
+      exerciseId: 'running',
+      sets: 3,
+      weightedSets: 3,
+      minutes: 30,
+    });
+    expect(current.exercisesDone).toContain('running');
+  });
+  it('caps at 3 per session exercise', () => {
+    const data = withCardio(empty(), 'c1', WED, [{ durationSec: 7200 }]);
+    expect(analyze(data, WED, opts).current.muscles.quads.sets).toBe(3);
+  });
+  it('adds to strength volume', () => {
+    const base: TrainingData = {
+      ...makeData(
+        makeSession('s1', WED, [{ exerciseId: 'barbell-back-squat', sets: [{}, {}, {}] }]),
+      ),
+      cardioEntries: [],
+    };
+    const squatQuads = analyze(base, WED, opts).current.muscles.quads.sets;
+    expect(squatQuads).toBe(3);
+    const data = withCardio(base, 'c1', WED, [{ durationSec: 1800 }]);
+    expect(analyze(data, WED, opts).current.muscles.quads.sets).toBe(6);
+  });
+  it('buckets by the previous week', () => {
+    const data = withCardio(empty(), 'c1', PREV, [{ durationSec: 1800 }]);
+    const { trend, current } = analyze(data, WED, opts);
+    expect(trend.quads[trend.quads.length - 2]!.sets).toBe(3);
+    expect(current.muscles.quads.sets).toBe(0);
+  });
+  it('ignores unticked entries', () => {
+    const data = withCardio(empty(), 'c1', WED, [{ durationSec: 1800, completedAt: undefined }]);
+    const { current } = analyze(data, WED, opts);
+    expect(current.muscles.quads.sets).toBe(0);
+    expect(current.exercisesDone).not.toContain('running');
+  });
+  it('skips a cardio exercise without cardioProfile (corrupt data)', () => {
+    const base = empty();
+    const data = withCardio(
+      {
+        ...base,
+        exercises: base.exercises.map((e) =>
+          e.id === 'running' ? { ...e, cardioProfile: undefined } : e,
+        ),
+      },
+      'c1',
+      WED,
+      [{ durationSec: 1800 }],
+    );
+    expect(() => analyze(data, WED, opts)).not.toThrow();
+    expect(analyze(data, WED, opts).current.muscles.quads.sets).toBe(0);
   });
 });
