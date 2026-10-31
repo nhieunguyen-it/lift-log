@@ -1,6 +1,7 @@
 import { estimateDistanceKm, isCountedEntry } from '@/analyzer/cardio';
 import { TRAINING } from '@/config/training';
 import { db, newId } from './db';
+import { earlierSessionExerciseIds } from './previousSessions';
 import type { CardioEntry, CardioIntensity } from './types';
 
 export type CardioPatch = Partial<Pick<CardioEntry, 'durationSec' | 'intensity'>>;
@@ -35,23 +36,8 @@ async function renumber(sessionExerciseId: string): Promise<void> {
 
 /** Last entry of the most recent other session containing this exercise (with entries). */
 async function previousLastEntry(sessionExerciseId: string): Promise<CardioEntry | undefined> {
-  const se = await db.sessionExercises.get(sessionExerciseId);
-  if (!se) return undefined;
-  const [current, all] = await Promise.all([
-    db.sessions.get(se.sessionId),
-    db.sessionExercises.where('exerciseId').equals(se.exerciseId).toArray(),
-  ]);
-  const candidates: { id: string; startedAt: number }[] = [];
-  for (const other of all) {
-    if (other.sessionId === se.sessionId) continue;
-    const s = await db.sessions.get(other.sessionId);
-    if (!s) continue;
-    if (current && s.startedAt > current.startedAt) continue;
-    candidates.push({ id: other.id, startedAt: s.startedAt });
-  }
-  candidates.sort((a, b) => b.startedAt - a.startedAt);
-  for (const c of candidates) {
-    const rows = await orderedEntries(c.id);
+  for (const id of await earlierSessionExerciseIds(sessionExerciseId)) {
+    const rows = await orderedEntries(id);
     if (rows.length > 0) return rows[rows.length - 1];
   }
   return undefined;

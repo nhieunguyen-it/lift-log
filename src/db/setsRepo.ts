@@ -1,5 +1,6 @@
 import { isPaused } from '@/lib/workoutTimer';
 import { db, newId } from './db';
+import { earlierSessionExerciseIds } from './previousSessions';
 import { resumeSession } from './sessionsRepo';
 import type { SetRow } from './types';
 
@@ -39,23 +40,8 @@ async function renumber(sessionExerciseId: string): Promise<void> {
 
 /** Sets of the most recent other session containing this exercise (with sets). */
 async function previousSessionSets(sessionExerciseId: string): Promise<SetRow[]> {
-  const se = await db.sessionExercises.get(sessionExerciseId);
-  if (!se) return [];
-  const [current, all] = await Promise.all([
-    db.sessions.get(se.sessionId),
-    db.sessionExercises.where('exerciseId').equals(se.exerciseId).toArray(),
-  ]);
-  const candidates: { se: (typeof all)[number]; startedAt: number }[] = [];
-  for (const other of all) {
-    if (other.sessionId === se.sessionId) continue;
-    const s = await db.sessions.get(other.sessionId);
-    if (!s) continue;
-    if (current && s.startedAt > current.startedAt) continue;
-    candidates.push({ se: other, startedAt: s.startedAt });
-  }
-  candidates.sort((a, b) => b.startedAt - a.startedAt);
-  for (const c of candidates) {
-    const sets = await orderedSets(c.se.id);
+  for (const id of await earlierSessionExerciseIds(sessionExerciseId)) {
+    const sets = await orderedSets(id);
     if (sets.length > 0) return sets;
   }
   return [];
