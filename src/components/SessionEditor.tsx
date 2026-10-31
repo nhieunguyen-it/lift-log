@@ -8,9 +8,11 @@ import TargetChip from '@/components/recommend/TargetChip';
 import ExerciseDeloadHint from '@/components/progress/ExerciseDeloadHint';
 import SwapExerciseDialog from '@/components/recommend/SwapExerciseDialog';
 import { CustomBadge } from '@/components/custom';
+import CardioEntryItem from '@/components/CardioEntryItem';
 import SetRowItem, { SET_GRID } from '@/components/SetRowItem';
 import type { MergedExercise } from '@/data/merged';
-import { sessionsRepo, setsRepo, type SessionDetail } from '@/db';
+import { isCardio } from '@/analyzer/cardio';
+import { cardioRepo, sessionsRepo, setsRepo, type SessionDetail } from '@/db';
 import { nameFor, useExerciseLookup } from '@/db/customHooks';
 import type { WeightUnit } from '@/lib/units';
 
@@ -34,12 +36,13 @@ export default function SessionEditor({ detail, unit }: Props) {
           No exercises yet. Add one to get started.
         </p>
       )}
-      {exercises.map(({ sessionExercise: se, exercise: seedExercise, sets }, i) => {
+      {exercises.map(({ sessionExercise: se, exercise: seedExercise, sets, cardio }, i) => {
         // Custom exercises (and tombstones) are not in the seed table; resolve them here.
         const exercise: MergedExercise | undefined = seedExercise ?? lookup?.get(se.exerciseId);
         const exerciseName = lookup
           ? nameFor(lookup, se.exerciseId)
           : (exercise?.name ?? se.exerciseId);
+        const cardioCard = isCardio(exercise);
         return (
           <Card key={se.id} data-testid="exercise-card" data-exercise-id={se.exerciseId}>
             <CardContent className="space-y-2">
@@ -49,10 +52,14 @@ export default function SessionEditor({ detail, unit }: Props) {
                     {exerciseName}
                     {exercise?.isCustom && <CustomBadge className="ml-2 align-middle" />}
                   </p>
-                  {exercise?.isBodyweight && (
-                    <p className="text-muted-foreground text-xs">
-                      Bodyweight · weight is added load
-                    </p>
+                  {cardioCard ? (
+                    <p className="text-muted-foreground text-xs">Cardio · minutes and intensity</p>
+                  ) : (
+                    exercise?.isBodyweight && (
+                      <p className="text-muted-foreground text-xs">
+                        Bodyweight · weight is added load
+                      </p>
+                    )
                   )}
                 </div>
                 <div className="flex shrink-0">
@@ -65,21 +72,23 @@ export default function SessionEditor({ detail, unit }: Props) {
                   >
                     <Info />
                   </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    aria-label={`Swap ${exerciseName}`}
-                    data-testid="swap-exercise"
-                    onClick={() =>
-                      setSwap({
-                        seId: se.id,
-                        exerciseId: se.exerciseId,
-                        name: exerciseName,
-                      })
-                    }
-                  >
-                    <Repeat2 />
-                  </Button>
+                  {!cardioCard && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      aria-label={`Swap ${exerciseName}`}
+                      data-testid="swap-exercise"
+                      onClick={() =>
+                        setSwap({
+                          seId: se.id,
+                          exerciseId: se.exerciseId,
+                          name: exerciseName,
+                        })
+                      }
+                    >
+                      <Repeat2 />
+                    </Button>
+                  )}
                   <Button
                     variant="ghost"
                     size="icon"
@@ -106,7 +115,9 @@ export default function SessionEditor({ detail, unit }: Props) {
                     aria-label={`Remove ${exerciseName}`}
                     data-testid="remove-exercise"
                     onClick={() => {
-                      if (sets.length === 0 || window.confirm('Remove exercise and its sets?')) {
+                      const count = sets.length + cardio.length;
+                      const what = cardioCard ? 'entries' : 'sets';
+                      if (count === 0 || window.confirm(`Remove exercise and its ${what}?`)) {
                         void sessionsRepo.removeExercise(se.id);
                       }
                     }}
@@ -115,44 +126,71 @@ export default function SessionEditor({ detail, unit }: Props) {
                   </Button>
                 </div>
               </div>
-              <TargetChip
-                exerciseId={se.exerciseId}
-                sessionId={session.id}
-                sessionExerciseId={se.id}
-                sets={sets}
-              />
-              <ExerciseDeloadHint exerciseId={se.exerciseId} />
-              {sets.length > 0 && (
-                <div
-                  className={`${SET_GRID} text-muted-foreground text-center text-xs`}
-                  aria-hidden="true"
-                >
-                  <span>Set</span>
-                  <span>{exercise?.isBodyweight ? `+${unit}` : unit}</span>
-                  <span>Reps</span>
-                  <span>RIR</span>
-                  <span>Done</span>
-                </div>
+              {!cardioCard && (
+                <TargetChip
+                  exerciseId={se.exerciseId}
+                  sessionId={session.id}
+                  sessionExerciseId={se.id}
+                  sets={sets}
+                />
               )}
-              <ul className="space-y-2">
-                {sets.map((s, idx) => (
-                  <SetRowItem
-                    key={s.id}
-                    set={s}
-                    index={idx}
-                    unit={unit}
-                    bodyweight={exercise?.isBodyweight ?? false}
-                  />
-                ))}
-              </ul>
-              <Button
-                variant="secondary"
-                className="w-full"
-                data-testid="add-set"
-                onClick={() => void setsRepo.addSet(se.id)}
-              >
-                <Plus /> Add set
-              </Button>
+              {!cardioCard && <ExerciseDeloadHint exerciseId={se.exerciseId} />}
+              {cardioCard ? (
+                <>
+                  <ul className="space-y-2">
+                    {cardio.map((c, idx) => (
+                      <CardioEntryItem
+                        key={c.id}
+                        entry={c}
+                        index={idx}
+                        profile={exercise?.cardioProfile}
+                      />
+                    ))}
+                  </ul>
+                  <Button
+                    variant="secondary"
+                    className="w-full"
+                    data-testid="add-entry"
+                    onClick={() => void cardioRepo.addEntry(se.id)}
+                  >
+                    <Plus /> Add entry
+                  </Button>
+                </>
+              ) : (
+                <>
+                  {sets.length > 0 && (
+                    <div
+                      className={`${SET_GRID} text-muted-foreground text-center text-xs`}
+                      aria-hidden="true"
+                    >
+                      <span>Set</span>
+                      <span>{exercise?.isBodyweight ? `+${unit}` : unit}</span>
+                      <span>Reps</span>
+                      <span>RIR</span>
+                      <span>Done</span>
+                    </div>
+                  )}
+                  <ul className="space-y-2">
+                    {sets.map((s, idx) => (
+                      <SetRowItem
+                        key={s.id}
+                        set={s}
+                        index={idx}
+                        unit={unit}
+                        bodyweight={exercise?.isBodyweight ?? false}
+                      />
+                    ))}
+                  </ul>
+                  <Button
+                    variant="secondary"
+                    className="w-full"
+                    data-testid="add-set"
+                    onClick={() => void setsRepo.addSet(se.id)}
+                  >
+                    <Plus /> Add set
+                  </Button>
+                </>
+              )}
             </CardContent>
           </Card>
         );

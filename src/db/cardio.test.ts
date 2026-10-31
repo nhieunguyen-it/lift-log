@@ -82,6 +82,7 @@ describe('cardioRepo entries', () => {
     expect(clampMinutes(0)).toBe(1);
     expect(clampMinutes(900)).toBe(600);
     expect(clampMinutes(29.6)).toBe(30);
+    expect(clampMinutes(NaN)).toBe(1);
   });
 });
 

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Pencil, Plus } from 'lucide-react';
 import HelpButton from '@/components/guide/HelpButton';
+import { CardioBadge } from '@/components/CardioBadge';
 import ExerciseDetailDialog from '@/components/ExerciseDetailDialog';
 import { CustomBadge, CustomExerciseDialog, ExercisePlaceholder } from '@/components/custom';
 import { Button } from '@/components/ui/button';
@@ -89,6 +90,7 @@ export default function ExercisesPage() {
                 <span className="flex items-center gap-2 font-medium">
                   <span className="break-words">{exercise.name}</span>
                   {exercise.isCustom && <CustomBadge />}
+                  {exercise.tracking === 'cardio' && <CardioBadge />}
                 </span>
                 <span className="mt-1 flex flex-wrap gap-1">
                   <Badge variant="outline">{exercise.equipment}</Badge>

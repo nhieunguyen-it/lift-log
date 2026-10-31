@@ -16,6 +16,7 @@ export interface CardioHistoryItem {
 
 /** Whole minutes, 1..max. */
 export function clampMinutes(n: number): number {
+  if (!Number.isFinite(n)) return 1;
   return Math.min(TRAINING.cardio.maxMinutes, Math.max(1, Math.round(n)));
 }
 

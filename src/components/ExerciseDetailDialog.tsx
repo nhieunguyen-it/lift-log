@@ -8,7 +8,10 @@ import {
 } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import AlternativesList from '@/components/recommend/AlternativesList';
-import { useExerciseDetail, useExerciseInsight, useMuscles, useUnit } from '@/db';
+import { CardioBadge } from '@/components/CardioBadge';
+import { ExercisePlaceholder } from '@/components/custom';
+import { formatDistance, isCardio } from '@/analyzer/cardio';
+import { useCardioHistory, useExerciseDetail, useExerciseInsight, useMuscles, useUnit } from '@/db';
 import { formatWeight } from '@/lib/units';
 import type { LoggedSet } from '@/analyzer';
 
@@ -40,6 +43,8 @@ export default function ExerciseDetailDialog({ exerciseId, onClose }: Props) {
   const insight = useExerciseInsight(exerciseId ?? undefined);
   const unit = useUnit() ?? 'kg';
   const stats = insight?.stats;
+  const cardio = isCardio(ex);
+  const cardioHistory = useCardioHistory(cardio ? ex?.id : undefined);
 
   return (
     <Dialog open={exerciseId !== null} onOpenChange={(o) => !o && onClose()}>
@@ -56,6 +61,15 @@ export default function ExerciseDetailDialog({ exerciseId, onClose }: Props) {
         </DialogHeader>
         {ex && (
           <div className="space-y-3">
+            {ex.images.length === 0 && (
+              <div
+                data-testid="no-photos"
+                className="bg-muted/50 text-muted-foreground flex items-center gap-3 rounded-md p-3 text-sm"
+              >
+                <ExercisePlaceholder size={40} />
+                No photos for this exercise
+              </div>
+            )}
             <ul className="grid grid-cols-2 gap-2" data-testid="exercise-images">
               {ex.images.map((src, i) => {
                 const caption = captionFor(i, ex.images.length);
@@ -77,6 +91,7 @@ export default function ExerciseDetailDialog({ exerciseId, onClose }: Props) {
               })}
             </ul>
             <div className="flex flex-wrap gap-1">
+              {cardio && <CardioBadge />}
               <Badge variant="outline">{ex.equipment}</Badge>
               <Badge variant="outline">{ex.mechanic}</Badge>
               <Badge variant="outline">{ex.level}</Badge>
@@ -91,34 +106,64 @@ export default function ExerciseDetailDialog({ exerciseId, onClose }: Props) {
                 ))}
               </div>
             </div>
-            <section aria-labelledby="ex-history" data-testid="exercise-history">
-              <p id="ex-history" className="mb-1 text-sm font-medium">
-                Your history
-              </p>
-              {stats?.bestSet ? (
-                <ul className="text-muted-foreground space-y-0.5 text-sm">
-                  <li>Best set: {setText(stats.bestSet, unit)}</li>
-                  {stats.estimated1RmKg !== undefined && (
-                    <li>Estimated 1RM: {formatWeight(stats.estimated1RmKg, unit)}</li>
+            {cardio ? (
+              <section aria-labelledby="ex-history" data-testid="cardio-history">
+                <p id="ex-history" className="mb-1 text-sm font-medium">
+                  Your history
+                </p>
+                {cardioHistory && cardioHistory.length > 0 ? (
+                  <ul className="text-muted-foreground space-y-0.5 text-sm">
+                    {cardioHistory.map((h) => (
+                      <li key={h.sessionId}>
+                        {new Date(h.startedAt).toLocaleDateString()} · {Math.round(h.minutes)} min ·{' '}
+                        {h.intensity}
+                        {h.distanceKm !== undefined &&
+                          ex.cardioProfile &&
+                          ` · ${formatDistance(ex.cardioProfile, h.distanceKm)}`}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-muted-foreground text-sm">No history for this exercise yet</p>
+                )}
+              </section>
+            ) : (
+              <>
+                <section aria-labelledby="ex-history" data-testid="exercise-history">
+                  <p id="ex-history" className="mb-1 text-sm font-medium">
+                    Your history
+                  </p>
+                  {stats?.bestSet ? (
+                    <ul className="text-muted-foreground space-y-0.5 text-sm">
+                      <li>Best set: {setText(stats.bestSet, unit)}</li>
+                      {stats.estimated1RmKg !== undefined && (
+                        <li>Estimated 1RM: {formatWeight(stats.estimated1RmKg, unit)}</li>
+                      )}
+                      {stats.lastSession && (
+                        <li>
+                          Last session:{' '}
+                          {stats.lastSession.sets.map((s) => setText(s, unit)).join(', ')}
+                        </li>
+                      )}
+                    </ul>
+                  ) : (
+                    <p className="text-muted-foreground text-sm">
+                      No history for this exercise yet
+                    </p>
                   )}
-                  {stats.lastSession && (
-                    <li>
-                      Last session: {stats.lastSession.sets.map((s) => setText(s, unit)).join(', ')}
-                    </li>
-                  )}
-                </ul>
-              ) : (
-                <p className="text-muted-foreground text-sm">No history for this exercise yet</p>
-              )}
-            </section>
-            <section aria-labelledby="ex-e1rm" data-testid="exercise-e1rm">
-              <p id="ex-e1rm" className="mb-1 text-sm font-medium">
-                Strength trend
-              </p>
-              <Suspense fallback={<p className="text-muted-foreground text-sm">Loading chart…</p>}>
-                <E1rmChart exerciseId={ex.id} />
-              </Suspense>
-            </section>
+                </section>
+                <section aria-labelledby="ex-e1rm" data-testid="exercise-e1rm">
+                  <p id="ex-e1rm" className="mb-1 text-sm font-medium">
+                    Strength trend
+                  </p>
+                  <Suspense
+                    fallback={<p className="text-muted-foreground text-sm">Loading chart…</p>}
+                  >
+                    <E1rmChart exerciseId={ex.id} />
+                  </Suspense>
+                </section>
+              </>
+            )}
             <section aria-labelledby="ex-alts" data-testid="exercise-alternatives">
               <p id="ex-alts" className="mb-1 text-sm font-medium">
                 Alternatives

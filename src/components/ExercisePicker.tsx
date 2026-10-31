@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { CardioBadge } from '@/components/CardioBadge';
 import { CustomBadge, ExercisePlaceholder } from '@/components/custom';
 import { useExercisesWithMuscles, useMuscles, useRecentExerciseIds } from '@/db';
 import { filterExercises } from '@/lib/exerciseFilter';
@@ -137,6 +138,7 @@ export default function ExercisePicker({ open, onOpenChange, onPick }: Props) {
                   )}
                   {exercise.name}
                   {exercise.isCustom && <CustomBadge />}
+                  {exercise.tracking === 'cardio' && <CardioBadge />}
                   {recentSet.has(exercise.id) && <Badge variant="secondary">Recent</Badge>}
                 </span>
                 <span className="text-muted-foreground text-xs">
