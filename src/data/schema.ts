@@ -12,6 +12,14 @@ export const EQUIPMENT = [
   'other',
 ] as const;
 
+/** How an exercise is logged: weight x reps sets, or duration + intensity. */
+export const TRACKING = ['strength', 'cardio'] as const;
+export type Tracking = (typeof TRACKING)[number];
+
+/** Pace tables for cardio exercises live in TRAINING.cardio.profiles. */
+export const CARDIO_PROFILES = ['running', 'cycling', 'swim-freestyle', 'swim-breaststroke'] as const;
+export type CardioProfile = (typeof CARDIO_PROFILES)[number];
+
 export const MuscleIdSchema = z.enum(MUSCLE_IDS);
 
 export const MuscleSchema = z.object({

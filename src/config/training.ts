@@ -3,6 +3,8 @@
  * Components and engines must read thresholds from here, never hard-code them.
  */
 import type { Equipment, MuscleId } from '@/data';
+import type { CardioProfile } from '@/data/schema';
+import type { CardioIntensity } from '@/db/types';
 
 /** Weekly hard-set volume landmarks for one muscle. */
 export interface VolumeTarget {
@@ -111,6 +113,18 @@ export interface TrainingConfig {
     /** Ramp: chosen exercises gain `setsPerWeek` sets each week, at most `maxExtraSets` above base. */
     ramp: BlockRamp;
   };
+  /** Cardio exercises: logged by duration + intensity, credited to muscles as sets. */
+  cardio: {
+    /** Assumed speed in km/h per profile and intensity. */
+    profiles: Record<CardioProfile, Record<CardioIntensity, number>>;
+    /** Relaxed minutes that count as one set. */
+    minutesPerSet: number;
+    intensityMultiplier: Record<CardioIntensity, number>;
+    /** Credit cap per session exercise. */
+    maxSetsPerSession: number;
+    /** Longest single entry the UI accepts. */
+    maxMinutes: number;
+  };
 }
 
 /** Phase 4: how ramped exercises grow week to week inside a block. */
@@ -201,6 +215,18 @@ export const TRAINING: TrainingConfig = {
   charts: { minSessions: 2, rangeBarHeadroom: 1.25, sparklineWeeks: 5 },
   analyzeUi: { collapsedRows: 6, transitionMs: 180 },
   blocks: { defaultWeeks: 5, minWeeks: 3, maxWeeks: 8, ramp: { setsPerWeek: 1, maxExtraSets: 3 } },
+  cardio: {
+    profiles: {
+      running: { relaxed: 8.5714, moderate: 10, hard: 12 },
+      cycling: { relaxed: 16, moderate: 20, hard: 25 },
+      'swim-freestyle': { relaxed: 2.0, moderate: 2.4, hard: 3.0 },
+      'swim-breaststroke': { relaxed: 1.7143, moderate: 2.0, hard: 2.4 },
+    },
+    minutesPerSet: 10,
+    intensityMultiplier: { relaxed: 1, moderate: 1.5, hard: 2 },
+    maxSetsPerSession: 3,
+    maxMinutes: 600,
+  },
 };
 
 /** Equipment treated as "barbell or machine" for load steps. */

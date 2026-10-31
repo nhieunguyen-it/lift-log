@@ -18,3 +18,13 @@ export {
 } from './exerciseStats';
 export type { E1rmPoint } from './exerciseStats';
 export { summarizeWeek } from './summary';
+export {
+  isCardio,
+  speedKmh,
+  estimateDistanceKm,
+  formatDistance,
+  formatEstimate,
+  isCountedEntry,
+  cardioSetCredit,
+  countedMinutes,
+} from './cardio';

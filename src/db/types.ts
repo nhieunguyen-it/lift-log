@@ -47,6 +47,19 @@ export interface SetRow {
   completedAt?: number;
 }
 
+export const CARDIO_INTENSITIES = ['relaxed', 'moderate', 'hard'] as const;
+export type CardioIntensity = (typeof CARDIO_INTENSITIES)[number];
+
+/** One timed cardio block inside a session exercise. */
+export interface CardioEntry {
+  id: string;
+  sessionExerciseId: string;
+  order: number;
+  durationSec: number;
+  intensity: CardioIntensity;
+  completedAt?: number;
+}
+
 export interface SettingRow {
   key: string;
   value: unknown;
