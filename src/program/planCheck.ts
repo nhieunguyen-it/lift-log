@@ -2,6 +2,7 @@
 import { MUSCLE_IDS } from '@/data';
 import type { Exercise, ExerciseMuscle, MuscleId } from '@/data';
 import type { VolumeTarget } from '@/config/training';
+import { isCardio } from '@/analyzer/cardio';
 import { statusFor } from '@/analyzer/volume';
 import type { PlanCheck, PlanMuscle, PlanWarning, Program } from './types';
 
@@ -11,11 +12,12 @@ import type { PlanCheck, PlanMuscle, PlanWarning, Program } from './types';
  */
 export function planCheck(
   program: Pick<Program, 'days'>,
-  exercises: Pick<Exercise, 'id'>[],
+  exercises: Pick<Exercise, 'id' | 'tracking'>[],
   exerciseMuscles: ExerciseMuscle[],
   targets: Record<MuscleId, VolumeTarget>,
 ): PlanCheck {
   const known = new Set(exercises.map((e) => e.id));
+  const cardio = new Set(exercises.filter(isCardio).map((e) => e.id));
   const weights = new Map<string, ExerciseMuscle[]>();
   for (const em of exerciseMuscles) {
     const list = weights.get(em.exerciseId);
@@ -33,6 +35,7 @@ export function planCheck(
 
   for (const day of program.days) {
     for (const ex of day.exercises) {
+      if (cardio.has(ex.exerciseId)) continue; // cardio isn't part of the strength plan
       if (!known.has(ex.exerciseId)) {
         unknown.add(ex.exerciseId);
         continue;

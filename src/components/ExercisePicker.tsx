@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { CardioBadge } from '@/components/CardioBadge';
 import { CustomBadge, ExercisePlaceholder } from '@/components/custom';
 import { useExercisesWithMuscles, useMuscles, useRecentExerciseIds } from '@/db';
+import { isCardio } from '@/analyzer/cardio';
 import { filterExercises } from '@/lib/exerciseFilter';
 import type { Equipment } from '@/data';
 
@@ -33,9 +34,11 @@ interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onPick: (exerciseId: string) => void;
+  /** Hide cardio exercises (programs are strength-only). */
+  strengthOnly?: boolean;
 }
 
-export default function ExercisePicker({ open, onOpenChange, onPick }: Props) {
+export default function ExercisePicker({ open, onOpenChange, onPick, strengthOnly }: Props) {
   const all = useExercisesWithMuscles();
   const muscles = useMuscles();
   const recent = useRecentExerciseIds();
@@ -45,13 +48,16 @@ export default function ExercisePicker({ open, onOpenChange, onPick }: Props) {
 
   const results = useMemo(
     () =>
-      filterExercises(all ?? [], {
-        query,
-        muscleId: muscleId || undefined,
-        equipment: (equipment || undefined) as Equipment | undefined,
-        recentIds: recent ?? [],
-      }),
-    [all, query, muscleId, equipment, recent],
+      filterExercises(
+        strengthOnly ? (all ?? []).filter((e) => !isCardio(e.exercise)) : (all ?? []),
+        {
+          query,
+          muscleId: muscleId || undefined,
+          equipment: (equipment || undefined) as Equipment | undefined,
+          recentIds: recent ?? [],
+        },
+      ),
+    [all, query, muscleId, equipment, recent, strengthOnly],
   );
   const recentSet = useMemo(() => new Set(recent ?? []), [recent]);
 

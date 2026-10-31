@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dialog';
 import DeloadCard from '@/components/progress/DeloadCard';
 import StartFromProgram from '@/components/program/StartFromProgram';
+import CardioSummaryLines from '@/components/CardioSummaryLines';
 import SessionEditor from '@/components/SessionEditor';
 import SummaryStats from '@/components/SummaryStats';
 import WorkoutTimer from '@/components/WorkoutTimer';
@@ -29,7 +30,7 @@ export default function WorkoutPage() {
   const detail = useSessionDetail(active?.id);
   const unit = useUnit();
   const [finishOpen, setFinishOpen] = useState(false);
-  const [done, setDone] = useState<SessionSummary | null>(null);
+  const [done, setDone] = useState<{ summary: SessionSummary; cardioLines: string[] } | null>(null);
 
   if (active === undefined || unit === undefined) {
     return (
@@ -51,7 +52,8 @@ export default function WorkoutPage() {
           <HelpButton anchor="logging" label="logging a workout" />
         </div>
         <h2 className="text-lg font-medium">Nice work!</h2>
-        <SummaryStats summary={done} unit={unit} />
+        <SummaryStats summary={done.summary} unit={unit} />
+        <CardioSummaryLines lines={done.cardioLines} />
         <Button className="w-full" data-testid="summary-done" onClick={() => setDone(null)}>
           Done
         </Button>
@@ -129,9 +131,10 @@ export default function WorkoutPage() {
             <Button
               data-testid="finish-confirm"
               onClick={async () => {
+                const lines = detail ? sessionsRepo.cardioLines(detail) : [];
                 const s = await sessionsRepo.finishSession(active.id);
                 setFinishOpen(false);
-                if (s) setDone(s);
+                if (s) setDone({ summary: s, cardioLines: lines });
               }}
             >
               Finish workout

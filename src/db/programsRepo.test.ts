@@ -6,8 +6,11 @@ import * as programs from './programsRepo';
 import * as sessions from './sessionsRepo';
 import * as settings from './settingsRepo';
 import * as edit from '@/program/edit';
+import { BUILT_IN_PROGRAMS } from '@/program/templates';
 
 beforeEach(resetDb);
+
+const A = BUILT_IN_PROGRAMS[0].days[0].exercises[0].exerciseId;
 
 describe('programsRepo', () => {
   it('lists built-ins first and resolves them by id', async () => {
@@ -65,6 +68,26 @@ describe('programsRepo', () => {
       }
       expect(e.sets.map((r) => r.order)).toEqual(e.sets.map((_, k) => k));
     });
+  });
+
+  it('startProgramDay skips cardio exercises in a day', async () => {
+    const p = await programs.createProgram('Cardio mix');
+    await programs.updateProgram(p.id, (x) =>
+      edit.addExercise(
+        edit.addExercise(
+          edit.addDay(x, { id: 'dx', name: 'D', exercises: [] }),
+          'dx',
+          'running',
+          3,
+        ),
+        'dx',
+        A,
+        3,
+      ),
+    );
+    const s = await programs.startProgramDay(p.id, 'dx');
+    const detail = await sessions.getSessionDetail(s.id);
+    expect(detail?.exercises.map((e) => e.sessionExercise.exerciseId)).toEqual([A]);
   });
 
   it('startProgramDay returns an already-active session untouched', async () => {

@@ -76,6 +76,7 @@ test('swimming detail shows placeholder and cardio history, no e1RM chart', asyn
   await expect(dlg.getByTestId('no-photos')).toBeVisible();
   await expect(dlg.getByTestId('cardio-history')).toBeVisible();
   await expect(dlg.getByTestId('exercise-e1rm')).toHaveCount(0);
+  await expect(dlg.getByTestId('exercise-alternatives')).toHaveCount(0);
 });
 
 test('cardio minutes credit quads in the Analyze detail sheet', async ({ page }) => {
@@ -93,4 +94,36 @@ test('cardio minutes credit quads in the Analyze detail sheet', async ({ page })
     .click();
   await page.getByRole('button', { name: /^Quads 3 sets/ }).click();
   await expect(page.getByTestId('contributions')).toContainText('Running · 30 min → 3.0 sets');
+});
+
+test('finish screen and history detail show the cardio line', async ({ page }) => {
+  const card = await startWithRunning(page);
+  await card.getByTestId('add-entry').click();
+  const entry = card.getByTestId('cardio-entry');
+  await entry.getByTestId('cardio-minutes').fill('30');
+  await entry.getByTestId('cardio-minutes').blur();
+  await entry.getByTestId('cardio-done').click();
+  await expect(entry.getByTestId('cardio-done')).toHaveAttribute('data-state', 'checked');
+
+  await page.getByTestId('finish-workout').click();
+  await page.getByTestId('finish-confirm').click();
+  await expect(page.getByTestId('summary-cardio-line')).toHaveText('Running 30 min · ≈ 4.3 km');
+
+  await page.getByTestId('summary-done').click();
+  await page
+    .getByRole('navigation', { name: 'Primary' })
+    .getByRole('link', { name: 'History' })
+    .click();
+  await page.getByTestId('history-item').first().click();
+  await expect(page.getByTestId('summary-cardio-line')).toHaveText('Running 30 min · ≈ 4.3 km');
+});
+
+test('program editor picker does not offer cardio', async ({ page }) => {
+  await page.goto('/programs/builtin-full-body');
+  await page.getByTestId('edit-builtin').click();
+  await page.getByTestId('add-program-exercise').first().click();
+  await page.getByTestId('picker-search').fill('Running');
+  await expect(page.getByTestId('picker-item')).toHaveCount(0);
+  await page.getByTestId('picker-search').fill('Squat');
+  await expect(page.getByTestId('picker-item').first()).toBeVisible();
 });

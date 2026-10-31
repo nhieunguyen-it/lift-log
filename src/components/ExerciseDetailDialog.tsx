@@ -9,6 +9,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import AlternativesList from '@/components/recommend/AlternativesList';
 import { CardioBadge } from '@/components/CardioBadge';
+import { INTENSITY_LABELS } from '@/components/CardioEntryItem';
 import { ExercisePlaceholder } from '@/components/custom';
 import { formatDistance, isCardio } from '@/analyzer/cardio';
 import { useCardioHistory, useExerciseDetail, useExerciseInsight, useMuscles, useUnit } from '@/db';
@@ -116,7 +117,7 @@ export default function ExerciseDetailDialog({ exerciseId, onClose }: Props) {
                     {cardioHistory.map((h) => (
                       <li key={h.sessionId}>
                         {new Date(h.startedAt).toLocaleDateString()} · {Math.round(h.minutes)} min ·{' '}
-                        {h.intensity}
+                        {INTENSITY_LABELS[h.intensity]}
                         {h.distanceKm !== undefined &&
                           ex.cardioProfile &&
                           ` · ${formatDistance(ex.cardioProfile, h.distanceKm)}`}
@@ -164,12 +165,14 @@ export default function ExerciseDetailDialog({ exerciseId, onClose }: Props) {
                 </section>
               </>
             )}
-            <section aria-labelledby="ex-alts" data-testid="exercise-alternatives">
-              <p id="ex-alts" className="mb-1 text-sm font-medium">
-                Alternatives
-              </p>
-              <AlternativesList exerciseId={ex.id} />
-            </section>
+            {!cardio && (
+              <section aria-labelledby="ex-alts" data-testid="exercise-alternatives">
+                <p id="ex-alts" className="mb-1 text-sm font-medium">
+                  Alternatives
+                </p>
+                <AlternativesList exerciseId={ex.id} />
+              </section>
+            )}
           </div>
         )}
       </DialogContent>

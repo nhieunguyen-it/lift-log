@@ -9,7 +9,7 @@ import type { CardioProfile } from '@/data/schema';
 import { cardioRepo, CARDIO_INTENSITIES, type CardioEntry, type CardioIntensity } from '@/db';
 import { parseIntInput } from '@/lib/weight';
 
-const LABELS: Record<CardioIntensity, string> = {
+export const INTENSITY_LABELS: Record<CardioIntensity, string> = {
   relaxed: 'Relaxed',
   moderate: 'Moderate',
   hard: 'Hard',
@@ -103,7 +103,7 @@ export default function CardioEntryItem({ entry, index, profile }: Props) {
             className="min-h-11"
             onClick={() => void cardioRepo.updateEntry(entry.id, { intensity: it })}
           >
-            {LABELS[it]}
+            {INTENSITY_LABELS[it]}
           </Button>
         ))}
       </div>

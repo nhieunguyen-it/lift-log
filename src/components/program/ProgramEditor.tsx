@@ -373,6 +373,7 @@ export default function ProgramEditor({ programId }: Props) {
       {check && <PlanCheckView check={check} nameFor={(id) => nameFor(lookup, id)} />}
 
       <ExercisePicker
+        strengthOnly
         open={pickerDay !== null}
         onOpenChange={(o) => !o && setPickerDay(null)}
         onPick={(exerciseId) => {

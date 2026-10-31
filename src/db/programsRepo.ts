@@ -1,4 +1,5 @@
 import type { ExerciseMuscle } from '@/data';
+import { isCardio } from '@/analyzer/cardio';
 import { TRAINING } from '@/config/training';
 import type { MergedExercise } from '@/data/merged';
 import { alternatives } from '@/recommend';
@@ -161,7 +162,8 @@ export async function startProgramDay(
       const day = program?.days.find((d) => d.id === dayId);
       if (!program || !day) throw new Error('Program day not found');
       const { exercises } = await loadMergedExercises();
-      const known = new Set(exercises.map((e) => e.id));
+      // Cardio is out of scope for programs: skip it (e.g. from an imported program).
+      const known = new Set(exercises.filter((e) => !isCardio(e)).map((e) => e.id));
 
       const active = await getActiveSession();
       if (active) return active;

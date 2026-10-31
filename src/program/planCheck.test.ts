@@ -32,6 +32,13 @@ describe('planCheck', () => {
     expect(r.unknownExerciseIds).toEqual([]);
   });
 
+  it('ignores cardio exercises', () => {
+    const p = prog([{ id: 'd', name: 'D', exercises: [{ exerciseId: 'running', targetSets: 5 }] }]);
+    const r = planCheck(p, exercises, exerciseMuscles, DEFAULT_TARGETS);
+    for (const id of MUSCLE_IDS) expect(r.muscles[id].sets).toBe(0);
+    expect(r.unknownExerciseIds).toEqual([]);
+  });
+
   it('sums across days and exercises', () => {
     const p = prog([
       { id: 'a', name: 'A', exercises: [{ exerciseId: 'barbell-bench-press', targetSets: 4 }] },

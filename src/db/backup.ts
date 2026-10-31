@@ -15,6 +15,7 @@ import {
 } from './settingsRepo';
 import type { WeekStartDay } from '@/analyzer/types';
 import { EQUIPMENT, MuscleIdSchema } from '@/data/schema';
+import { TRAINING } from '@/config/training';
 import { CARDIO_INTENSITIES } from './types';
 import { CUSTOM_ID_PREFIX } from '@/data/merged';
 import {
@@ -80,7 +81,11 @@ export const CardioEntrySchema = z.object({
   id: z.string().min(1),
   sessionExerciseId: z.string().min(1),
   order: z.number().int(),
-  durationSec: z.number().int().min(0),
+  durationSec: z
+    .number()
+    .int()
+    .min(0)
+    .max(TRAINING.cardio.maxMinutes * 60),
   intensity: z.enum(CARDIO_INTENSITIES),
   completedAt: z.number().optional(),
 });

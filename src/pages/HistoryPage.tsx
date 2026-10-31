@@ -3,6 +3,7 @@ import { ChevronLeft } from 'lucide-react';
 import HelpButton from '@/components/guide/HelpButton';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import CardioSummaryLines from '@/components/CardioSummaryLines';
 import SessionEditor from '@/components/SessionEditor';
 import SummaryStats from '@/components/SummaryStats';
 import { sessionsRepo, useHistory, useSessionDetail, useUnit } from '@/db';
@@ -104,6 +105,7 @@ export function HistoryDetailPage() {
       </Link>
       <h1 className="text-2xl font-semibold">{fmtDate(detail.session.startedAt)}</h1>
       <SummaryStats summary={sessionsRepo.summarize(detail)} unit={unit} />
+      <CardioSummaryLines lines={sessionsRepo.cardioLines(detail)} />
       <SessionEditor detail={detail} unit={unit} />
       <Button
         variant="ghost"

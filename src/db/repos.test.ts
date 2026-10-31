@@ -343,6 +343,32 @@ describe('cardio in summaries', () => {
     return { s, entry };
   }
 
+  it('ignores cardio rows under a strength exercise', () => {
+    const strength = exercises.find((x) => x.tracking !== 'cardio')!;
+    const detail: sessions.SessionDetail = {
+      session: { id: 's', startedAt: 0 } as sessions.SessionDetail['session'],
+      exercises: [
+        {
+          sessionExercise: { id: 'se', sessionId: 's', exerciseId: strength.id, order: 0 },
+          exercise: strength,
+          sets: [],
+          cardio: [
+            {
+              id: 'c',
+              sessionExerciseId: 'se',
+              order: 0,
+              durationSec: 1800,
+              intensity: 'relaxed',
+              completedAt: 1,
+            },
+          ],
+        } as sessions.SessionDetail['exercises'][number],
+      ],
+    };
+    expect(sessions.summarize(detail).cardioMinutes).toBe(0);
+    expect(sessions.cardioLines(detail)).toEqual([]);
+  });
+
   it('keeps cardio out of working sets and volume but counts minutes', async () => {
     const { s } = await runSession(true);
     const detail = (await sessions.getSessionDetail(s.id))!;

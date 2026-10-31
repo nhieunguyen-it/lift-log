@@ -2,6 +2,7 @@ import {
   countedMinutes,
   estimateDistanceKm,
   formatDistance,
+  isCardio,
   isCountedEntry,
 } from '@/analyzer/cardio';
 import type { Exercise } from '@/data';
@@ -122,7 +123,7 @@ export function summarize(detail: SessionDetail, now = Date.now()): SessionSumma
   let volumeKg = 0;
   let cardioMinutes = 0;
   for (const e of detail.exercises) {
-    cardioMinutes += countedMinutes(e.cardio);
+    if (isCardio(e.exercise)) cardioMinutes += countedMinutes(e.cardio);
     for (const s of e.sets) {
       if (s.isWarmup || s.completedAt === undefined) continue;
       workingSets += 1;
@@ -142,6 +143,7 @@ export function summarize(detail: SessionDetail, now = Date.now()): SessionSumma
 export function cardioLines(detail: SessionDetail): string[] {
   const lines: string[] = [];
   for (const e of detail.exercises) {
+    if (!isCardio(e.exercise)) continue;
     const counted = e.cardio.filter(isCountedEntry);
     if (counted.length === 0) continue;
     const name = e.exercise?.name ?? e.sessionExercise.exerciseId;

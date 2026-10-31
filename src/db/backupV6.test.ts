@@ -67,6 +67,22 @@ describe('backup v6', () => {
     if (!r2.ok) expect(r2.error).toMatch(/duplicate ids/);
   });
 
+  it('rejects out-of-range cardio entries', () => {
+    const cases: Array<Record<string, unknown>> = [
+      { durationSec: 36001 },
+      { intensity: 'sprint' },
+      { durationSec: -1 },
+    ];
+    for (const patch of cases) {
+      const bad = JSON.parse(JSON.stringify(v6));
+      Object.assign(bad.cardioEntries[0], patch);
+      expect(parseBackup(JSON.stringify(bad)).ok).toBe(false);
+    }
+    const edge = JSON.parse(JSON.stringify(v6));
+    edge.cardioEntries[0].durationSec = 36000;
+    expect(parseBackup(JSON.stringify(edge)).ok).toBe(true);
+  });
+
   it('importing a v5 file clears existing cardio entries', async () => {
     bindDb('lift-log');
     await ensureSeed();

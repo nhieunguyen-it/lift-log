@@ -103,7 +103,7 @@ function Body({
                   {c.minutes !== undefined ? (
                     <div className="flex justify-between gap-2">
                       <span className="min-w-0 truncate">
-                        {`${exerciseName(c.exerciseId)} · ${c.minutes} min → ${c.weightedSets.toFixed(1)} sets`}
+                        {`${exerciseName(c.exerciseId)} · ${Math.round(c.minutes)} min → ${c.weightedSets.toFixed(1)} sets`}
                       </span>
                       <span className="text-muted-foreground shrink-0 text-xs">
                         ({Math.round(c.pct)}%)
