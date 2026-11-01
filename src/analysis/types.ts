@@ -2,7 +2,7 @@ import type { Equipment, MuscleId } from '@/data';
 import type { MergedExercise } from '@/data/merged';
 import type { VolumeTarget } from '@/config/training';
 import type { WeightUnit } from '@/lib/units';
-import type { Program, ProgramBlock } from '@/program/types';
+import type { PlanVsActual, Program, ProgramBlock } from '@/program/types';
 import type {
   AnalyzerResult,
   ExerciseStats,
@@ -60,4 +60,13 @@ export interface LongTrend {
   /** Oldest first: `longTrendWeeks` previous weeks then the current week. */
   trend: Record<MuscleId, MuscleTrendPoint[]>;
   targets: Record<MuscleId, VolumeTarget>;
+}
+
+export interface PlanVsActualView {
+  programName: string;
+  /** Block week compared against, when a block covers this week. */
+  blockWeek: number | null;
+  /** True while the week is still running: unfinished days are "not done yet". */
+  inProgress: boolean;
+  result: PlanVsActual;
 }

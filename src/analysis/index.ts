@@ -12,3 +12,4 @@ export {
   // Aliased: the engine's `longTrend` (different signature) is already public here.
   longTrend as longTrendView,
 } from './queries/progress';
+export { planVsActual } from './queries/planVsActual';
