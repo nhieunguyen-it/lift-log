@@ -2,7 +2,7 @@ import type { ExerciseMuscle } from '@/data';
 import { isCardio } from '@/analysis';
 import { TRAINING } from '@/config/training';
 import type { MergedExercise } from '@/data/merged';
-import { alternatives } from '@/analysis';
+import { scoreAlternatives } from '@/analysis';
 import type { AlternativeScore } from '@/analysis';
 import { planCheck } from '@/program/planCheck';
 import {
@@ -221,7 +221,7 @@ export async function getProgramAlternatives(exerciseId: string): Promise<Altern
     loadMergedExercises(),
     getEquipment(),
   ]);
-  return alternatives({
+  return scoreAlternatives({
     exerciseId,
     availableEquipment: equipment,
     exercisesDoneThisWeek: [],

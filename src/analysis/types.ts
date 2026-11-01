@@ -3,8 +3,14 @@ import type { MergedExercise } from '@/data/merged';
 import type { VolumeTarget } from '@/config/training';
 import type { WeightUnit } from '@/lib/units';
 import type { Program, ProgramBlock } from '@/program/types';
-import type { AnalyzerResult, TrainingData, WeekStartDay, WeekSummary } from './engine';
-import type { VolumeSuggestion } from './recommend';
+import type {
+  AnalyzerResult,
+  ExerciseStats,
+  TrainingData,
+  WeekStartDay,
+  WeekSummary,
+} from './engine';
+import type { ProgressionTarget, VolumeSuggestion } from './recommend';
 
 export * from './rows';
 
@@ -33,4 +39,9 @@ export interface AnalysisView {
 
 export interface AnalyzeView extends AnalysisView {
   summary: WeekSummary;
+}
+
+export interface ExerciseInsight {
+  stats: ExerciseStats;
+  target: ProgressionTarget;
 }
