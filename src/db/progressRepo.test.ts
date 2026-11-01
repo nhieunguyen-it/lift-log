@@ -4,13 +4,8 @@ import { TRAINING } from '@/config/training';
 import { makeData, makeSession } from '@/analysis/engine/fixtures';
 import { db } from './db';
 import { ensureSeed } from './seed';
-import {
-  dismissDeload,
-  getDeloadSignal,
-  getE1rmHistory,
-  getExerciseDeloadHint,
-  getLongTrend,
-} from './progressRepo';
+import { dismissDeload } from './progressRepo';
+import { analysisClient } from './localAnalysisClient';
 
 const DAY = 86_400_000;
 const T0 = new Date(2026, 0, 5, 18).getTime();
@@ -52,36 +47,40 @@ describe('progress repo', () => {
   it('returns a deload signal, honors dismissal and expires it', async () => {
     await load();
     const now = T0 + 12 * DAY;
-    const signal = await getDeloadSignal(now);
+    const signal = await analysisClient.getDeloadSignal(now);
     expect(signal?.overall).toBe(true);
     await dismissDeload(signal!.key, now);
-    expect(await getDeloadSignal(now + DAY)).toBeNull();
-    expect(await getDeloadSignal(now + TRAINING.deload.dismissMs + 1)).not.toBeNull();
+    expect(await analysisClient.getDeloadSignal(now + DAY)).toBeNull();
+    expect(
+      await analysisClient.getDeloadSignal(now + TRAINING.deload.dismissMs + 1),
+    ).not.toBeNull();
     expect(await db.sets.count()).toBe(24); // never mutates workout data
   });
 
   it('returns long trend and e1RM history', async () => {
     await load();
-    const { trend } = await getLongTrend(T0 + 12 * DAY);
+    const { trend } = await analysisClient.getLongTrend(T0 + 12 * DAY);
     expect(trend.chest).toHaveLength(TRAINING.longTrendWeeks + 1);
-    const h = await getE1rmHistory('barbell-bench-press');
+    const h = await analysisClient.getE1rmHistory('barbell-bench-press');
     expect(h.map((p) => Math.round(p.e1rmKg * 100) / 100)).toEqual([120, 120, 116.67, 110]);
   });
 
   it('per-exercise hint only without an overall signal; dismissible', async () => {
     const now = T0 + 12 * DAY;
     await load('barbell-bench-press');
-    expect(await getDeloadSignal(now)).toBeNull();
-    const hint = await getExerciseDeloadHint('barbell-bench-press', now);
+    expect(await analysisClient.getDeloadSignal(now)).toBeNull();
+    const hint = await analysisClient.getExerciseDeloadHint('barbell-bench-press', now);
     expect(hint?.detail).toMatch(/e1RM down \d+% over 4 sessions/);
-    expect(await getExerciseDeloadHint('barbell-back-squat', now)).toBeNull();
+    expect(await analysisClient.getExerciseDeloadHint('barbell-back-squat', now)).toBeNull();
     await dismissDeload(hint!.key, now);
-    expect(await getExerciseDeloadHint('barbell-bench-press', now + DAY)).toBeNull();
+    expect(await analysisClient.getExerciseDeloadHint('barbell-bench-press', now + DAY)).toBeNull();
     expect(await db.sets.count()).toBe(12);
   });
 
   it('no per-exercise hint when a full deload is suggested', async () => {
     await load();
-    expect(await getExerciseDeloadHint('barbell-bench-press', T0 + 12 * DAY)).toBeNull();
+    expect(
+      await analysisClient.getExerciseDeloadHint('barbell-bench-press', T0 + 12 * DAY),
+    ).toBeNull();
   });
 });

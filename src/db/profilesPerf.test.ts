@@ -6,7 +6,7 @@ import { PROFILES } from '@/config/profiles';
 import { bindDb, db } from './db';
 import { createProfile, listProfiles, registry, resolveDbName } from './profiles';
 import { ensureSeed } from './seed';
-import { getAnalysis } from './analysisRepo';
+import { analysisClient } from './localAnalysisClient';
 
 const BUDGET_MS = 300;
 const DAY = 86_400_000;
@@ -73,7 +73,7 @@ describe('profile startup performance with a year of data', () => {
     bindDb(name, 'Perf');
     await db.open();
     const reseeded = await ensureSeed();
-    const view = await getAnalysis(now);
+    const view = await analysisClient.getAnalysis(now);
     const elapsed = performance.now() - t0;
 
     expect(list.length).toBe(2);

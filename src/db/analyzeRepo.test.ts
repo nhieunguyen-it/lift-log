@@ -4,7 +4,7 @@ import { makeData, makeSession } from '@/analysis/engine/fixtures';
 import { db } from './db';
 import { ensureSeed } from './seed';
 import { activateProgram, addDayToProgram, createProgram, getActiveProgram } from './programsRepo';
-import { getAnalyzeView } from './analyzeRepo';
+import { analysisClient } from './localAnalysisClient';
 import { getAnalyzeGrouping, setAnalyzeGrouping } from './settingsRepo';
 
 const DAY = 86_400_000;
@@ -31,7 +31,7 @@ describe('getAnalyzeView', () => {
     await db.sessionExercises.bulkAdd(d.sessionExercises);
     await db.sets.bulkAdd(d.sets);
 
-    const none = await getAnalyzeView(NOW);
+    const none = await analysisClient.getAnalyzeView(NOW);
     expect(none.summary.sessions).toBeUndefined();
     expect(none.summary.totalSets).toBe(4);
     expect(none.summary.previousTotalSets).toBe(3);
@@ -41,7 +41,7 @@ describe('getAnalyzeView', () => {
     const p = await createProgram('P', NOW);
     await addDayToProgram(p.id);
     await activateProgram(p.id);
-    const withProgram = await getAnalyzeView(NOW);
+    const withProgram = await analysisClient.getAnalyzeView(NOW);
     const active = await getActiveProgram();
     expect(withProgram.summary.sessions).toEqual({ done: 1, planned: active!.days.length });
   });

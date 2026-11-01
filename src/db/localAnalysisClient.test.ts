@@ -4,7 +4,8 @@ import { exercises } from '@/data';
 import { DEFAULT_TARGETS } from '@/config/training';
 import { db } from './db';
 import { resetDb } from './testUtils';
-import { loadAnalysisInput } from './localAnalysisClient';
+import { liveQuery } from 'dexie';
+import { analysisClient, loadAnalysisInput } from './localAnalysisClient';
 import { setDeloadDismissals, setTargetOverrides, setWeekStartsOn } from './settingsRepo';
 import { activateProgram, startBlock } from './programsRepo';
 import { createCustomExercise, deleteCustomExercise } from './customExercisesRepo';
@@ -65,5 +66,66 @@ describe('loadAnalysisInput', () => {
     expect(await deleteCustomExercise(id)).toBe('soft');
     const input = await loadAnalysisInput(NOW);
     expect(typeof input.data.exercises.find((e) => e.id === id)?.deletedAt).toBe('number');
+  });
+});
+
+describe('analysisClient', () => {
+  it('every client method works on an empty profile', async () => {
+    expect((await analysisClient.getAnalyzeView(NOW)).empty).toBe(true);
+    await analysisClient.getAnalysis(NOW);
+    expect(await analysisClient.getExerciseInsight('nope')).toBeNull();
+    await analysisClient.getAlternatives('barbell-bench-press', NOW);
+    expect(await analysisClient.getDeloadSignal()).toBeNull();
+    await analysisClient.getExerciseDeloadHint('barbell-bench-press', NOW);
+    await analysisClient.getLongTrend(NOW);
+    expect(await analysisClient.getE1rmHistory('barbell-bench-press')).toEqual([]);
+    expect(await analysisClient.getPlanVsActual(NOW)).toBeNull();
+  });
+
+  it('re-runs after a write', async () => {
+    const seen: number[] = [];
+    let notify: () => void = () => {};
+    const sub = liveQuery(() => analysisClient.getAnalyzeView(NOW)).subscribe((v) => {
+      seen.push(v.summary.totalSets);
+      notify();
+    });
+    const until = (pred: () => boolean) =>
+      new Promise<void>((resolve, reject) => {
+        const t = setTimeout(() => reject(new Error('no emission')), 5000);
+        const check = () => {
+          if (pred()) {
+            clearTimeout(t);
+            resolve();
+          }
+        };
+        notify = check;
+        check();
+      });
+    try {
+      await until(() => seen.length >= 1);
+      const start = NOW - 1000;
+      await db.sessions.add({ id: 'w1', startedAt: start, endedAt: start + 500 } as never);
+      await db.sessionExercises.add({
+        id: 'wse1',
+        sessionId: 'w1',
+        exerciseId: 'barbell-bench-press',
+        order: 0,
+      });
+      await db.sets.bulkAdd(
+        [0, 1, 2].map((i) => ({
+          id: `wst${i}`,
+          sessionExerciseId: 'wse1',
+          order: i,
+          weightKg: 60,
+          reps: 8,
+          isWarmup: false,
+          completedAt: start + i,
+        })),
+      );
+      await until(() => seen.some((n) => n > seen[0]));
+      expect(seen[seen.length - 1]).toBeGreaterThan(seen[0]);
+    } finally {
+      sub.unsubscribe();
+    }
   });
 });

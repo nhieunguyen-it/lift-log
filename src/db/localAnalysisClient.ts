@@ -1,5 +1,30 @@
-import type { AnalysisInput } from '@/analysis';
-import { resolveTargets } from '@/analysis';
+import type {
+  AlternativeScore,
+  AnalysisClient,
+  AnalysisInput,
+  DeloadSignal,
+  E1rmPoint,
+} from '@/analysis';
+import type {
+  AnalysisView,
+  AnalyzeView,
+  ExerciseDeloadHint,
+  ExerciseInsight,
+  LongTrend,
+  PlanVsActualView,
+} from '@/analysis';
+import {
+  alternatives,
+  analysis,
+  analyzeView,
+  deloadSignal,
+  e1rmHistory,
+  exerciseDeloadHint,
+  exerciseInsight,
+  longTrendView,
+  planVsActual,
+  resolveTargets,
+} from '@/analysis';
 import { db } from './db';
 import { loadMergedExercises } from './customExercisesRepo';
 import { getActiveProgram } from './programsRepo';
@@ -57,25 +82,17 @@ export async function loadAnalysisInput(now: number = Date.now()): Promise<Analy
       db.programs,
     ],
     async () => {
-      const [
-        data,
-        weekStartsOn,
-        overrides,
-        equipment,
-        unit,
-        active,
-        blocks,
-        deloadDismissals,
-      ] = await Promise.all([
-        loadTrainingData(),
-        getWeekStartsOn(),
-        getTargetOverrides(),
-        getEquipment(),
-        getUnit(),
-        getActiveProgram(),
-        getProgramBlocks(),
-        getDeloadDismissals(),
-      ]);
+      const [data, weekStartsOn, overrides, equipment, unit, active, blocks, deloadDismissals] =
+        await Promise.all([
+          loadTrainingData(),
+          getWeekStartsOn(),
+          getTargetOverrides(),
+          getEquipment(),
+          getUnit(),
+          getActiveProgram(),
+          getProgramBlocks(),
+          getDeloadDismissals(),
+        ]);
       return {
         data,
         settings: { weekStartsOn, targets: resolveTargets(overrides), equipment, unit },
@@ -86,3 +103,51 @@ export async function loadAnalysisInput(now: number = Date.now()): Promise<Analy
     },
   );
 }
+
+/** Runs every analysis query against the local Dexie database. */
+export class LocalAnalysisClient implements AnalysisClient {
+  async getAnalyzeView(refTs: number): Promise<AnalyzeView> {
+    return analyzeView(await loadAnalysisInput(), refTs);
+  }
+
+  async getAnalysis(refTs: number): Promise<AnalysisView> {
+    return analysis(await loadAnalysisInput(), refTs);
+  }
+
+  /** `excludeSessionId` (the session being logged) is left out of the history. */
+  async getExerciseInsight(
+    exerciseId: string,
+    excludeSessionId?: string,
+  ): Promise<ExerciseInsight | null> {
+    return exerciseInsight(await loadAnalysisInput(), exerciseId, excludeSessionId);
+  }
+
+  async getAlternatives(exerciseId: string, now?: number): Promise<AlternativeScore[]> {
+    return alternatives(await loadAnalysisInput(now), exerciseId);
+  }
+
+  async getDeloadSignal(now?: number): Promise<DeloadSignal | null> {
+    return deloadSignal(await loadAnalysisInput(now));
+  }
+
+  async getExerciseDeloadHint(
+    exerciseId: string,
+    now?: number,
+  ): Promise<ExerciseDeloadHint | null> {
+    return exerciseDeloadHint(await loadAnalysisInput(now), exerciseId);
+  }
+
+  async getLongTrend(refTs: number = Date.now()): Promise<LongTrend> {
+    return longTrendView(await loadAnalysisInput(), refTs);
+  }
+
+  async getE1rmHistory(exerciseId: string): Promise<E1rmPoint[]> {
+    return e1rmHistory(await loadAnalysisInput(), exerciseId);
+  }
+
+  async getPlanVsActual(refTs: number, now?: number): Promise<PlanVsActualView | null> {
+    return planVsActual(await loadAnalysisInput(now), refTs);
+  }
+}
+
+export const analysisClient: AnalysisClient = new LocalAnalysisClient();

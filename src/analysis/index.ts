@@ -13,3 +13,4 @@ export {
   longTrend as longTrendView,
 } from './queries/progress';
 export { planVsActual } from './queries/planVsActual';
+export type { AnalysisClient } from './client';
