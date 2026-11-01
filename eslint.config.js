@@ -31,7 +31,21 @@ export default tseslint.config(
         {
           patterns: [
             {
-              group: ['@/db', '@/db/*', '@/components/*', '@/pages/*'],
+              group: [
+                '@/db',
+                '@/db/*',
+                '@/components',
+                '@/components/*',
+                '@/pages',
+                '@/pages/*',
+                '@/hooks/*',
+                '**/db',
+                '**/db/*',
+                '**/components',
+                '**/components/*',
+                '**/pages',
+                '**/pages/*',
+              ],
               message: 'Portable analysis core must not depend on persistence or UI.',
             },
             {

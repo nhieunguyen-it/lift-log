@@ -2,6 +2,7 @@ import 'fake-indexeddb/auto';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { exercises } from '@/data';
 import { DEFAULT_TARGETS } from '@/config/training';
+import type { Session } from '@/analysis/rows';
 import { db } from './db';
 import { resetDb } from './testUtils';
 import { liveQuery } from 'dexie';
@@ -52,7 +53,8 @@ describe('loadAnalysisInput', () => {
       isBodyweight: false,
       muscles: [{ muscleId: 'chest', weight: 1 }],
     });
-    await db.sessions.add({ id: 's1', startedAt: NOW - 1000, endedAt: NOW - 500 } as never);
+    const s1: Session = { id: 's1', startedAt: NOW - 1000, finishedAt: NOW - 500 };
+    await db.sessions.add(s1);
     await db.sessionExercises.add({ id: 'se1', sessionId: 's1', exerciseId: id, order: 0 });
     await db.sets.add({
       id: 'st1',
@@ -104,7 +106,8 @@ describe('analysisClient', () => {
     try {
       await until(() => seen.length >= 1);
       const start = NOW - 1000;
-      await db.sessions.add({ id: 'w1', startedAt: start, endedAt: start + 500 } as never);
+      const w1: Session = { id: 'w1', startedAt: start, finishedAt: start + 500 };
+      await db.sessions.add(w1);
       await db.sessionExercises.add({
         id: 'wse1',
         sessionId: 'w1',

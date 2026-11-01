@@ -29,10 +29,12 @@ usable offline via a service worker.
 - `src/data/` generated seed (exercises, muscles, exercise-muscle weights) and zod schema.
 - `src/db/` Dexie database and the repository layer (`sessionsRepo`, `setsRepo`, `exercisesRepo`,
   `settingsRepo`, backup, seeding, hooks). UI talks to the DB only through these.
-- `src/analyzer/` pure weekly-volume, status and exercise-stats functions (+ `fixtures.ts` generator).
-- `src/recommend/` pure progression, volume-suggestion and alternative-exercise functions.
+- `src/analysis/` the portable analysis core: `engine/` pure weekly-volume, status and exercise-stats
+  functions (+ `fixtures.ts` generator), `recommend/` pure progression, volume-suggestion, deload and
+  alternative-exercise functions, `queries/` the analysis queries, `client.ts` the `AnalysisClient`
+  interface, `types.ts` the `AnalysisInput` contract.
 - `src/config/training.ts` every training threshold (the only place to tune them).
-- `src/db/analysisRepo.ts` loads a snapshot from Dexie and calls the engines; hooks wrap it.
+- `src/db/localAnalysisClient.ts` loads an `AnalysisInput` from Dexie and runs the queries (`analysisClient`); hooks wrap it.
 - `src/pages/`, `src/components/` UI (`analyze/` body map + dashboard, `recommend/` chips, swap,
   suggestions); `src/lib/` units and pure helpers.
 - `src/program/` pure program types, built-in templates and the weekly plan check.
@@ -146,7 +148,7 @@ plus days done and skipped (shown as "not done yet" while the week runs).
 
 Bodyweight exercises at the top of their rep range point to the next variant in
 `src/data/variantChains.ts` (seed data, `SEED_VERSION` 4; e.g. incline push-up → push-up → decline push-up → dip). Deload detection
-(`src/recommend/deload.ts`, all numbers in `TRAINING.deload`) flags an exercise over its last
+(`src/analysis/recommend/deload.ts`, all numbers in `TRAINING.deload`) flags an exercise over its last
 `lookbackSessions` sessions when the best e1RM drops by at least `e1rmDropFraction`, when average RIR
 falls by at least `rirDrop` while reps fall, or after `missesToDeload` sessions missing the range.
 When `exercisesForOverall` exercises are flagged, Workout and Analyze show a dismissible card
@@ -221,7 +223,7 @@ ranges and per-exercise overrides, target RIR, load steps (kg and lbs), hold/del
 scoring weights and the stale-session limit (12 h). Users can override per-muscle targets and the week
 start in Settings. Suggestions are general training heuristics, not medical advice.
 
-Performance: `src/analyzer/analyzer.test.ts` runs a year of generated data (52 weeks x 5 sessions)
+Performance: `src/analysis/engine/analyzer.test.ts` runs a year of generated data (52 weeks x 5 sessions)
 through the analyzer and asserts it finishes in under 200 ms.
 
 ## Deploy
