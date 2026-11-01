@@ -40,6 +40,18 @@ usable offline via a service worker.
   renderer, search and the placeholder resolver; screenshots in `public/guide/`.
 - `e2e/` Playwright specs (`e2e/fixtures.ts` auto-dismisses first-run overlays for older specs).
 
+## Portable analysis core
+
+The portable core is `src/analysis/**`, `src/program/**`, `src/data/**`, `src/config/training.ts`,
+`src/lib/units.ts` and `src/lib/weight.ts`. It is pure: it must not import `@/db`, `@/components/*`,
+`@/pages/*`, `react`, `dexie` or `dexie-react-hooks`. ESLint enforces this (`no-restricted-imports`
+in `eslint.config.js`). The contract is `AnalysisInput` (`src/analysis/types.ts`); queries live in
+`src/analysis/queries/` and are reached through the `AnalysisClient` interface (`src/analysis/client.ts`).
+The swap point is `analysisClient` in `src/db/localAnalysisClient.ts`, which reads Dexie via
+`loadAnalysisInput`. Planned backends: (1) the server owns the data, builds `AnalysisInput` from its
+store and runs the same queries; (2) the client builds `AnalysisInput` locally and posts it. Either way
+a `RemoteAnalysisClient` implements the same interface.
+
 ## Exercise images
 
 Each exercise has start/end how-to photos in `public/exercises/<id>/` (public domain, from
