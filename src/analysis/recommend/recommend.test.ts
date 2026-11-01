@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { exercises, exerciseMuscles, MUSCLE_IDS } from '@/data';
 import type { Equipment, MuscleId } from '@/data';
 import { TRAINING } from '@/config/training';
-import type { ExerciseSessionSets, MuscleWeek, WeekAnalysis } from '@/analyzer/types';
+import type { ExerciseSessionSets, MuscleWeek, WeekAnalysis } from '../engine/types';
 import {
   alternatives,
   cosineSimilarity,
@@ -278,7 +278,7 @@ describe('alternatives', () => {
 describe('volume suggestions skip deleted custom exercises', () => {
   it('never suggests a tombstone', async () => {
     const { volumeSuggestions } = await import('./volume');
-    const { analyze, defaultAnalyzerOptions } = await import('@/analyzer');
+    const { analyze, defaultAnalyzerOptions } = await import('../engine');
     const { exercises, exerciseMuscles } = await import('@/data');
     const tomb = {
       ...exercises[0],

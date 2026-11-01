@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { makeData, makeSession } from '@/analyzer/fixtures';
+import { makeData, makeSession } from '@/analysis/engine/fixtures';
 import { db } from './db';
 import { ensureSeed } from './seed';
 import { activateProgram, addDayToProgram, createProgram, getActiveProgram } from './programsRepo';

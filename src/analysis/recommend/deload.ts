@@ -1,8 +1,8 @@
 /** Fatigue / deload detection. Pure and config-driven: never mutates its input. */
 import { TRAINING } from '@/config/training';
 import type { TrainingConfig } from '@/config/training';
-import { exerciseHistories, sessionE1RmKg } from '@/analyzer/exerciseStats';
-import type { ExerciseSessionSets, LoggedSet, TrainingData } from '@/analyzer/types';
+import { exerciseHistories, sessionE1RmKg } from '../engine/exerciseStats';
+import type { ExerciseSessionSets, LoggedSet, TrainingData } from '../engine/types';
 import { countMisses, repRangeFor } from './progression';
 import type { DeloadReason, DeloadSignal, ExerciseFatigue } from './types';
 

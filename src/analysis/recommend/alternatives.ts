@@ -4,7 +4,7 @@ import { TRAINING } from '@/config/training';
 import type { TrainingConfig } from '@/config/training';
 import type { AlternativeScore, AlternativesInput } from './types';
 import { isAvailable } from './volume';
-import { isCardio } from '@/analyzer/cardio';
+import { isCardio } from '../engine/cardio';
 
 export function cosineSimilarity(a: Record<string, number>, b: Record<string, number>): number {
   let dot = 0;

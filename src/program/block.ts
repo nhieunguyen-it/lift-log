@@ -4,8 +4,8 @@ import { MUSCLE_IDS } from '@/data';
 import type { Exercise } from '@/data';
 import { TRAINING } from '@/config/training';
 import type { VolumeTarget } from '@/config/training';
-import type { WeekStartDay } from '@/analyzer/types';
-import { weekWindow } from '@/analyzer/week';
+import type { WeekStartDay } from '@/analysis/engine/types';
+import { weekWindow } from '@/analysis/engine/week';
 import { planCheck } from './planCheck';
 import type {
   BlockMrvWarning,

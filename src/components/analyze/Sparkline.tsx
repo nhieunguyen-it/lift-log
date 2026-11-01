@@ -1,4 +1,4 @@
-import type { MuscleTrendPoint } from '@/analyzer';
+import type { MuscleTrendPoint } from '@/analysis';
 import { CHART } from './statusStyle';
 
 const fmtDay = (ts: number) =>

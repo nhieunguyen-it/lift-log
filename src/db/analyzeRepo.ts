@@ -1,6 +1,6 @@
-import { analyze, defaultAnalyzerOptions, shiftWeek, summarizeWeek } from '@/analyzer';
-import type { WeekSummary, WeekWindow } from '@/analyzer';
-import { volumeSuggestions } from '@/recommend';
+import { analyze, defaultAnalyzerOptions, shiftWeek, summarizeWeek } from '@/analysis';
+import type { WeekSummary, WeekWindow } from '@/analysis';
+import { volumeSuggestions } from '@/analysis';
 import { loadTrainingData } from './analysisRepo';
 import type { AnalysisView } from './analysisRepo';
 import { getActiveProgram } from './programsRepo';

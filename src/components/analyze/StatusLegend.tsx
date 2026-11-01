@@ -1,4 +1,4 @@
-import type { MuscleStatus } from '@/analyzer';
+import type { MuscleStatus } from '@/analysis';
 import { cn } from '@/lib/utils';
 import { STATUS_HINT, STATUS_ORDER, STATUS_WORD, statusColors } from './statusStyle';
 

@@ -1,4 +1,4 @@
-import type { MuscleWeek } from '@/analyzer';
+import type { MuscleWeek } from '@/analysis';
 import { MUSCLES } from '@/data';
 import { STATUS_ORDER } from './statusStyle';
 

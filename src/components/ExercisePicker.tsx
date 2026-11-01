@@ -12,7 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { CardioBadge } from '@/components/CardioBadge';
 import { CustomBadge, ExercisePlaceholder } from '@/components/custom';
 import { useExercisesWithMuscles, useMuscles, useRecentExerciseIds } from '@/db';
-import { isCardio } from '@/analyzer/cardio';
+import { isCardio } from '@/analysis';
 import { filterExercises } from '@/lib/exerciseFilter';
 import type { Equipment } from '@/data';
 

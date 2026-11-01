@@ -1,4 +1,4 @@
-import type { MuscleStatus } from '@/analyzer';
+import type { MuscleStatus } from '@/analysis';
 import { statusBarLabel, statusSegments } from './analyzeModel';
 import { STATUS_WORD, statusColors } from './statusStyle';
 

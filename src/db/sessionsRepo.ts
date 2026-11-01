@@ -4,7 +4,7 @@ import {
   formatDistance,
   isCardio,
   isCountedEntry,
-} from '@/analyzer/cardio';
+} from '@/analysis';
 import type { Exercise } from '@/data';
 import { activeMs } from '@/lib/workoutTimer';
 import { db, newId } from './db';

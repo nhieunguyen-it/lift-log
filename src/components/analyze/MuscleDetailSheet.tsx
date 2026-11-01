@@ -1,6 +1,6 @@
 import { Suspense, lazy, useState } from 'react';
 import { PlusCircle, Repeat2 } from 'lucide-react';
-import type { AnalyzerResult, MuscleWeek } from '@/analyzer';
+import type { AnalyzerResult, MuscleWeek } from '@/analysis';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -10,7 +10,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import AlternativesList from '@/components/recommend/AlternativesList';
-import type { VolumeSuggestion } from '@/recommend';
+import type { VolumeSuggestion } from '@/analysis';
 import { contributionBars } from './analyzeModel';
 import { fmtSets, muscleName } from './muscleSort';
 import Sparkline from './Sparkline';

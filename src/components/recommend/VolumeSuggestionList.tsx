@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { AlertTriangle, PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MUSCLES, exercises, type MuscleId } from '@/data';
-import type { VolumeSuggestion } from '@/recommend';
+import type { VolumeSuggestion } from '@/analysis';
 
 const muscleName = new Map(MUSCLES.map((m) => [m.id, m.name]));
 const exerciseName = new Map(exercises.map((e) => [e.id, e.name]));

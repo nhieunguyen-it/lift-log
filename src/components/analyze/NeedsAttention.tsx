@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AlertTriangle, ChevronRight, TrendingDown } from 'lucide-react';
-import type { AttentionItem } from '@/analyzer';
+import type { AttentionItem } from '@/analysis';
 import type { MuscleId } from '@/data';
 import { TRAINING } from '@/config/training';
 import { Button } from '@/components/ui/button';

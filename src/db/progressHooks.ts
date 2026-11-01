@@ -1,6 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks';
-import type { E1rmPoint } from '@/analyzer';
-import type { DeloadSignal } from '@/recommend';
+import type { E1rmPoint } from '@/analysis';
+import type { DeloadSignal } from '@/analysis';
 import {
   dismissDeload,
   getDeloadSignal,

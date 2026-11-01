@@ -161,7 +161,7 @@ describe('getCardioHistory', () => {
     const [h] = await cardioRepo.getCardioHistory('running');
     expect(h.minutes).toBe(40);
     expect(h.intensity).toBe('relaxed');
-    const { estimateDistanceKm } = await import('@/analyzer/cardio');
+    const { estimateDistanceKm } = await import('@/analysis');
     expect(h.distanceKm).toBeCloseTo(
       (estimateDistanceKm('running', 'hard', 600) ?? 0) +
         (estimateDistanceKm('running', 'relaxed', 1800) ?? 0),

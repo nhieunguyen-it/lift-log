@@ -1,10 +1,10 @@
 import { exerciseMuscles as seedExerciseMuscles } from '@/data';
 import type { MuscleId } from '@/data';
-import { analyze, defaultAnalyzerOptions, exerciseStats } from '@/analyzer';
-import type { AnalyzerResult, ExerciseStats, TrainingData } from '@/analyzer';
+import { analyze, defaultAnalyzerOptions, exerciseStats } from '@/analysis';
+import type { AnalyzerResult, ExerciseStats, TrainingData } from '@/analysis';
 import { TRAINING } from '@/config/training';
-import { alternatives, nextTarget, volumeSuggestions } from '@/recommend';
-import type { AlternativeScore, ProgressionTarget, VolumeSuggestion } from '@/recommend';
+import { alternatives, nextTarget, volumeSuggestions } from '@/analysis';
+import type { AlternativeScore, ProgressionTarget, VolumeSuggestion } from '@/analysis';
 import { db } from './db';
 import { loadMergedExercises } from './customExercisesRepo';
 import {

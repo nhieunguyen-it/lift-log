@@ -2,8 +2,8 @@
 import { MUSCLE_IDS } from '@/data';
 import type { Exercise, ExerciseMuscle, MuscleId } from '@/data';
 import type { VolumeTarget } from '@/config/training';
-import { isCardio } from '@/analyzer/cardio';
-import { statusFor } from '@/analyzer/volume';
+import { isCardio } from '@/analysis/engine/cardio';
+import { statusFor } from '@/analysis/engine/volume';
 import type { PlanCheck, PlanMuscle, PlanWarning, Program } from './types';
 
 /**

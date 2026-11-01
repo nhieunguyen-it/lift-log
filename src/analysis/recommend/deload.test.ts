@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { TRAINING } from '@/config/training';
-import { generateTrainingData, makeData, makeSession } from '@/analyzer/fixtures';
-import type { SetSpec } from '@/analyzer/fixtures';
-import { longTrend, defaultAnalyzerOptions } from '@/analyzer';
+import { generateTrainingData, makeData, makeSession } from '../engine/fixtures';
+import type { SetSpec } from '../engine/fixtures';
+import { longTrend, defaultAnalyzerOptions } from '../engine';
 import { detectDeload } from './deload';
 import { nextTarget } from './progression';
 import { exercises } from '@/data';

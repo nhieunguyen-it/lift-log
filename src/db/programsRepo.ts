@@ -1,9 +1,9 @@
 import type { ExerciseMuscle } from '@/data';
-import { isCardio } from '@/analyzer/cardio';
+import { isCardio } from '@/analysis';
 import { TRAINING } from '@/config/training';
 import type { MergedExercise } from '@/data/merged';
-import { alternatives } from '@/recommend';
-import type { AlternativeScore } from '@/recommend';
+import { alternatives } from '@/analysis';
+import type { AlternativeScore } from '@/analysis';
 import { planCheck } from '@/program/planCheck';
 import {
   applyBlockWeek,

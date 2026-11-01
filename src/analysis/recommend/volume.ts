@@ -1,10 +1,10 @@
 import type { MergedExercise } from '@/data/merged';
-import { isCardio } from '@/analyzer/cardio';
+import { isCardio } from '../engine/cardio';
 import type { Equipment, Exercise, ExerciseMuscle, MuscleId } from '@/data';
 import { MUSCLE_IDS } from '@/data';
 import { TRAINING } from '@/config/training';
 import type { TrainingConfig } from '@/config/training';
-import type { WeekAnalysis } from '@/analyzer/types';
+import type { WeekAnalysis } from '../engine/types';
 import type { VolumeSuggestion } from './types';
 
 export function isAvailable(ex: Exercise, available: readonly Equipment[]): boolean {

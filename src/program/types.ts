@@ -1,7 +1,7 @@
 /** Program (weekly plan) types. Pure data: no React or Dexie. */
 import type { MuscleId } from '@/data';
 import type { BlockRamp, RepRange, VolumeTarget } from '@/config/training';
-import type { MuscleStatus } from '@/analyzer/types';
+import type { MuscleStatus } from '@/analysis/engine/types';
 
 export interface ProgramExercise {
   exerciseId: string;

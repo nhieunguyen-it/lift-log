@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { analyzeWeek, defaultAnalyzerOptions, weekWindow } from './index';
 import { makeData, makeSession } from './fixtures';
-import { nextTarget, volumeSuggestions } from '@/recommend';
+import { nextTarget, volumeSuggestions } from '../recommend';
 import { exerciseMuscles, exercises } from '@/data';
 
 // Orchestrator hand-calculated scenarios (independent of the agents' tests).

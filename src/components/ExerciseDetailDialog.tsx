@@ -11,10 +11,10 @@ import AlternativesList from '@/components/recommend/AlternativesList';
 import { CardioBadge } from '@/components/CardioBadge';
 import { INTENSITY_LABELS } from '@/components/CardioEntryItem';
 import { ExercisePlaceholder } from '@/components/custom';
-import { formatDistance, isCardio } from '@/analyzer/cardio';
+import { formatDistance, isCardio } from '@/analysis';
 import { useCardioHistory, useExerciseDetail, useExerciseInsight, useMuscles, useUnit } from '@/db';
 import { formatWeight } from '@/lib/units';
-import type { LoggedSet } from '@/analyzer';
+import type { LoggedSet } from '@/analysis';
 
 const E1rmChart = lazy(() => import('@/components/progress/E1rmChart'));
 

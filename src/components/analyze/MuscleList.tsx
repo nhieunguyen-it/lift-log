@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { AnalyzerResult, MuscleWeek } from '@/analyzer';
+import type { AnalyzerResult, MuscleWeek } from '@/analysis';
 import type { MuscleId } from '@/data';
 import { TRAINING } from '@/config/training';
 import { Button } from '@/components/ui/button';

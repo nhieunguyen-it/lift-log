@@ -6,7 +6,7 @@ import type { VolumeTarget } from '@/config/training';
 import { MUSCLES } from '@/data';
 import type { MuscleId } from '@/data';
 import { settingsRepo, useTargetOverrides, useWeekStartsOn } from '@/db';
-import type { WeekStartDay } from '@/analyzer';
+import type { WeekStartDay } from '@/analysis';
 
 const DAYS: { v: WeekStartDay; label: string }[] = [
   { v: 1, label: 'Monday' },

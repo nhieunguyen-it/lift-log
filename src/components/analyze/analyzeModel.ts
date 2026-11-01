@@ -1,5 +1,5 @@
 /** Pure view-model helpers for the Analyze page (no React, no Dexie). */
-import type { MuscleContribution, MuscleStatus, MuscleWeek } from '@/analyzer';
+import type { MuscleContribution, MuscleStatus, MuscleWeek } from '@/analysis';
 import type { VolumeTarget } from '@/config/training';
 import { MUSCLES } from '@/data';
 import { fmtSets, muscleName, sortMuscles } from './muscleSort';

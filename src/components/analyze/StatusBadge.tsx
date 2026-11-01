@@ -1,4 +1,4 @@
-import type { MuscleStatus } from '@/analyzer';
+import type { MuscleStatus } from '@/analysis';
 import { STATUS_WORD, statusColors } from './statusStyle';
 
 export default function StatusBadge({ status }: { status: MuscleStatus }) {

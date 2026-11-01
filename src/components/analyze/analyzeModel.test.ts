@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { MuscleStatus, MuscleWeek } from '@/analyzer';
+import type { MuscleStatus, MuscleWeek } from '@/analysis';
 import {
   contributionBars,
   deltaText,

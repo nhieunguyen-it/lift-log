@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import type { WeekWindow } from '@/analyzer';
+import type { WeekWindow } from '@/analysis';
 import { Button } from '@/components/ui/button';
 
 export function formatWeekRange(w: WeekWindow): string {

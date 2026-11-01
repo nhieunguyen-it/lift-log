@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { nameFor, useExerciseLookup } from '@/db/customHooks';
 import { dismissDeload, useDeloadSignal } from '@/db/progressHooks';
-import type { DeloadSignal } from '@/recommend';
+import type { DeloadSignal } from '@/analysis';
 
 interface Props {
   /** Test/preview override; normally read live from the database. */

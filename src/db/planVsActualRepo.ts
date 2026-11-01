@@ -1,4 +1,4 @@
-import { analyzeWeek, defaultAnalyzerOptions, weekWindow } from '@/analyzer';
+import { analyzeWeek, defaultAnalyzerOptions, weekWindow } from '@/analysis';
 import { comparePlanToActual } from '@/program/planVsActual';
 import { planCheck } from '@/program/planCheck';
 import { applyBlockWeek, blockWeekAt } from '@/program/block';

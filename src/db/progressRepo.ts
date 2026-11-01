@@ -1,9 +1,9 @@
 import type { MuscleId } from '@/data';
-import { defaultAnalyzerOptions, e1rmSeries, exerciseHistories, longTrend } from '@/analyzer';
-import type { E1rmPoint, MuscleTrendPoint } from '@/analyzer';
+import { defaultAnalyzerOptions, e1rmSeries, exerciseHistories, longTrend } from '@/analysis';
+import type { E1rmPoint, MuscleTrendPoint } from '@/analysis';
 import type { VolumeTarget } from '@/config/training';
-import { detectDeload } from '@/recommend';
-import type { DeloadSignal } from '@/recommend';
+import { detectDeload } from '@/analysis';
+import type { DeloadSignal } from '@/analysis';
 import { loadTrainingData } from './analysisRepo';
 import {
   getDeloadDismissals,

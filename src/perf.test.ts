@@ -8,13 +8,13 @@ import {
   summarizeWeek,
   weekWindow,
   shiftWeek,
-} from '@/analyzer';
-import { generateTrainingData } from '@/analyzer/fixtures';
+} from '@/analysis';
+import { generateTrainingData } from '@/analysis/engine/fixtures';
 import { planCheck } from '@/program/planCheck';
 import { newBlock, projectBlock } from '@/program/block';
 import { comparePlanToActual } from '@/program/planVsActual';
 import { BUILT_IN_PROGRAMS } from '@/program/templates';
-import { detectDeload } from '@/recommend';
+import { detectDeload } from '@/analysis';
 import { buildIndex, search } from '@/guide/search';
 import { loadGuideTopics } from '@/guide/content';
 

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import { formatEstimate } from '@/analyzer/cardio';
+import { formatEstimate } from '@/analysis';
 import type { CardioProfile } from '@/data/schema';
 import { cardioRepo, CARDIO_INTENSITIES, type CardioEntry, type CardioIntensity } from '@/db';
 import { parseIntInput } from '@/lib/weight';

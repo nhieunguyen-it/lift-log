@@ -1,7 +1,7 @@
 /** Pure cardio helpers: pace-table estimates and set-equivalent credit. No React or Dexie. */
 import { TRAINING } from '@/config/training';
 import type { CardioProfile } from '@/data/schema';
-import type { CardioEntry, CardioIntensity } from '@/analysis/rows';
+import type { CardioEntry, CardioIntensity } from '../rows';
 
 export function isCardio(e: { tracking?: string } | undefined): boolean {
   return e?.tracking === 'cardio';

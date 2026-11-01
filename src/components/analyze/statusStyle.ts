@@ -1,4 +1,4 @@
-import type { MuscleStatus } from '@/analyzer';
+import type { MuscleStatus } from '@/analysis';
 
 export const STATUS_ORDER: MuscleStatus[] = [
   'none',

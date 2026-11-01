@@ -1,5 +1,5 @@
 import { ArrowDown, ArrowUp, Minus } from 'lucide-react';
-import type { WeekSummary } from '@/analyzer';
+import type { WeekSummary } from '@/analysis';
 import { Card } from '@/components/ui/card';
 import { deltaText } from './analyzeModel';
 import StatusBar from './StatusBar';

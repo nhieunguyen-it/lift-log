@@ -1,5 +1,5 @@
 import { useId, useState } from 'react';
-import type { MuscleStatus, MuscleWeek } from '@/analyzer';
+import type { MuscleStatus, MuscleWeek } from '@/analysis';
 import type { MuscleId } from '@/data';
 import { TRAINING } from '@/config/training';
 import { cn } from '@/lib/utils';

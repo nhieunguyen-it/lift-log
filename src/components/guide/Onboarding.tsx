@@ -12,7 +12,7 @@ import {
 import { useUnit, useWeekStartsOn } from '@/db';
 import { db } from '@/db/db';
 import { getFlag, setFlag, setUnit, setWeekStartsOn } from '@/db/settingsRepo';
-import type { WeekStartDay } from '@/analyzer/types';
+import type { WeekStartDay } from '@/analysis';
 import type { WeightUnit } from '@/lib/units';
 import { onOpenOnboarding } from './overlayEvents';
 

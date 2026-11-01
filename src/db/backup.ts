@@ -13,7 +13,7 @@ import {
   setUnit,
   setWeekStartsOn,
 } from './settingsRepo';
-import type { WeekStartDay } from '@/analyzer/types';
+import type { WeekStartDay } from '@/analysis';
 import { EQUIPMENT, MuscleIdSchema } from '@/data/schema';
 import { TRAINING } from '@/config/training';
 import { CARDIO_INTENSITIES } from './types';

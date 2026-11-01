@@ -12,7 +12,7 @@ import {
 } from './index';
 import type { VolumeTarget } from '@/config/training';
 import { generateTrainingData, makeData, makeSession } from './fixtures';
-import type { CardioEntry } from '@/analysis/rows';
+import type { CardioEntry } from '../rows';
 import type { TrainingData } from './types';
 
 const T: VolumeTarget = { mev: 8, mavLow: 12, mavHigh: 18, mrv: 22 };

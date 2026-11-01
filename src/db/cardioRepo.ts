@@ -1,4 +1,4 @@
-import { estimateDistanceKm, isCountedEntry } from '@/analyzer/cardio';
+import { estimateDistanceKm, isCountedEntry } from '@/analysis';
 import { TRAINING } from '@/config/training';
 import { db, newId } from './db';
 import { earlierSessionExerciseIds } from './previousSessions';

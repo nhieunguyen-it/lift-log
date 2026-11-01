@@ -3,7 +3,7 @@ import { useUnit } from '@/db/hooks';
 import { useE1rmHistory } from '@/db/progressHooks';
 import { formatWeight } from '@/lib/units';
 import { kgToDisplay } from '@/lib/weight';
-import type { LoggedSet } from '@/analyzer';
+import type { LoggedSet } from '@/analysis';
 import { fmtDay, paddedRange, round1, scale } from './chartMath';
 
 const W = 320;

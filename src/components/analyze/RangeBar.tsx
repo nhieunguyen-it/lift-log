@@ -1,4 +1,4 @@
-import type { MuscleWeek } from '@/analyzer';
+import type { MuscleWeek } from '@/analysis';
 import { TRAINING } from '@/config/training';
 import { rangeBarGeometry } from './analyzeModel';
 import { CHART, statusColors } from './statusStyle';

@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { exerciseMuscles, exercises } from '@/data';
 import { DEFAULT_TARGETS } from '@/config/training';
-import { analyzeWeek, defaultAnalyzerOptions, weekWindow } from '@/analyzer';
-import { makeData, makeSession } from '@/analyzer/fixtures';
+import { analyzeWeek, defaultAnalyzerOptions, weekWindow } from '@/analysis/engine';
+import { makeData, makeSession } from '@/analysis/engine/fixtures';
 import { planCheck } from './planCheck';
 import { comparePlanToActual } from './planVsActual';
 import type { Program } from './types';

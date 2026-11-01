@@ -1,7 +1,7 @@
 import { Suspense, lazy, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import HelpButton from '@/components/guide/HelpButton';
-import { shiftWeek, weekWindow } from '@/analyzer';
+import { shiftWeek, weekWindow } from '@/analysis';
 import type { MuscleId } from '@/data';
 import { TRAINING } from '@/config/training';
 import { Card } from '@/components/ui/card';

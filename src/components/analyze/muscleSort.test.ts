@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { MuscleWeek } from '@/analyzer';
+import type { MuscleWeek } from '@/analysis';
 import { distanceFromTarget, fmtSets, sortMuscles } from './muscleSort';
 
 const t = { mev: 8, mavLow: 12, mavHigh: 18, mrv: 22 };

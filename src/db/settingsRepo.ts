@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { MUSCLE_IDS, type Equipment, type MuscleId } from '@/data';
 import { EQUIPMENT } from '@/data/schema';
 import { DEFAULT_TARGETS, TRAINING, type VolumeTarget } from '@/config/training';
-import type { WeekStartDay } from '@/analyzer/types';
+import type { WeekStartDay } from '@/analysis';
 import type { WeightUnit } from '@/lib/units';
 import { db } from './db';
 

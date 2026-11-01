@@ -1,7 +1,7 @@
 import type { Exercise, MuscleId } from '@/data';
 import { BARBELL_LIKE, TRAINING } from '@/config/training';
 import type { LoadStepCategory, RepRange, TrainingConfig } from '@/config/training';
-import type { ExerciseSessionSets } from '@/analyzer/types';
+import type { ExerciseSessionSets } from '../engine/types';
 import { kgToLbs, lbsToKg, roundKg, roundLbs } from '@/lib/units';
 import type { WeightUnit } from '@/lib/units';
 import { kgToDisplay } from '@/lib/weight';

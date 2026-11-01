@@ -11,7 +11,7 @@ import { CustomBadge } from '@/components/custom';
 import CardioEntryItem from '@/components/CardioEntryItem';
 import SetRowItem, { SET_GRID } from '@/components/SetRowItem';
 import type { MergedExercise } from '@/data/merged';
-import { isCardio } from '@/analyzer/cardio';
+import { isCardio } from '@/analysis';
 import { cardioRepo, sessionsRepo, setsRepo, type SessionDetail } from '@/db';
 import { nameFor, useExerciseLookup } from '@/db/customHooks';
 import type { WeightUnit } from '@/lib/units';
