@@ -1,47 +1,20 @@
 import { exerciseMuscles as seedExerciseMuscles } from '@/data';
 import type { MuscleId } from '@/data';
-import { analyze, defaultAnalyzerOptions, exerciseStats, resolveTargets } from '@/analysis';
-import type { AnalyzerResult, ExerciseStats, TrainingData } from '@/analysis';
+import { analysis, analyze, defaultAnalyzerOptions, exerciseStats } from '@/analysis';
+import type { AnalysisView, ExerciseStats, TrainingData } from '@/analysis';
 import { TRAINING } from '@/config/training';
-import { alternatives, nextTarget, volumeSuggestions } from '@/analysis';
-import type { AlternativeScore, ProgressionTarget, VolumeSuggestion } from '@/analysis';
-import { loadTrainingData } from './localAnalysisClient';
-import {
-  getEquipment,
-  getTargetOverrides,
-  getUnit,
-  getWeekStartsOn,
-} from './settingsRepo';
+import { alternatives, nextTarget } from '@/analysis';
+import type { AlternativeScore, ProgressionTarget } from '@/analysis';
+import { loadAnalysisInput, loadTrainingData } from './localAnalysisClient';
+import { getEquipment, getUnit, getWeekStartsOn } from './settingsRepo';
 
 export { loadTrainingData };
 
-export interface AnalysisView {
-  result: AnalyzerResult;
-  suggestions: VolumeSuggestion[];
-  /** True when the user has no sessions at all. */
-  empty: boolean;
-}
+export type { AnalysisView };
 
 /** Analysis of the week containing `refTs`, plus volume suggestions for it. */
 export async function getAnalysis(refTs: number): Promise<AnalysisView> {
-  const [data, weekStartsOn, overrides, equipment] = await Promise.all([
-    loadTrainingData(),
-    getWeekStartsOn(),
-    getTargetOverrides(),
-    getEquipment(),
-  ]);
-  const result = analyze(
-    data,
-    refTs,
-    defaultAnalyzerOptions({ weekStartsOn, targets: resolveTargets(overrides) }),
-  );
-  const suggestions = volumeSuggestions({
-    week: result.current,
-    exercises: data.exercises,
-    exerciseMuscles: data.exerciseMuscles,
-    availableEquipment: equipment,
-  });
-  return { result, suggestions, empty: data.sessions.length === 0 };
+  return analysis(await loadAnalysisInput(), refTs);
 }
 
 function primaryMuscles(exerciseId: string, data: TrainingData): MuscleId[] {
