@@ -6,6 +6,7 @@ import type { Program, ProgramBlock } from '@/program/types';
 import type {
   AnalyzerResult,
   ExerciseStats,
+  MuscleTrendPoint,
   TrainingData,
   WeekStartDay,
   WeekSummary,
@@ -44,4 +45,19 @@ export interface AnalyzeView extends AnalysisView {
 export interface ExerciseInsight {
   stats: ExerciseStats;
   target: ProgressionTarget;
+}
+
+/** One exercise flagged by deload detection while there is no overall signal. */
+export interface ExerciseDeloadHint {
+  exerciseId: string;
+  /** Dismissal key in the shared deload-dismissal storage. */
+  key: string;
+  /** e.g. "e1RM down 6% over 4 sessions". */
+  detail: string;
+}
+
+export interface LongTrend {
+  /** Oldest first: `longTrendWeeks` previous weeks then the current week. */
+  trend: Record<MuscleId, MuscleTrendPoint[]>;
+  targets: Record<MuscleId, VolumeTarget>;
 }

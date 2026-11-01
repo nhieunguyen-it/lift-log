@@ -1,39 +1,17 @@
-import type { MuscleId } from '@/data';
-import { defaultAnalyzerOptions, e1rmSeries, exerciseHistories, longTrend } from '@/analysis';
-import type { E1rmPoint, MuscleTrendPoint } from '@/analysis';
-import type { VolumeTarget } from '@/config/training';
-import { detectDeload } from '@/analysis';
-import type { DeloadSignal } from '@/analysis';
-import { loadTrainingData } from './analysisRepo';
-import {
-  getDeloadDismissals,
-  getTargetOverrides,
-  getWeekStartsOn,
-  resolveTargets,
-  setDeloadDismissals,
-} from './settingsRepo';
+import { deloadSignal, e1rmHistory, exerciseDeloadHint, longTrendView } from '@/analysis';
+import type { DeloadSignal, E1rmPoint, ExerciseDeloadHint, LongTrend } from '@/analysis';
+import { loadAnalysisInput } from './localAnalysisClient';
+import { getDeloadDismissals, setDeloadDismissals } from './settingsRepo';
 import { TRAINING } from '@/config/training';
+
+export type { ExerciseDeloadHint, LongTrend } from '@/analysis';
 
 /**
  * The deload suggestion to show, or null when none is warranted or it was dismissed
  * within `deload.dismissMs`. Read-only: never changes workout data.
  */
 export async function getDeloadSignal(now = Date.now()): Promise<DeloadSignal | null> {
-  const [data, dismissals] = await Promise.all([loadTrainingData(), getDeloadDismissals()]);
-  const signal = detectDeload(data);
-  if (!signal.overall) return null;
-  const at = dismissals[signal.key];
-  if (at !== undefined && now - at < TRAINING.deload.dismissMs) return null;
-  return signal;
-}
-
-/** Phase 4: one exercise flagged by deload detection while there is no overall signal. */
-export interface ExerciseDeloadHint {
-  exerciseId: string;
-  /** Dismissal key in the shared deload-dismissal storage. */
-  key: string;
-  /** e.g. "e1RM down 6% over 4 sessions". */
-  detail: string;
+  return deloadSignal(await loadAnalysisInput(now));
 }
 
 /**
@@ -44,16 +22,7 @@ export async function getExerciseDeloadHint(
   exerciseId: string,
   now = Date.now(),
 ): Promise<ExerciseDeloadHint | null> {
-  const [data, dismissals] = await Promise.all([loadTrainingData(), getDeloadDismissals()]);
-  const signal = detectDeload(data);
-  if (signal.overall) return null;
-  const flagged = signal.exercises.find((e) => e.exerciseId === exerciseId);
-  if (!flagged) return null;
-  // Per exercise only: a new session must not revive a hint the user just dismissed.
-  const key = `exercise:${exerciseId}`;
-  const at = dismissals[key];
-  if (at !== undefined && now - at < TRAINING.deload.dismissMs) return null;
-  return { exerciseId, key, detail: flagged.detail };
+  return exerciseDeloadHint(await loadAnalysisInput(now), exerciseId);
 }
 
 /** Hide this suggestion for `deload.dismissMs`. Also prunes expired dismissals. */
@@ -67,26 +36,12 @@ export async function dismissDeload(key: string, now = Date.now()): Promise<void
   await setDeloadDismissals(kept);
 }
 
-export interface LongTrend {
-  /** Oldest first: `longTrendWeeks` previous weeks then the current week. */
-  trend: Record<MuscleId, MuscleTrendPoint[]>;
-  targets: Record<MuscleId, VolumeTarget>;
-}
-
 /** Weekly weighted sets per muscle over the long trend window, with the user's targets. */
 export async function getLongTrend(refTs = Date.now()): Promise<LongTrend> {
-  const [data, weekStartsOn, overrides] = await Promise.all([
-    loadTrainingData(),
-    getWeekStartsOn(),
-    getTargetOverrides(),
-  ]);
-  const targets = resolveTargets(overrides);
-  const trend = longTrend(data, refTs, defaultAnalyzerOptions({ weekStartsOn, targets }));
-  return { trend, targets };
+  return longTrendView(await loadAnalysisInput(), refTs);
 }
 
 /** e1RM per session for one exercise, oldest first. */
 export async function getE1rmHistory(exerciseId: string): Promise<E1rmPoint[]> {
-  const data = await loadTrainingData();
-  return e1rmSeries(exerciseHistories(data).get(exerciseId) ?? []);
+  return e1rmHistory(await loadAnalysisInput(), exerciseId);
 }
