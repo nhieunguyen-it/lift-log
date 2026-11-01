@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import { MUSCLE_IDS, type Equipment, type MuscleId } from '@/data';
+import { MUSCLE_IDS, type Equipment } from '@/data';
 import { EQUIPMENT } from '@/data/schema';
-import { DEFAULT_TARGETS, TRAINING, type VolumeTarget } from '@/config/training';
-import type { WeekStartDay } from '@/analysis';
+import { TRAINING } from '@/config/training';
+import { resolveTargets, type TargetOverrides, type WeekStartDay } from '@/analysis';
 import type { WeightUnit } from '@/lib/units';
 import { db } from './db';
 
@@ -43,7 +43,8 @@ export const TargetOverridesSchema = z.partialRecord(
       message: 'targets must satisfy mev <= mavLow <= mavHigh <= mrv',
     }),
 );
-export type TargetOverrides = Partial<Record<MuscleId, VolumeTarget>>;
+export { resolveTargets };
+export type { TargetOverrides };
 
 export async function getTargetOverrides(): Promise<TargetOverrides> {
   const row = await db.settings.get('targetOverrides');
@@ -53,11 +54,6 @@ export async function getTargetOverrides(): Promise<TargetOverrides> {
 
 export async function setTargetOverrides(overrides: TargetOverrides): Promise<void> {
   await db.settings.put({ key: 'targetOverrides', value: TargetOverridesSchema.parse(overrides) });
-}
-
-/** Defaults merged with the user's per-muscle overrides. */
-export function resolveTargets(overrides: TargetOverrides): Record<MuscleId, VolumeTarget> {
-  return { ...DEFAULT_TARGETS, ...overrides };
 }
 
 export const EquipmentListSchema = z.array(z.enum(EQUIPMENT));

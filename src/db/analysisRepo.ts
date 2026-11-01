@@ -1,47 +1,19 @@
 import { exerciseMuscles as seedExerciseMuscles } from '@/data';
 import type { MuscleId } from '@/data';
-import { analyze, defaultAnalyzerOptions, exerciseStats } from '@/analysis';
+import { analyze, defaultAnalyzerOptions, exerciseStats, resolveTargets } from '@/analysis';
 import type { AnalyzerResult, ExerciseStats, TrainingData } from '@/analysis';
 import { TRAINING } from '@/config/training';
 import { alternatives, nextTarget, volumeSuggestions } from '@/analysis';
 import type { AlternativeScore, ProgressionTarget, VolumeSuggestion } from '@/analysis';
-import { db } from './db';
-import { loadMergedExercises } from './customExercisesRepo';
+import { loadTrainingData } from './localAnalysisClient';
 import {
   getEquipment,
   getTargetOverrides,
   getUnit,
   getWeekStartsOn,
-  resolveTargets,
 } from './settingsRepo';
 
-/** Reads everything the pure engines need in one consistent snapshot. */
-export async function loadTrainingData(): Promise<TrainingData> {
-  return db.transaction(
-    'r',
-    [
-      db.sessions,
-      db.sessionExercises,
-      db.sets,
-      db.cardioEntries,
-      db.exercises,
-      db.exerciseMuscles,
-      db.customExercises,
-      db.customExerciseMuscles,
-    ],
-    async () => {
-      // Tombstoned customs are included so logged history still counts toward volume.
-      const [sessions, sessionExercises, sets, cardioEntries, merged] = await Promise.all([
-        db.sessions.toArray(),
-        db.sessionExercises.toArray(),
-        db.sets.toArray(),
-        db.cardioEntries.toArray(),
-        loadMergedExercises(true),
-      ]);
-      return { sessions, sessionExercises, sets, cardioEntries, ...merged };
-    },
-  );
-}
+export { loadTrainingData };
 
 export interface AnalysisView {
   result: AnalyzerResult;
