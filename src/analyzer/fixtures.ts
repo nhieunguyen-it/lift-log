@@ -1,5 +1,5 @@
 import { exerciseMuscles, exercises } from '@/data';
-import type { Session, SessionExercise, SetRow } from '@/db/types';
+import type { Session, SessionExercise, SetRow } from '@/analysis/rows';
 import type { TrainingData } from './types';
 import { isCardio } from './cardio';
 

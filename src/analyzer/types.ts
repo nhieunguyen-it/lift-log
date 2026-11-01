@@ -1,6 +1,6 @@
 /** Shared analyzer types. Pure data: no React or Dexie. */
 import type { Exercise, ExerciseMuscle, MuscleId } from '@/data';
-import type { CardioEntry, Session, SessionExercise, SetRow } from '@/db/types';
+import type { CardioEntry, Session, SessionExercise, SetRow } from '@/analysis/rows';
 import type { VolumeTarget } from '@/config/training';
 
 /** 0 = Sunday, 1 = Monday ... 6 = Saturday (same as Date#getDay). */

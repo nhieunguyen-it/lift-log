@@ -1,6 +1,6 @@
 import { MUSCLE_IDS } from '@/data';
 import type { MuscleId } from '@/data';
-import type { CardioEntry, SetRow } from '@/db/types';
+import type { CardioEntry, SetRow } from '@/analysis/rows';
 import type { VolumeTarget } from '@/config/training';
 import { TRAINING } from '@/config/training';
 import { cardioSetCredit, countedMinutes, isCardio, isCountedEntry } from './cardio';

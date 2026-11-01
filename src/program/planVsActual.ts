@@ -1,7 +1,7 @@
 /** Phase 4: plan vs. actual for one week. Pure; no React or Dexie. */
 import { MUSCLE_IDS } from '@/data';
 import type { WeekAnalysis } from '@/analyzer/types';
-import type { Session } from '@/db/types';
+import type { Session } from '@/analysis/rows';
 import type { PlanCheck, PlanVsActual, PlanVsActualMuscle, ProgramDay } from './types';
 
 /**

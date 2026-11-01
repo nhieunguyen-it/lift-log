@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { CardioEntry, CardioIntensity } from '@/db/types';
+import type { CardioEntry, CardioIntensity } from '@/analysis/rows';
 import {
   cardioSetCredit,
   countedMinutes,

@@ -4,7 +4,7 @@
  */
 import type { Equipment, MuscleId } from '@/data';
 import type { CardioProfile } from '@/data/schema';
-import type { CardioIntensity } from '@/db/types';
+import type { CardioIntensity } from '@/analysis/rows';
 
 /** Weekly hard-set volume landmarks for one muscle. */
 export interface VolumeTarget {
