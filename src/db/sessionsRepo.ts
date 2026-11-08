@@ -62,10 +62,15 @@ async function renumberExercises(sessionId: string): Promise<void> {
   );
 }
 
-export async function addExercise(sessionId: string, exerciseId: string): Promise<SessionExercise> {
+export async function addExercise(
+  sessionId: string,
+  exerciseId: string,
+  note?: string,
+): Promise<SessionExercise> {
   return db.transaction('rw', db.sessionExercises, async () => {
     const rows = await orderedExercises(sessionId);
     const row: SessionExercise = { id: newId(), sessionId, exerciseId, order: rows.length };
+    if (note) row.note = note;
     await db.sessionExercises.add(row);
     return row;
   });

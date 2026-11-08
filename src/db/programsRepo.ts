@@ -183,7 +183,7 @@ export async function startProgramDay(
       Object.assign(session, tags);
       for (const pe of plannedDay.exercises) {
         if (!known.has(pe.exerciseId)) continue;
-        const se = await addExercise(session.id, pe.exerciseId);
+        const se = await addExercise(session.id, pe.exerciseId, pe.note);
         const rows: SetRow[] = Array.from({ length: pe.targetSets }, (_, order) => ({
           id: newId(),
           sessionExerciseId: se.id,

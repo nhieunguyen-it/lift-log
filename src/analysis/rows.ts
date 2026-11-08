@@ -19,6 +19,8 @@ export interface SessionExercise {
   sessionId: string;
   exerciseId: string;
   order: number;
+  /** Snapshot of the program exercise note when started from a program day. */
+  note?: string;
 }
 
 export interface SetRow {

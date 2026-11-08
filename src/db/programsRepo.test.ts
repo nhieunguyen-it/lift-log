@@ -100,6 +100,56 @@ describe('programsRepo', () => {
     expect(detail?.exercises.map((e) => e.sessionExercise.exerciseId)).toEqual([A]);
   });
 
+  describe('note snapshot', () => {
+    const wed = new Date(2026, 0, 7, 12).getTime();
+    const setup = async () => {
+      const p = await programs.createProgram('Notes');
+      await programs.updateProgram(p.id, (x) =>
+        edit.setNote(
+          edit.addExercise(
+            edit.addExercise(
+              edit.addDay(x, { id: 'dn', name: 'D', exercises: [] }),
+              'dn',
+              'deadlift',
+              3,
+            ),
+            'dn',
+            A,
+            3,
+          ),
+          'dn',
+          0,
+          'Progression · main focus',
+        ),
+      );
+      return p.id;
+    };
+    const rows = async (sid: string) =>
+      (await db.sessionExercises.where('sessionId').equals(sid).sortBy('order'));
+
+    it('copies the note onto the session exercise; absent note leaves no key', async () => {
+      const id = await setup();
+      const s = await programs.startProgramDay(id, 'dn');
+      const r = await rows(s.id);
+      expect(r[0].note).toBe('Progression · main focus');
+      expect('note' in r[1]).toBe(false);
+    });
+
+    it('keeps the note when a block is running', async () => {
+      const id = await setup();
+      await programs.startBlock(id, { now: wed, weeks: 4 });
+      const s = await programs.startProgramDay(id, 'dn', wed);
+      expect((await rows(s.id))[0].note).toBe('Progression · main focus');
+    });
+
+    it('later program edits do not change the snapshot', async () => {
+      const id = await setup();
+      const s = await programs.startProgramDay(id, 'dn');
+      await programs.updateProgram(id, (p) => edit.setNote(p, 'dn', 0, 'changed'));
+      expect((await rows(s.id))[0].note).toBe('Progression · main focus');
+    });
+  });
+
   it('startProgramDay returns an already-active session untouched', async () => {
     const active = await sessions.startSession();
     const day = (await programs.getProgram('builtin-ppl'))!.days[0];
