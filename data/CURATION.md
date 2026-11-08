@@ -110,7 +110,7 @@ Kept because no compound lift in the set covers the muscle well, or it is a very
 - **seated-dumbbell-triceps-extension** (triceps): added in seed v6 for program import; triceps
 - **reverse-machine-fly** (rear_delts): added in seed v6 for program import; rear_delts, upper_back:.5
 - Ab exercises (plank, side-plank, hanging-leg-raise, cable-crunch, crunch, pallof-press) count as isolation in the source or here; abs/obliques need at least two options. Compound-classed ab work: ab-wheel-rollout, russian-twist, cable-wood-chop, dead-bug.
-- Muscles with only compound coverage and no exception: chest, lats, forearms, quads, hamstrings, glutes, adductors, lower_back. Notably no leg extensions/curls or flyes are included.
+- Muscles with only compound coverage and no exception: lats, forearms, quads, glutes, adductors, lower_back. Chest and hamstrings have exceptions only from seed v6 (dumbbell-fly, lying-leg-curl).
 
 ## Changes from the source
 
