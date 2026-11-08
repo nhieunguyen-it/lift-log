@@ -18,6 +18,9 @@ import { EQUIPMENT, MuscleIdSchema } from '@/data/schema';
 import { TRAINING } from '@/config/training';
 import { CARDIO_INTENSITIES } from './types';
 import { CUSTOM_ID_PREFIX } from '@/data/merged';
+import { NOTE_MAX } from '@/program/edit';
+
+const NoteSchema = z.string().trim().min(1).max(NOTE_MAX).optional();
 import {
   DeloadDismissalsSchema,
   ProgramBlocksSchema,
@@ -36,10 +39,11 @@ import {
  * v2 adds optional phase-2 settings; v3 adds programs, custom exercises and deload
  * dismissals; v4 adds program blocks, the Analyze grouping and session program tags;
  * v5 adds the optional exporting profile's name and optional session `pausedMs`/`pausedAt`
- * timer fields; v6 adds cardio entries. v1-v5 files still import (missing sections are left
- * untouched; cardio entries are always replaced because sessions are).
+ * timer fields; v6 adds cardio entries; v7 adds optional exercise notes. v1-v6 files still
+ * import (missing sections are left untouched; cardio entries are always replaced because
+ * sessions are).
  */
-export const BACKUP_VERSION = 6;
+export const BACKUP_VERSION = 7;
 
 const SessionSchema = z
   .object({
@@ -66,6 +70,7 @@ const SessionExerciseSchema = z.object({
   sessionId: z.string().min(1),
   exerciseId: z.string().min(1),
   order: z.number().int(),
+  note: NoteSchema,
 });
 const SetSchema = z.object({
   id: z.string().min(1),
@@ -133,6 +138,7 @@ export const ProgramSchema = z.object({
           exerciseId: z.string().min(1),
           targetSets: z.number().int().min(1),
           repRange: RepRangeSchema.optional(),
+          note: NoteSchema,
         }),
       ),
     }),
@@ -149,6 +155,7 @@ export const BackupSchema = z.object({
     z.literal(3),
     z.literal(4),
     z.literal(5),
+    z.literal(6),
     z.literal(BACKUP_VERSION),
   ]),
   exportedAt: z.number(),

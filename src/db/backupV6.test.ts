@@ -35,8 +35,8 @@ describe('backup v6', () => {
     await ensureSeed();
     const id = await logRun();
     const out = await exportData();
-    expect(BACKUP_VERSION).toBe(6);
-    expect(out.version).toBe(6);
+    expect(BACKUP_VERSION).toBe(7);
+    expect(out.version).toBe(BACKUP_VERSION);
     expect(out.cardioEntries).toHaveLength(1);
     const before = await db.cardioEntries.get(id);
     await db.cardioEntries.clear();

@@ -41,7 +41,7 @@ describe('backup fixtures', () => {
   });
 
   it('v5 fixture carries the profile name and current version', () => {
-    expect(BACKUP_VERSION).toBe(6);
+    expect(BACKUP_VERSION).toBe(7);
     expect(v5.version).toBe(5);
     expect(v5.profile).toEqual({ name: 'Fixture Lifter' });
   });
@@ -52,7 +52,7 @@ describe('profile name in backups', () => {
     bindDb('lift-log-x', 'X');
     expect(getBoundProfileName()).toBe('X');
     const out = await exportData();
-    expect(out.version).toBe(6);
+    expect(out.version).toBe(BACKUP_VERSION);
     expect(out.profile).toEqual({ name: 'X' });
     expect(parseBackup(JSON.stringify(out)).ok).toBe(true);
     await db.delete();
@@ -174,7 +174,7 @@ describe('encrypted round-trip (v5)', () => {
     const parsed = parseBackup(plain);
     expect(parsed.ok).toBe(true);
     if (!parsed.ok) return;
-    expect(parsed.data.version).toBe(6);
+    expect(parsed.data.version).toBe(BACKUP_VERSION);
     expect(parsed.data.profile).toEqual({ name: 'Default' });
 
     await Promise.all(db.tables.map((t) => t.clear()));

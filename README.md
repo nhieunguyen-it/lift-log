@@ -89,6 +89,8 @@ Backup format **v5** adds the optional exporting profile's name (see Profiles). 
 
 Backup format **v6** adds cardio entries; importing always replaces them along with sessions, so v1–v5 files clear any existing cardio entries.
 
+Backup format **v7** adds optional per-exercise notes on programs and on workout exercises. v1–v6 still import.
+
 **Encryption (optional):** with a passphrase, export wraps the JSON in a self-describing envelope
 (`format: "lift-log-encrypted"`): PBKDF2-SHA-256 (iterations from `TRAINING.backup`, random salt) →
 AES-GCM-256 (random IV). Import detects the envelope and asks for the passphrase; a wrong one shows
