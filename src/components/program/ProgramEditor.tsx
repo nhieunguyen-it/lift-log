@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   ArrowDown,
   ArrowUp,
@@ -12,6 +12,8 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import ExerciseNote from '@/components/program/ExerciseNote';
 import { Card, CardContent } from '@/components/ui/card';
 import {
   Dialog,
@@ -288,6 +290,15 @@ export default function ProgramEditor({ programId }: Props) {
                         )}
                       </div>
 
+                      <ExerciseNote note={pe.note} />
+                      {!readOnly && (
+                        <NoteEditor
+                          name={name}
+                          note={pe.note}
+                          onSave={(value) => update((p) => edit.setNote(p, day.id, i, value))}
+                        />
+                      )}
+
                       <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                         {readOnly ? (
                           <p className="text-sm">
@@ -416,6 +427,64 @@ export default function ProgramEditor({ programId }: Props) {
         </DialogContent>
       </Dialog>
     </div>
+  );
+}
+
+function NoteEditor({
+  name,
+  note,
+  onSave,
+}: {
+  name: string;
+  note?: string;
+  onSave: (value: string) => void;
+}) {
+  const [editing, setEditing] = useState(false);
+  const [value, setValue] = useState('');
+  const cancelled = useRef(false);
+
+  if (!editing) {
+    return (
+      <Button
+        variant="ghost"
+        size="sm"
+        data-testid="edit-note"
+        onClick={() => {
+          cancelled.current = false;
+          setValue(note ?? '');
+          setEditing(true);
+        }}
+      >
+        {note ? 'Edit note' : 'Add note'}
+      </Button>
+    );
+  }
+
+  const save = () => {
+    if (cancelled.current) return;
+    setEditing(false);
+    onSave(value);
+  };
+
+  return (
+    <Input
+      autoFocus
+      value={value}
+      maxLength={edit.NOTE_MAX}
+      aria-label={`Note for ${name}`}
+      data-testid="note-input"
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={save}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          save();
+        } else if (e.key === 'Escape') {
+          cancelled.current = true;
+          setEditing(false);
+        }
+      }}
+    />
   );
 }
 

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import ExerciseDetailDialog from '@/components/ExerciseDetailDialog';
 import ExercisePicker from '@/components/ExercisePicker';
+import ExerciseNote from '@/components/program/ExerciseNote';
 import TargetChip from '@/components/recommend/TargetChip';
 import ExerciseDeloadHint from '@/components/progress/ExerciseDeloadHint';
 import SwapExerciseDialog from '@/components/recommend/SwapExerciseDialog';
@@ -126,6 +127,7 @@ export default function SessionEditor({ detail, unit }: Props) {
                   </Button>
                 </div>
               </div>
+              {!cardioCard && <ExerciseNote note={se.note} />}
               {!cardioCard && (
                 <TargetChip
                   exerciseId={se.exerciseId}
