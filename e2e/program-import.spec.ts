@@ -10,13 +10,18 @@ async function clearOnboarding(page: Page) {
   await page.goto('/');
   await expect(page.getByTestId('start-workout')).toBeVisible();
   const onboarding = page.getByTestId('onboarding-dialog');
-  if (await onboarding.isVisible()) {
+  const shown = await onboarding
+    .waitFor({ state: 'visible', timeout: 1500 })
+    .then(() => true)
+    .catch(() => false);
+  if (shown) {
+    // The fixture's locator handler may dismiss it first; only a still-open dialog is a failure.
     await page
       .getByTestId('onboarding-skip')
       .click({ timeout: 2000 })
-      .catch(() => undefined);
-    await expect(onboarding).toBeHidden();
+      .catch(() => expect(onboarding).toBeHidden());
   }
+  await expect(onboarding).toBeHidden();
 }
 
 async function importExample(page: Page) {
@@ -47,7 +52,7 @@ test('imported note shows on the workout card after starting the day', async ({ 
   await activate.click();
   await expect(activate).toHaveAttribute('aria-pressed', 'true');
   await page.goto('/');
-  await page.getByTestId('start-program-day').first().click();
+  await page.getByTestId('start-program-day').filter({ hasText: 'Legs #1' }).click();
   const card = page.getByTestId('exercise-card').filter({ hasText: 'Lying Leg Curl' }).first();
   await expect(card.getByTestId('exercise-note')).toHaveText(NOTE);
 });
@@ -90,6 +95,8 @@ test('a broken file lists errors, imports nothing, and can be picked again', asy
   await expect(errors).toContainText('unknown exercise "leg-curl"');
   await page.keyboard.press('Escape');
   await expect(errors).toBeHidden();
+  // The app must reset the input so picking the same file again fires a change event.
+  await expect(input).toHaveValue('');
   await expect(items).toHaveCount(before);
 
   await input.setInputFiles(file);
