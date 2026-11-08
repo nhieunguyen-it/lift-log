@@ -1,9 +1,10 @@
 import { Copy, Plus } from 'lucide-react';
 import HelpButton from '@/components/guide/HelpButton';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import ImportProgramButton from '@/components/program/ImportProgramButton';
 import ProgramEditor from '@/components/program/ProgramEditor';
 import { useActiveProgram, usePrograms } from '@/db/programHooks';
 import * as programsRepo from '@/db/programsRepo';
@@ -15,6 +16,8 @@ export default function ProgramsPage() {
 }
 
 function ProgramDetail({ id }: { id: string }) {
+  const location = useLocation();
+  const status = (location.state as { status?: string } | null)?.status;
   return (
     <section className="space-y-4" data-testid="program-detail">
       <div>
@@ -29,6 +32,11 @@ function ProgramDetail({ id }: { id: string }) {
           <HelpButton anchor="programs" label="programs" />
         </div>
       </div>
+      {status && (
+        <p role="status" className="text-sm">
+          {status}
+        </p>
+      )}
       <ProgramEditor programId={id} />
     </section>
   );
@@ -65,9 +73,12 @@ function ProgramList() {
           <h1 className="text-2xl font-semibold">Programs</h1>
           <HelpButton anchor="programs" label="programs" />
         </div>
-        <Button data-testid="new-program" onClick={() => void create()}>
-          <Plus /> New program
-        </Button>
+        <div className="flex flex-wrap justify-end gap-2">
+          <ImportProgramButton />
+          <Button data-testid="new-program" onClick={() => void create()}>
+            <Plus /> New program
+          </Button>
+        </div>
       </div>
 
       <section className="space-y-2" aria-labelledby="my-programs-heading">
