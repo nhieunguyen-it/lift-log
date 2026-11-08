@@ -39,7 +39,7 @@ The release has four parts:
 | Missing coach exercises | Added to the built-in catalog this release (7 required + 3 closer variants) |
 | Coach "System" / notes  | New optional per-exercise `note`; "max" reps = no rep range                 |
 | Alternating weeks       | Not modelled; days are ordered by rotation (L1, Pu1, Pl1, L2, Pu2, Pl2)     |
-| Name clash on import    | Suffix ` (2)`, ` (3)`, … (base trimmed to stay ≤ 60)                                                    |
+| Name clash on import    | Suffix ` (2)`, ` (3)`, … (base trimmed to stay ≤ 60)                        |
 | Activate on import      | No; user sets it active                                                     |
 
 ## 1. Program file format
