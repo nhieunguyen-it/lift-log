@@ -37,6 +37,9 @@ async function importExample(page: Page) {
 test('imports the example program and shows its days', async ({ page }) => {
   await importExample(page);
   await expect(page.getByText('Imported. Set it as active to start using it.')).toBeVisible();
+  await page.reload();
+  await expect(page.getByText('Imported. Set it as active to start using it.')).toHaveCount(0);
+  await expect(page.getByTestId('program-day')).toHaveCount(6);
   await expect(page.getByTestId('program-day')).toHaveCount(6);
   const names = page.getByTestId('day-name');
   await expect(names).toHaveCount(6);

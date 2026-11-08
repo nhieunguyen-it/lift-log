@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Copy, Plus } from 'lucide-react';
 import HelpButton from '@/components/guide/HelpButton';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -17,7 +18,14 @@ export default function ProgramsPage() {
 
 function ProgramDetail({ id }: { id: string }) {
   const location = useLocation();
-  const status = (location.state as { status?: string } | null)?.status;
+  const navigate = useNavigate();
+  const incoming = (location.state as { status?: string } | null)?.status;
+  // Hold the message in state, then clear history state so reload/back don't replay it.
+  const [status] = useState(incoming);
+  useEffect(() => {
+    if (!incoming) return;
+    void navigate(location.pathname, { replace: true, state: null });
+  }, [incoming, location.pathname, navigate]);
   return (
     <section className="space-y-4" data-testid="program-detail">
       <div>
