@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   ArrowDown,
   ArrowUp,
@@ -290,14 +290,12 @@ export default function ProgramEditor({ programId }: Props) {
                         )}
                       </div>
 
-                      <ExerciseNote note={pe.note} />
-                      {!readOnly && (
-                        <NoteEditor
-                          name={name}
-                          note={pe.note}
-                          onSave={(value) => update((p) => edit.setNote(p, day.id, i, value))}
-                        />
-                      )}
+                      <NoteEditor
+                        name={name}
+                        note={pe.note}
+                        readOnly={readOnly}
+                        onSave={(value) => update((p) => edit.setNote(p, day.id, i, value))}
+                      />
 
                       <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                         {readOnly ? (
@@ -433,38 +431,58 @@ export default function ProgramEditor({ programId }: Props) {
 function NoteEditor({
   name,
   note,
+  readOnly,
   onSave,
 }: {
   name: string;
   note?: string;
+  readOnly?: boolean;
   onSave: (value: string) => void;
 }) {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState('');
-  const cancelled = useRef(false);
+  const done = useRef(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const refocus = useRef(false);
+
+  useEffect(() => {
+    if (!editing && refocus.current) {
+      refocus.current = false;
+      buttonRef.current?.focus();
+    }
+  }, [editing]);
 
   if (!editing) {
     return (
-      <Button
-        variant="ghost"
-        size="sm"
-        data-testid="edit-note"
-        onClick={() => {
-          cancelled.current = false;
-          setValue(note ?? '');
-          setEditing(true);
-        }}
-      >
-        {note ? 'Edit note' : 'Add note'}
-      </Button>
+      <>
+        <ExerciseNote note={note} />
+        {!readOnly && (
+          <Button
+            ref={buttonRef}
+            variant="ghost"
+            size="sm"
+            data-testid="edit-note"
+            onClick={() => {
+              done.current = false;
+              setValue(note ?? '');
+              setEditing(true);
+            }}
+          >
+            {note ? 'Edit note' : 'Add note'}
+          </Button>
+        )}
+      </>
     );
   }
 
-  const save = () => {
-    if (cancelled.current) return;
+  const finish = (save: boolean, returnFocus: boolean) => {
+    if (done.current) return;
+    done.current = true;
+    refocus.current = returnFocus;
     setEditing(false);
-    onSave(value);
+    if (save && edit.normalizeNote(value) !== edit.normalizeNote(note)) onSave(value);
   };
+  const save = () => finish(true, false);
 
   return (
     <Input
@@ -478,10 +496,9 @@ function NoteEditor({
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
           e.preventDefault();
-          save();
+          finish(true, true);
         } else if (e.key === 'Escape') {
-          cancelled.current = true;
-          setEditing(false);
+          finish(false, true);
         }
       }}
     />
