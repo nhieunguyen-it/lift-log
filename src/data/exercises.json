@@ -82,6 +82,25 @@
     ]
   },
   {
+    "id": "barbell-curl",
+    "name": "Barbell Curl",
+    "equipment": "barbell",
+    "force": "pull",
+    "mechanic": "isolation",
+    "isBodyweight": false,
+    "level": "beginner",
+    "tracking": "strength",
+    "aliases": [
+      "bicep curl",
+      "biceps curl"
+    ],
+    "source": "Barbell_Curl",
+    "images": [
+      "/exercises/barbell-curl/0.jpg",
+      "/exercises/barbell-curl/1.jpg"
+    ]
+  },
+  {
     "id": "barbell-hack-squat",
     "name": "Barbell Hack Squat",
     "equipment": "barbell",
@@ -584,6 +603,25 @@
     ]
   },
   {
+    "id": "dumbbell-fly",
+    "name": "Dumbbell Fly",
+    "equipment": "dumbbell",
+    "force": "push",
+    "mechanic": "isolation",
+    "isBodyweight": false,
+    "level": "beginner",
+    "tracking": "strength",
+    "aliases": [
+      "chest fly",
+      "flye"
+    ],
+    "source": "Dumbbell_Flyes",
+    "images": [
+      "/exercises/dumbbell-fly/0.jpg",
+      "/exercises/dumbbell-fly/1.jpg"
+    ]
+  },
+  {
     "id": "dumbbell-lateral-raise",
     "name": "Dumbbell Lateral Raise",
     "equipment": "dumbbell",
@@ -623,6 +661,25 @@
     "images": [
       "/exercises/dumbbell-lunge/0.jpg",
       "/exercises/dumbbell-lunge/1.jpg"
+    ]
+  },
+  {
+    "id": "dumbbell-preacher-curl",
+    "name": "Dumbbell Preacher Curl",
+    "equipment": "dumbbell",
+    "force": "pull",
+    "mechanic": "isolation",
+    "isBodyweight": false,
+    "level": "beginner",
+    "tracking": "strength",
+    "aliases": [
+      "preacher curl",
+      "scott curl"
+    ],
+    "source": "Two-Arm_Dumbbell_Preacher_Curl",
+    "images": [
+      "/exercises/dumbbell-preacher-curl/0.jpg",
+      "/exercises/dumbbell-preacher-curl/1.jpg"
     ]
   },
   {
@@ -880,6 +937,24 @@
     ]
   },
   {
+    "id": "hammer-curl",
+    "name": "Hammer Curl",
+    "equipment": "dumbbell",
+    "force": "pull",
+    "mechanic": "isolation",
+    "isBodyweight": false,
+    "level": "beginner",
+    "tracking": "strength",
+    "aliases": [
+      "neutral grip curl"
+    ],
+    "source": "Hammer_Curls",
+    "images": [
+      "/exercises/hammer-curl/0.jpg",
+      "/exercises/hammer-curl/1.jpg"
+    ]
+  },
+  {
     "id": "hanging-leg-raise",
     "name": "Hanging Leg Raise",
     "equipment": "bodyweight",
@@ -1053,6 +1128,44 @@
     "images": [
       "/exercises/leg-press/0.jpg",
       "/exercises/leg-press/1.jpg"
+    ]
+  },
+  {
+    "id": "lying-leg-curl",
+    "name": "Lying Leg Curl",
+    "equipment": "machine",
+    "force": "pull",
+    "mechanic": "isolation",
+    "isBodyweight": false,
+    "level": "beginner",
+    "tracking": "strength",
+    "aliases": [
+      "hamstring curl",
+      "leg curl"
+    ],
+    "source": "Lying_Leg_Curls",
+    "images": [
+      "/exercises/lying-leg-curl/0.jpg",
+      "/exercises/lying-leg-curl/1.jpg"
+    ]
+  },
+  {
+    "id": "lying-triceps-press",
+    "name": "Lying Triceps Press",
+    "equipment": "barbell",
+    "force": "push",
+    "mechanic": "isolation",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "tracking": "strength",
+    "aliases": [
+      "french press",
+      "skull crusher"
+    ],
+    "source": "Lying_Triceps_Press",
+    "images": [
+      "/exercises/lying-triceps-press/0.jpg",
+      "/exercises/lying-triceps-press/1.jpg"
     ]
   },
   {
@@ -1292,6 +1405,25 @@
     ]
   },
   {
+    "id": "reverse-machine-fly",
+    "name": "Reverse Machine Fly",
+    "equipment": "machine",
+    "force": "pull",
+    "mechanic": "isolation",
+    "isBodyweight": false,
+    "level": "beginner",
+    "tracking": "strength",
+    "aliases": [
+      "rear delt fly",
+      "reverse butterfly"
+    ],
+    "source": "Reverse_Machine_Flyes",
+    "images": [
+      "/exercises/reverse-machine-fly/0.jpg",
+      "/exercises/reverse-machine-fly/1.jpg"
+    ]
+  },
+  {
     "id": "romanian-deadlift",
     "name": "Romanian Deadlift",
     "equipment": "barbell",
@@ -1409,6 +1541,24 @@
     ]
   },
   {
+    "id": "seated-dumbbell-triceps-extension",
+    "name": "Seated Dumbbell Triceps Extension",
+    "equipment": "dumbbell",
+    "force": "push",
+    "mechanic": "isolation",
+    "isBodyweight": false,
+    "level": "beginner",
+    "tracking": "strength",
+    "aliases": [
+      "overhead triceps extension"
+    ],
+    "source": "Seated_Triceps_Press",
+    "images": [
+      "/exercises/seated-dumbbell-triceps-extension/0.jpg",
+      "/exercises/seated-dumbbell-triceps-extension/1.jpg"
+    ]
+  },
+  {
     "id": "side-plank",
     "name": "Side Plank",
     "equipment": "bodyweight",
@@ -1482,6 +1632,25 @@
     "images": [
       "/exercises/standing-calf-raise/0.jpg",
       "/exercises/standing-calf-raise/1.jpg"
+    ]
+  },
+  {
+    "id": "stiff-leg-deadlift",
+    "name": "Stiff-Leg Deadlift",
+    "equipment": "barbell",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "intermediate",
+    "tracking": "strength",
+    "aliases": [
+      "stiff-legged deadlift",
+      "stiffleg"
+    ],
+    "source": "Stiff-Legged_Barbell_Deadlift",
+    "images": [
+      "/exercises/stiff-leg-deadlift/0.jpg",
+      "/exercises/stiff-leg-deadlift/1.jpg"
     ]
   },
   {
@@ -1614,6 +1783,25 @@
     "images": [
       "/exercises/triceps-pushdown/0.jpg",
       "/exercises/triceps-pushdown/1.jpg"
+    ]
+  },
+  {
+    "id": "underhand-lat-pulldown",
+    "name": "Underhand Lat Pulldown",
+    "equipment": "cable",
+    "force": "pull",
+    "mechanic": "compound",
+    "isBodyweight": false,
+    "level": "beginner",
+    "tracking": "strength",
+    "aliases": [
+      "reverse grip pulldown",
+      "undergrip"
+    ],
+    "source": "Underhand_Cable_Pulldowns",
+    "images": [
+      "/exercises/underhand-lat-pulldown/0.jpg",
+      "/exercises/underhand-lat-pulldown/1.jpg"
     ]
   },
   {

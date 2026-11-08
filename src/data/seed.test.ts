@@ -7,7 +7,7 @@ import { VARIANT_CHAINS, nextVariantId } from './variantChains';
 
 describe('seed data', () => {
   it('has a numeric seed version', () => {
-    expect(SEED_VERSION).toBe(5);
+    expect(SEED_VERSION).toBe(6);
   });
 
   it('contains exactly the 17 muscle ids', () => {
@@ -15,9 +15,26 @@ describe('seed data', () => {
     expect(muscles.map((m) => m.id).sort()).toEqual([...MUSCLE_IDS].sort());
   });
 
-  it('has between 60 and 90 exercises', () => {
+  it('has between 60 and 100 exercises', () => {
     expect(exercises.length).toBeGreaterThanOrEqual(60);
-    expect(exercises.length).toBeLessThanOrEqual(90);
+    expect(exercises.length).toBeLessThanOrEqual(100);
+  });
+
+  it('includes the program-import additions', () => {
+    const ids = new Set(exercises.map((e) => e.id));
+    for (const id of [
+      'lying-leg-curl',
+      'dumbbell-fly',
+      'barbell-curl',
+      'dumbbell-preacher-curl',
+      'hammer-curl',
+      'lying-triceps-press',
+      'seated-dumbbell-triceps-extension',
+      'stiff-leg-deadlift',
+      'underhand-lat-pulldown',
+      'reverse-machine-fly',
+    ])
+      expect(ids.has(id)).toBe(true);
   });
 
   it('has unique exercise ids', () => {

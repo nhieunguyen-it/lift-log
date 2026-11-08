@@ -71,6 +71,16 @@ One line per exercise: the reason for each non-default weight (or other deviatio
 - **barbell-lunge**: glutes .75: strong glute work in lunges
 - **seated-dumbbell-press**: side_delts .75: dumbbells allow wider path
 - **barbell-hack-squat**: forearms .25: holding the bar behind the legs
+- **lying-leg-curl**: calves .25: gastrocnemius assists knee flexion; ISOLATION EXCEPTION: hamstrings
+- **dumbbell-fly**: ISOLATION EXCEPTION: chest (default weights)
+- **barbell-curl**: forearms .25: grip assist; ISOLATION EXCEPTION: biceps
+- **dumbbell-preacher-curl**: forearms .25: grip assist; ISOLATION EXCEPTION: biceps
+- **hammer-curl**: ISOLATION EXCEPTION: biceps (neutral grip loads forearms at default .5)
+- **lying-triceps-press**: ISOLATION EXCEPTION: triceps (default weights); equipment e-z curl bar->barbell
+- **seated-dumbbell-triceps-extension**: ISOLATION EXCEPTION: triceps (default weights)
+- **stiff-leg-deadlift**: glutes .75: major hip extensor in the hinge; forearms .25: grip assist (weights follow romanian-deadlift)
+- **underhand-lat-pulldown**: biceps .75: supinated grip increases elbow-flexor involvement
+- **reverse-machine-fly**: ISOLATION EXCEPTION: rear_delts (default weights)
 
 ## Isolation exceptions
 
@@ -91,6 +101,14 @@ Kept because no compound lift in the set covers the muscle well, or it is a very
 - **cable-curl** (biceps): biceps; added in seed v4
 - **triceps-pushdown** (triceps): triceps; added in seed v4 so templates can reach MAV without over-pressing
 - **cable-overhead-triceps-extension** (triceps): triceps long head; added in seed v4
+- **lying-leg-curl** (hamstrings): added in seed v6 for program import; hamstrings, calves:.25
+- **dumbbell-fly** (chest): added in seed v6 for program import; chest, front_delts:.5
+- **barbell-curl** (biceps): added in seed v6 for program import; biceps, forearms:.25
+- **dumbbell-preacher-curl** (biceps): added in seed v6 for program import; biceps, forearms:.25
+- **hammer-curl** (biceps): added in seed v6 for program import; biceps, forearms:.5
+- **lying-triceps-press** (triceps): added in seed v6 for program import; triceps
+- **seated-dumbbell-triceps-extension** (triceps): added in seed v6 for program import; triceps
+- **reverse-machine-fly** (rear_delts): added in seed v6 for program import; rear_delts, upper_back:.5
 - Ab exercises (plank, side-plank, hanging-leg-raise, cable-crunch, crunch, pallof-press) count as isolation in the source or here; abs/obliques need at least two options. Compound-classed ab work: ab-wheel-rollout, russian-twist, cable-wood-chop, dead-bug.
 - Muscles with only compound coverage and no exception: chest, lats, forearms, quads, hamstrings, glutes, adductors, lower_back. Notably no leg extensions/curls or flyes are included.
 

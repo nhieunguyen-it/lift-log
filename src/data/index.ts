@@ -5,7 +5,7 @@ import { validateSeed } from './schema';
 import type { ExerciseMuscleParsed, ExerciseParsed, MuscleParsed } from './schema';
 
 /** Bump when seed data changes so the app can re-seed/migrate local DBs. */
-export const SEED_VERSION = 5;
+export const SEED_VERSION = 6;
 
 export type Muscle = MuscleParsed;
 export type Exercise = ExerciseParsed;

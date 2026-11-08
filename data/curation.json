@@ -1291,5 +1291,153 @@
       "breaststroke"
     ],
     "m": "chest,quads:.5,adductors:.5,lats:.5,glutes:.25"
+  },
+  {
+    "src": "Lying_Leg_Curls",
+    "id": "lying-leg-curl",
+    "name": "Lying Leg Curl",
+    "eq": "machine",
+    "force": "pull",
+    "mech": "isolation",
+    "level": "beginner",
+    "al": [
+      "leg curl",
+      "hamstring curl"
+    ],
+    "m": "hamstrings,calves:.25",
+    "note": "calves .25: gastrocnemius assists knee flexion; ISOLATION EXCEPTION: hamstrings"
+  },
+  {
+    "src": "Dumbbell_Flyes",
+    "id": "dumbbell-fly",
+    "name": "Dumbbell Fly",
+    "eq": "dumbbell",
+    "force": "push",
+    "mech": "isolation",
+    "level": "beginner",
+    "al": [
+      "flye",
+      "chest fly"
+    ],
+    "m": "chest,front_delts:.5",
+    "note": "ISOLATION EXCEPTION: chest (default weights)"
+  },
+  {
+    "src": "Barbell_Curl",
+    "id": "barbell-curl",
+    "name": "Barbell Curl",
+    "eq": "barbell",
+    "force": "pull",
+    "mech": "isolation",
+    "level": "beginner",
+    "al": [
+      "bicep curl",
+      "biceps curl"
+    ],
+    "m": "biceps,forearms:.25",
+    "note": "forearms .25: grip assist; ISOLATION EXCEPTION: biceps"
+  },
+  {
+    "src": "Two-Arm_Dumbbell_Preacher_Curl",
+    "id": "dumbbell-preacher-curl",
+    "name": "Dumbbell Preacher Curl",
+    "eq": "dumbbell",
+    "force": "pull",
+    "mech": "isolation",
+    "level": "beginner",
+    "al": [
+      "scott curl",
+      "preacher curl"
+    ],
+    "m": "biceps,forearms:.25",
+    "note": "forearms .25: grip assist; ISOLATION EXCEPTION: biceps"
+  },
+  {
+    "src": "Hammer_Curls",
+    "id": "hammer-curl",
+    "name": "Hammer Curl",
+    "eq": "dumbbell",
+    "force": "pull",
+    "mech": "isolation",
+    "level": "beginner",
+    "al": [
+      "neutral grip curl"
+    ],
+    "m": "biceps,forearms:.5",
+    "note": "ISOLATION EXCEPTION: biceps (neutral grip loads forearms at default .5)"
+  },
+  {
+    "src": "Lying_Triceps_Press",
+    "id": "lying-triceps-press",
+    "name": "Lying Triceps Press",
+    "eq": "barbell",
+    "force": "push",
+    "mech": "isolation",
+    "level": "intermediate",
+    "al": [
+      "french press",
+      "skull crusher"
+    ],
+    "m": "triceps",
+    "note": "ISOLATION EXCEPTION: triceps (default weights); equipment e-z curl bar->barbell"
+  },
+  {
+    "src": "Seated_Triceps_Press",
+    "id": "seated-dumbbell-triceps-extension",
+    "name": "Seated Dumbbell Triceps Extension",
+    "eq": "dumbbell",
+    "force": "push",
+    "mech": "isolation",
+    "level": "beginner",
+    "al": [
+      "overhead triceps extension"
+    ],
+    "m": "triceps",
+    "note": "ISOLATION EXCEPTION: triceps (default weights)"
+  },
+  {
+    "src": "Stiff-Legged_Barbell_Deadlift",
+    "id": "stiff-leg-deadlift",
+    "name": "Stiff-Leg Deadlift",
+    "eq": "barbell",
+    "force": "pull",
+    "mech": "compound",
+    "level": "intermediate",
+    "al": [
+      "stiffleg",
+      "stiff-legged deadlift"
+    ],
+    "m": "hamstrings,glutes:.75,lower_back:.5,forearms:.25",
+    "note": "glutes .75: major hip extensor in the hinge; forearms .25: grip assist (weights follow romanian-deadlift)"
+  },
+  {
+    "src": "Underhand_Cable_Pulldowns",
+    "id": "underhand-lat-pulldown",
+    "name": "Underhand Lat Pulldown",
+    "eq": "cable",
+    "force": "pull",
+    "mech": "compound",
+    "level": "beginner",
+    "al": [
+      "reverse grip pulldown",
+      "undergrip"
+    ],
+    "m": "lats,biceps:.75,upper_back:.5",
+    "note": "biceps .75: supinated grip increases elbow-flexor involvement"
+  },
+  {
+    "src": "Reverse_Machine_Flyes",
+    "id": "reverse-machine-fly",
+    "name": "Reverse Machine Fly",
+    "eq": "machine",
+    "force": "pull",
+    "mech": "isolation",
+    "level": "beginner",
+    "al": [
+      "reverse butterfly",
+      "rear delt fly"
+    ],
+    "m": "rear_delts,upper_back:.5",
+    "note": "ISOLATION EXCEPTION: rear_delts (default weights)"
   }
 ]

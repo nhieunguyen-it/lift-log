@@ -75,6 +75,16 @@
     "weight": 0.5
   },
   {
+    "exerciseId": "barbell-curl",
+    "muscleId": "biceps",
+    "weight": 1
+  },
+  {
+    "exerciseId": "barbell-curl",
+    "muscleId": "forearms",
+    "weight": 0.25
+  },
+  {
     "exerciseId": "barbell-hack-squat",
     "muscleId": "forearms",
     "weight": 0.25
@@ -505,6 +515,16 @@
     "weight": 0.75
   },
   {
+    "exerciseId": "dumbbell-fly",
+    "muscleId": "chest",
+    "weight": 1
+  },
+  {
+    "exerciseId": "dumbbell-fly",
+    "muscleId": "front_delts",
+    "weight": 0.5
+  },
+  {
     "exerciseId": "dumbbell-lateral-raise",
     "muscleId": "front_delts",
     "weight": 0.25
@@ -538,6 +558,16 @@
     "exerciseId": "dumbbell-lunge",
     "muscleId": "quads",
     "weight": 1
+  },
+  {
+    "exerciseId": "dumbbell-preacher-curl",
+    "muscleId": "biceps",
+    "weight": 1
+  },
+  {
+    "exerciseId": "dumbbell-preacher-curl",
+    "muscleId": "forearms",
+    "weight": 0.25
   },
   {
     "exerciseId": "dumbbell-pullover",
@@ -795,6 +825,16 @@
     "weight": 1
   },
   {
+    "exerciseId": "hammer-curl",
+    "muscleId": "biceps",
+    "weight": 1
+  },
+  {
+    "exerciseId": "hammer-curl",
+    "muscleId": "forearms",
+    "weight": 0.5
+  },
+  {
     "exerciseId": "hanging-leg-raise",
     "muscleId": "abs",
     "weight": 1
@@ -980,6 +1020,21 @@
     "weight": 1
   },
   {
+    "exerciseId": "lying-leg-curl",
+    "muscleId": "calves",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "lying-leg-curl",
+    "muscleId": "hamstrings",
+    "weight": 1
+  },
+  {
+    "exerciseId": "lying-triceps-press",
+    "muscleId": "triceps",
+    "weight": 1
+  },
+  {
     "exerciseId": "machine-chest-press",
     "muscleId": "chest",
     "weight": 1
@@ -1238,6 +1293,16 @@
     "exerciseId": "reverse-grip-barbell-row",
     "muscleId": "upper_back",
     "weight": 0.75
+  },
+  {
+    "exerciseId": "reverse-machine-fly",
+    "muscleId": "rear_delts",
+    "weight": 1
+  },
+  {
+    "exerciseId": "reverse-machine-fly",
+    "muscleId": "upper_back",
+    "weight": 0.5
   },
   {
     "exerciseId": "romanian-deadlift",
@@ -1335,6 +1400,11 @@
     "weight": 0.5
   },
   {
+    "exerciseId": "seated-dumbbell-triceps-extension",
+    "muscleId": "triceps",
+    "weight": 1
+  },
+  {
     "exerciseId": "side-plank",
     "muscleId": "abs",
     "weight": 0.5
@@ -1398,6 +1468,26 @@
     "exerciseId": "standing-calf-raise",
     "muscleId": "calves",
     "weight": 1
+  },
+  {
+    "exerciseId": "stiff-leg-deadlift",
+    "muscleId": "forearms",
+    "weight": 0.25
+  },
+  {
+    "exerciseId": "stiff-leg-deadlift",
+    "muscleId": "glutes",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "stiff-leg-deadlift",
+    "muscleId": "hamstrings",
+    "weight": 1
+  },
+  {
+    "exerciseId": "stiff-leg-deadlift",
+    "muscleId": "lower_back",
+    "weight": 0.5
   },
   {
     "exerciseId": "sumo-deadlift",
@@ -1563,6 +1653,21 @@
     "exerciseId": "triceps-pushdown",
     "muscleId": "triceps",
     "weight": 1
+  },
+  {
+    "exerciseId": "underhand-lat-pulldown",
+    "muscleId": "biceps",
+    "weight": 0.75
+  },
+  {
+    "exerciseId": "underhand-lat-pulldown",
+    "muscleId": "lats",
+    "weight": 1
+  },
+  {
+    "exerciseId": "underhand-lat-pulldown",
+    "muscleId": "upper_back",
+    "weight": 0.5
   },
   {
     "exerciseId": "upright-row",

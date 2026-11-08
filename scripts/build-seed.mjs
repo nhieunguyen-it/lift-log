@@ -181,8 +181,8 @@ links.sort((a, b) =>
         : 0,
 );
 
-if (exercises.length < 60 || exercises.length > 90)
-  fail(`exercise count ${exercises.length} not within 60-90`);
+if (exercises.length < 60 || exercises.length > 100)
+  fail(`exercise count ${exercises.length} not within 60-100`);
 
 const coverage = Object.fromEntries(MUSCLE_IDS.map((m) => [m, 0]));
 for (const l of links) coverage[l.muscleId] += 1;
