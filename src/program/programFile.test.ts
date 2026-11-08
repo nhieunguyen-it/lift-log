@@ -86,6 +86,12 @@ describe('parseProgramFile', () => {
     ]);
   });
 
+  it('detects an encrypted backup envelope', () => {
+    expect(errorsOf({ app: 'lift-log', format: 'lift-log-encrypted', version: 1, data: 'x' })).toEqual([
+      'This is a Lift-Log backup. Import it from Settings → Backup.',
+    ]);
+  });
+
   it('names the wrong field for app, kind and version', () => {
     const a = { ...valid(), app: 'other' };
     const k = { ...valid(), kind: 'backup' };
@@ -142,8 +148,8 @@ describe('parseProgramFile', () => {
     };
 
     it.each([
-      ['name 80', withName(80), true],
-      ['name 81', withName(81), false],
+      ['name 60', withName(60), true],
+      ['name 61', withName(61), false],
       ['name empty', withName(0), false],
       ['days 14', withDays(14), true],
       ['days 15', withDays(15), false],
@@ -220,6 +226,12 @@ describe('findUnknownExercises', () => {
 describe('uniqueProgramName', () => {
   it('suffixes until unique, case-insensitively', () => {
     expect(uniqueProgramName('PPL', ['ppl', 'PPL (2)'])).toBe('PPL (3)');
+  });
+  it('stays within the name limit when suffixing a long name', () => {
+    const long = 'a'.repeat(60);
+    const out = uniqueProgramName(long, [long, `${'a'.repeat(56)} (2)`]);
+    expect(out.length).toBeLessThanOrEqual(60);
+    expect(out).toBe(`${'a'.repeat(56)} (3)`);
   });
   it('keeps a free name', () => {
     expect(uniqueProgramName('PPL', [])).toBe('PPL');

@@ -73,7 +73,7 @@ The release has four parts:
 | `app`                    | literal `"lift-log"`                                                             |
 | `kind`                   | literal `"program"` (so backups and program files can't be confused)             |
 | `version`                | literal `1`                                                                      |
-| `program.name`           | string, trimmed, 1–80 chars                                                      |
+| `program.name`           | string, trimmed, 1–60 chars                                                      |
 | `program.days`           | 1–14 days                                                                        |
 | `days[].name`            | string, trimmed, 1–40 chars                                                      |
 | `days[].exercises`       | 1–30 per day                                                                     |

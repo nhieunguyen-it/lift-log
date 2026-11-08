@@ -96,6 +96,7 @@ function mapIssue(issue: z.core.$ZodIssue, raw: unknown): string {
 }
 
 export function parseProgramFile(text: string): ParseProgramFileResult {
+  // Limit is on UTF-16 length (bounds parse cost), not exact bytes.
   if (text.length > L.maxBytes) return { ok: false, errors: [TOO_LARGE] };
   const body = text.charCodeAt(0) === 0xfeff ? text.slice(1) : text;
   let raw: unknown;
@@ -104,7 +105,12 @@ export function parseProgramFile(text: string): ParseProgramFileResult {
   } catch {
     return { ok: false, errors: [NOT_JSON] };
   }
-  if (isRecord(raw) && raw.app === 'lift-log' && 'sessions' in raw && !('kind' in raw)) {
+  if (
+    isRecord(raw) &&
+    raw.app === 'lift-log' &&
+    !('kind' in raw) &&
+    ('sessions' in raw || raw.format === 'lift-log-encrypted')
+  ) {
     return { ok: false, errors: [BACKUP] };
   }
   const res = ProgramFileSchema.safeParse(raw);
@@ -137,7 +143,8 @@ export function uniqueProgramName(name: string, existing: readonly string[]): st
   const taken = new Set(existing.map((n) => n.trim().toLowerCase()));
   if (!taken.has(name.trim().toLowerCase())) return name;
   for (let n = 2; ; n++) {
-    const candidate = `${name} (${n})`;
+    const suffix = ` (${n})`;
+    const candidate = `${name.slice(0, Math.max(1, L.nameMax - suffix.length)).trimEnd()}${suffix}`;
     if (!taken.has(candidate.toLowerCase())) return candidate;
   }
 }

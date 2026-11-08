@@ -16,7 +16,7 @@
 - Gate before every commit: `npm run check` (typecheck + lint + vitest) must pass.
 - `src/program/*` is portable core: must not import `@/db`, `@/components/*`, `@/pages/*`, `react`, `dexie`.
 - Program file: `app: "lift-log"`, `kind: "program"`, `version: 1`; `.strict()` objects.
-- Limits: file ≤ 256 KiB; program name 1–80; days 1–14; day name 1–40; exercises per day 1–30; sets 1–20; reps integers 1–100, `min ≤ max`; note ≤ 200 (trimmed, empty → absent).
+- Limits: file ≤ 256 KiB; program name 1–60; days 1–14; day name 1–40; exercises per day 1–30; sets 1–20; reps integers 1–100, `min ≤ max`; note ≤ 200 (trimmed, empty → absent).
 - Import adds only; never changes the active program; name clash → `Name (2)`, `Name (3)`, … (case-insensitive, trimmed).
 - `BACKUP_VERSION = 7`; v1–v6 still import. `SEED_VERSION = 6`.
 - No Dexie schema version bump (new fields are not indexed).
