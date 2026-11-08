@@ -4,6 +4,7 @@ import type { Program, ProgramDay, ProgramExercise } from './types';
 
 export const MIN_TARGET_SETS = 1;
 export const MAX_TARGET_SETS = 20;
+export const NOTE_MAX = 200;
 
 const clampSets = (n: number): number =>
   Math.min(MAX_TARGET_SETS, Math.max(MIN_TARGET_SETS, Math.round(n)));
@@ -98,11 +99,36 @@ export function setRepRange(
   });
 }
 
-/** Replaces the exercise, keeping its sets and position. A rep range override is dropped. */
+/** Trims; blank becomes `undefined`; anything over `NOTE_MAX` is cut. */
+export function normalizeNote(note: string | undefined): string | undefined {
+  const t = note?.trim().slice(0, NOTE_MAX);
+  return t ? t : undefined;
+}
+
+/** Pass blank or `undefined` to clear the note. */
+export function setNote(
+  p: Program,
+  dayId: string,
+  index: number,
+  note: string | undefined,
+): Program {
+  const n = normalizeNote(note);
+  return mapExercise(p, dayId, index, (e) => {
+    const { note: _drop, ...rest } = e;
+    void _drop;
+    return n ? { ...rest, note: n } : rest;
+  });
+}
+
+/** Replaces the exercise, keeping its sets, note and position. A rep range override is dropped. */
 export const swapExercise = (
   p: Program,
   dayId: string,
   index: number,
   newExerciseId: string,
 ): Program =>
-  mapExercise(p, dayId, index, (e) => ({ exerciseId: newExerciseId, targetSets: e.targetSets }));
+  mapExercise(p, dayId, index, (e) => ({
+    exerciseId: newExerciseId,
+    targetSets: e.targetSets,
+    ...(e.note ? { note: e.note } : {}),
+  }));

@@ -35,6 +35,16 @@ describe('programsRepo', () => {
     expect((await programs.getProgram(copy.id))?.name).toBe('Mine');
   });
 
+  it('duplicate keeps exercise notes', async () => {
+    const p = await programs.createProgram('N');
+    const dayId = p.days[0].id;
+    await programs.updateProgram(p.id, (x) =>
+      edit.setNote(edit.addExercise(x, dayId, 'squat', 3), dayId, 0, 'x'),
+    );
+    const copy = await programs.duplicateProgram(p.id);
+    expect(copy.days[0].exercises[0].note).toBe('x');
+  });
+
   it('rejects editing or deleting built-ins', async () => {
     await expect(programs.updateProgram('builtin-ppl', (p) => p)).rejects.toThrow();
     await expect(programs.deleteProgram('builtin-ppl')).rejects.toThrow();

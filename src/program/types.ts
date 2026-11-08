@@ -8,6 +8,8 @@ export interface ProgramExercise {
   targetSets: number;
   /** Overrides the exercise's default rep range for this program. */
   repRange?: RepRange;
+  /** Free-text cue for this exercise (max 200 chars). */
+  note?: string;
 }
 
 export interface ProgramDay {

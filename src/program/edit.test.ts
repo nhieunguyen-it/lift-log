@@ -55,6 +55,43 @@ describe('program edit helpers', () => {
     expect(r.days[0].exercises[0]).toEqual({ exerciseId: 'q', targetSets: 3 });
   });
 
+  describe('note', () => {
+    const ex = (p: Program, i = 0) => p.days[0].exercises[i];
+
+    it('trims and stores a note', () => {
+      expect(ex(edit.setNote(base(), 'a', 0, '  Pyramide ▲  ')).note).toBe('Pyramide ▲');
+    });
+
+    it('removes the note key for blank or undefined', () => {
+      const withNote = edit.setNote(base(), 'a', 0, 'x');
+      expect('note' in ex(edit.setNote(withNote, 'a', 0, '   '))).toBe(false);
+      expect('note' in ex(edit.setNote(withNote, 'a', 0, undefined))).toBe(false);
+    });
+
+    it('caps the note at NOTE_MAX', () => {
+      const r = edit.setNote(base(), 'a', 0, 'a'.repeat(250));
+      expect(ex(r).note).toHaveLength(edit.NOTE_MAX);
+      expect(edit.NOTE_MAX).toBe(200);
+    });
+
+    it('swap keeps note and sets, drops rep range', () => {
+      const p = edit.setNote(base(), 'a', 0, 'keep');
+      expect(ex(edit.swapExercise(p, 'a', 0, 'q'))).toEqual({
+        exerciseId: 'q',
+        targetSets: 3,
+        note: 'keep',
+      });
+    });
+
+    it('move, setTargetSets and setRepRange keep the note', () => {
+      const p = edit.setNote(base(), 'a', 0, 'keep');
+      expect(ex(edit.moveExercise(p, 'a', 0, 'down'), 1).note).toBe('keep');
+      expect(ex(edit.setTargetSets(p, 'a', 0, 5)).note).toBe('keep');
+      expect(ex(edit.setRepRange(p, 'a', 0, { min: 6, max: 10 })).note).toBe('keep');
+      expect(ex(edit.setRepRange(p, 'a', 0, undefined)).note).toBe('keep');
+    });
+  });
+
   it('moves, renames and removes days', () => {
     const p = base();
     expect(edit.moveDay(p, 'a', 'down').days.map((d) => d.id)).toEqual(['b', 'a']);
