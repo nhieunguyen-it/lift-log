@@ -14,6 +14,8 @@ import {
 } from '@/program/block';
 import { BUILT_IN_PROGRAMS, getBuiltInProgram } from '@/program/templates';
 import * as edit from '@/program/edit';
+import { findUnknownExercises, toProgram, uniqueProgramName } from '@/program/programFile';
+import type { ProgramFile } from '@/program/programFile';
 import type {
   BlockProjection,
   PlanCheck,
@@ -134,6 +136,46 @@ export async function activateProgram(id: string | null): Promise<void> {
   await setActiveProgramId(id);
 }
 
+/** Ids of exercises a program may contain: built-in plus live custom, cardio excluded. */
+export async function knownProgramExerciseIds(): Promise<Set<string>> {
+  const { exercises } = await loadMergedExercises();
+  return new Set(exercises.filter((e) => !isCardio(e)).map((e) => e.id));
+}
+
+export class ProgramImportError extends Error {
+  constructor(readonly errors: string[]) {
+    super(errors.join('\n'));
+    this.name = 'ProgramImportError';
+  }
+}
+
+/** The name an import would get: unique among user programs (built-ins are not in the db). */
+export async function previewImportName(name: string): Promise<string> {
+  const names = (await db.programs.toArray()).map((p) => p.name);
+  return uniqueProgramName(name, names);
+}
+
+/** Adds a parsed program file as a new user program; nothing else is touched. */
+export async function importProgram(file: ProgramFile, now = Date.now()): Promise<Program> {
+  return db.transaction(
+    'rw',
+    [db.programs, db.exercises, db.exerciseMuscles, db.customExercises, db.customExerciseMuscles],
+    async () => {
+      const errors = findUnknownExercises(file, await knownProgramExerciseIds());
+      if (errors.length > 0) throw new ProgramImportError(errors);
+      const name = await previewImportName(file.program.name);
+      const program = toProgram(
+        file,
+        { programId: newId(), dayIds: file.program.days.map(() => newId()) },
+        name,
+        now,
+      );
+      await db.programs.add(program);
+      return program;
+    },
+  );
+}
+
 /**
  * Starts a session from a program day: exercises in order, `targetSets` blank set rows each
  * (no weight/reps/rir prefilled). If a session is already active it is returned untouched.
@@ -161,9 +203,7 @@ export async function startProgramDay(
       const program = await getProgram(programId);
       const day = program?.days.find((d) => d.id === dayId);
       if (!program || !day) throw new Error('Program day not found');
-      const { exercises } = await loadMergedExercises();
-      // Cardio is out of scope for programs: skip it (e.g. from an imported program).
-      const known = new Set(exercises.filter((e) => !isCardio(e)).map((e) => e.id));
+      const known = await knownProgramExerciseIds();
 
       const active = await getActiveSession();
       if (active) return active;
