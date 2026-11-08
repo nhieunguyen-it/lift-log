@@ -394,3 +394,15 @@ describe('cardio in summaries', () => {
     expect(staleFinishTime(detail)).toBe(done);
   });
 });
+
+describe('addExercise note normalization', () => {
+  it('never stores a whitespace-only note and trims real ones', async () => {
+    const s = await sessions.startSession();
+    const blank = await sessions.addExercise(s.id, 'barbell-bench-press', '   ');
+    const real = await sessions.addExercise(s.id, 'barbell-bench-press', '  pause  ');
+    expect(blank.note).toBeUndefined();
+    expect('note' in blank).toBe(false);
+    expect(real.note).toBe('pause');
+    expect((await db.sessionExercises.get(blank.id))?.note).toBeUndefined();
+  });
+});

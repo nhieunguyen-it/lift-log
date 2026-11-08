@@ -7,6 +7,7 @@ import {
 } from '@/analysis';
 import type { Exercise } from '@/data';
 import { activeMs } from '@/lib/workoutTimer';
+import { normalizeNote } from '@/program/edit';
 import { db, newId } from './db';
 import type { CardioEntry, Session, SessionExercise, SessionSummary, SetRow } from './types';
 
@@ -70,7 +71,8 @@ export async function addExercise(
   return db.transaction('rw', db.sessionExercises, async () => {
     const rows = await orderedExercises(sessionId);
     const row: SessionExercise = { id: newId(), sessionId, exerciseId, order: rows.length };
-    if (note) row.note = note;
+    const n = normalizeNote(note);
+    if (n) row.note = n;
     await db.sessionExercises.add(row);
     return row;
   });
