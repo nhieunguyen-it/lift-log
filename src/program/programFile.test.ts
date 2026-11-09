@@ -42,6 +42,13 @@ function errorsOf(o: unknown): string[] {
   if (r.ok) throw new Error('expected failure');
   return r.errors;
 }
+/** A one-day "Legs" file whose first exercise is spread with `fields`. */
+function withFields(fields: Record<string, unknown>): Raw {
+  const raw = valid();
+  raw.program.days[0].name = 'Legs';
+  raw.program.days[0].exercises[0] = { ...raw.program.days[0].exercises[0], ...fields };
+  return raw;
+}
 function fileOf(o: unknown): ProgramFile {
   const r = parse(o);
   if (!r.ok) throw new Error(r.errors.join('; '));
@@ -272,11 +279,6 @@ describe('toProgram', () => {
     });
   });
 
-  const withFields = (fields: Record<string, unknown>) => {
-    const raw = valid();
-    raw.program.days[0].exercises[0] = { ...raw.program.days[0].exercises[0], ...fields };
-    return raw;
-  };
   const toEx = (fields: Record<string, unknown>) =>
     toProgram(fileOf(withFields(fields)), { programId: 'p', dayIds: ['d'] }, 'X', 0).days[0]
       .exercises[0];
@@ -284,6 +286,12 @@ describe('toProgram', () => {
   it('accepts system and mainFocus and normalises to stored form', () => {
     const ex = toEx({ system: 'progression', mainFocus: true });
     expect(ex).toEqual(expect.objectContaining({ mainFocus: true }));
+    expect('system' in ex).toBe(false);
+  });
+
+  it('accepts mainFocus without a system (progression)', () => {
+    const ex = toEx({ mainFocus: true });
+    expect(ex).toEqual({ exerciseId: 'deadlift', targetSets: 3, mainFocus: true });
     expect('system' in ex).toBe(false);
   });
 
@@ -295,12 +303,6 @@ describe('toProgram', () => {
 });
 
 describe('program file systems', () => {
-  const withFields = (fields: Record<string, unknown>) => {
-    const raw = valid();
-    raw.program.days[0].name = 'Legs';
-    raw.program.days[0].exercises[0] = { ...raw.program.days[0].exercises[0], ...fields };
-    return raw;
-  };
 
   it('rejects an unknown system', () => {
     expect(errorsOf(withFields({ system: 'drop_set' }))).toEqual([

@@ -37,7 +37,7 @@ const ExerciseSchema = z
     system: z.enum(TRAINING_SYSTEMS, { error: systemMsg }).optional(),
     mainFocus: z.boolean({ error: mainFocusMsg }).optional(),
   })
-  .refine((ex) => !ex.mainFocus || ex.system === 'progression', {
+  .refine((ex) => !ex.mainFocus || ex.system === undefined || ex.system === 'progression', {
     error: mainFocusSystemMsg,
     path: ['mainFocus'],
   });
