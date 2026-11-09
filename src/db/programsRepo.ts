@@ -9,6 +9,7 @@ import {
   applyBlockWeek,
   blockWeekAt,
   defaultRampExerciseIds,
+  isDeloadWeek,
   newBlock,
   projectBlock,
 } from '@/program/block';
@@ -25,6 +26,10 @@ import type {
 } from '@/program/types';
 import { db, newId } from './db';
 import { loadMergedExercises } from './customExercisesRepo';
+import { resolveRepRange } from '@/analysis/recommend';
+import { systemOf } from '@/program/systems';
+import { getExerciseWithMuscles } from './exercisesRepo';
+import { planForSessionExercise } from './plannedSets';
 import { addExercise, getActiveSession, startSession } from './sessionsRepo';
 import {
   getActiveProgramId,
@@ -178,7 +183,7 @@ export async function importProgram(file: ProgramFile, now = Date.now()): Promis
 
 /**
  * Starts a session from a program day: exercises in order, `targetSets` blank set rows each
- * (no weight/reps/rir prefilled). If a session is already active it is returned untouched.
+ * (reps/weight planned from the training system and the last session). If a session is already active it is returned untouched.
  * Exercises that no longer exist (deleted customs) are skipped.
  */
 export async function startProgramDay(
@@ -216,6 +221,8 @@ export async function startProgramDay(
       const planned = block && blockWeek ? applyBlockWeek(program, block, blockWeek) : program;
       const plannedDay = planned.days.find((d) => d.id === dayId) ?? day;
 
+      const deloadWeek = !!block && blockWeek !== null && isDeloadWeek(block, blockWeek);
+
       const session = await startSession(now);
       const tags: Partial<Session> = { programId, programDayId: dayId };
       if (blockWeek) tags.blockWeek = blockWeek;
@@ -223,14 +230,30 @@ export async function startProgramDay(
       Object.assign(session, tags);
       for (const pe of plannedDay.exercises) {
         if (!known.has(pe.exerciseId)) continue;
-        const se = await addExercise(session.id, pe.exerciseId, pe.note);
-        const rows: SetRow[] = Array.from({ length: pe.targetSets }, (_, order) => ({
-          id: newId(),
-          sessionExerciseId: se.id,
-          order,
-          reps: 0,
-          isWarmup: false,
-        }));
+        const found = await getExerciseWithMuscles(pe.exerciseId);
+        const system = systemOf(pe);
+        const repRange = found ? resolveRepRange(system, pe.repRange, found.exercise) : undefined;
+        const se = await addExercise(session.id, pe.exerciseId, {
+          note: pe.note,
+          system: pe.system,
+          mainFocus: pe.mainFocus,
+          repRange,
+        });
+        const plan = await planForSessionExercise(se, {
+          sets: pe.targetSets,
+          deloadWeek,
+        });
+        const rows: SetRow[] = plan.map((p, order) => {
+          const row: SetRow = {
+            id: newId(),
+            sessionExerciseId: se.id,
+            order,
+            reps: p.reps,
+            isWarmup: false,
+          };
+          if (p.weightKg !== undefined) row.weightKg = p.weightKg;
+          return row;
+        });
         await db.sets.bulkAdd(rows);
       }
       return session;

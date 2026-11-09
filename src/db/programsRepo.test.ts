@@ -61,7 +61,7 @@ describe('programsRepo', () => {
     expect((await programs.getActiveProgram())?.name).toContain('Full Body');
   });
 
-  it('startProgramDay creates ordered exercises with blank set rows', async () => {
+  it('startProgramDay creates ordered exercises with pre-filled reps and blank weights', async () => {
     const day = (await programs.getProgram('builtin-full-body'))!.days[0];
     const s = await programs.startProgramDay('builtin-full-body', day.id);
     const detail = await sessions.getSessionDetail(s.id);
@@ -71,7 +71,7 @@ describe('programsRepo', () => {
     detail?.exercises.forEach((e, i) => {
       expect(e.sets).toHaveLength(day.exercises[i].targetSets);
       for (const row of e.sets) {
-        expect(row.reps).toBe(0);
+        expect(row.reps).toBeGreaterThan(0); // first time: reps planned, weight blank
         expect(row.weightKg).toBeUndefined();
         expect(row.rir).toBeUndefined();
         expect(row.completedAt).toBeUndefined();

@@ -7,7 +7,9 @@ import {
 } from '@/analysis';
 import type { Exercise } from '@/data';
 import { activeMs } from '@/lib/workoutTimer';
+import type { RepRange } from '@/config/training';
 import { normalizeNote } from '@/program/edit';
+import type { StoredSystem } from '@/program/types';
 import { db, newId } from './db';
 import type { CardioEntry, Session, SessionExercise, SessionSummary, SetRow } from './types';
 
@@ -63,16 +65,26 @@ async function renumberExercises(sessionId: string): Promise<void> {
   );
 }
 
+export interface AddExerciseSnapshot {
+  note?: string;
+  system?: StoredSystem;
+  mainFocus?: true;
+  repRange?: RepRange;
+}
+
 export async function addExercise(
   sessionId: string,
   exerciseId: string,
-  note?: string,
+  snapshot: AddExerciseSnapshot = {},
 ): Promise<SessionExercise> {
   return db.transaction('rw', db.sessionExercises, async () => {
     const rows = await orderedExercises(sessionId);
     const row: SessionExercise = { id: newId(), sessionId, exerciseId, order: rows.length };
-    const n = normalizeNote(note);
+    const n = normalizeNote(snapshot.note);
     if (n) row.note = n;
+    if (snapshot.system) row.system = snapshot.system;
+    if (snapshot.mainFocus) row.mainFocus = true;
+    if (snapshot.repRange) row.repRange = { ...snapshot.repRange };
     await db.sessionExercises.add(row);
     return row;
   });
