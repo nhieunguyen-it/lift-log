@@ -176,6 +176,26 @@ describe('PittTimer', () => {
     expect(oscillators).toHaveLength(0);
   });
 
+  it('Start is disabled while the workout is paused', () => {
+    render({ session: { ...session, pausedAt: 123 }, sets: [set('a', 20)] });
+    expect(byId('pitt-start')).toHaveProperty('disabled', true);
+    click('pitt-start');
+    expect(byId('pitt-stop')).toBeNull();
+    expect(oscillators).toHaveLength(0);
+  });
+
+  it('does not overwrite a set ticked done during the run', () => {
+    render({ sets: [set('a', 20)] });
+    click('pitt-start');
+    advance(6000);
+    render({ sets: [{ ...set('a', 20, true), reps: 15 }] });
+    advance(3000 + 20 * 6000);
+    expect(db.updateSet).not.toHaveBeenCalled();
+    expect(byId('pitt-stop')).toBeNull();
+    expect(byId('pitt-log')).toBeNull();
+    expect(byId('pitt-start')).not.toBeNull();
+  });
+
   it('pausing the workout stops the timer', () => {
     render({ sets: [set('a', 20)] });
     click('pitt-start');

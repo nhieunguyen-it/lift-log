@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { completedReps, pittEvents, pittPhaseAt, type PittConfig } from './pittTimer';
+import {
+  completedReps,
+  pittEvents,
+  pittPhaseAt,
+  showsPittTimer,
+  type PittConfig,
+} from './pittTimer';
 
 const c: PittConfig = { countdownSec: 3, repSec: 2, pauseSec: 4, reps: 20 };
 
@@ -53,4 +59,12 @@ describe('pittEvents', () => {
       { atMs: 9000, kind: 'go' },
       { atMs: 11000, kind: 'done' },
     ]));
+});
+
+describe('showsPittTimer', () => {
+  it('only for PITT-Force in an unfinished session', () => {
+    expect(showsPittTimer({}, 'pitt_force')).toBe(true);
+    expect(showsPittTimer({ finishedAt: 1 }, 'pitt_force')).toBe(false);
+    expect(showsPittTimer({}, 'progression')).toBe(false);
+  });
 });

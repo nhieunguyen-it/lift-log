@@ -12,6 +12,11 @@ export type PittPhase =
 
 const SEC = 1000;
 
+/** The PITT timer is offered for PITT-Force exercises while the session is still running. */
+export function showsPittTimer(session: { finishedAt?: number }, system: string): boolean {
+  return system === 'pitt_force' && session.finishedAt === undefined;
+}
+
 /** Total time from the end of the countdown to the end of the last rep (no trailing pause). */
 function workMs(c: PittConfig): number {
   return c.reps * c.repSec * SEC + Math.max(0, c.reps - 1) * c.pauseSec * SEC;

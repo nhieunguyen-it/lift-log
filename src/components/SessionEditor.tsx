@@ -17,6 +17,7 @@ import type { MergedExercise } from '@/data/merged';
 import { isCardio } from '@/analysis';
 import { cardioRepo, sessionsRepo, setsRepo, type SessionDetail } from '@/db';
 import { nameFor, useExerciseLookup } from '@/db/customHooks';
+import { showsPittTimer } from '@/lib/pittTimer';
 import type { WeightUnit } from '@/lib/units';
 import { SYSTEM_INFO, systemOf } from '@/program/systems';
 
@@ -151,7 +152,7 @@ export default function SessionEditor({ detail, unit }: Props) {
                 </div>
               </div>
               {!cardioCard && <ExerciseNote note={se.note} />}
-              {!cardioCard && systemOf(se) === 'pitt_force' && (
+              {!cardioCard && showsPittTimer(session, systemOf(se)) && (
                 <PittTimer session={session} sets={sets} plannedReps={se.repRange?.max ?? 20} />
               )}
               {!cardioCard && (

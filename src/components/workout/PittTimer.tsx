@@ -41,6 +41,7 @@ export default function PittTimer({ session, sets, plannedReps }: Props) {
 
   const firstOpen = sets.find((s) => s.completedAt === undefined);
   const target = firstOpen && firstOpen.reps > 0 ? firstOpen.reps : plannedReps;
+  const paused = isPaused(session);
 
   const [run, setRun] = useState<Run | null>(null);
   const [now, setNow] = useState(0);
@@ -49,6 +50,11 @@ export default function PittTimer({ session, sets, plannedReps }: Props) {
   const runRef = useRef<Run | null>(null);
   const soundRef = useRef<PittSound | null>(null);
   const wakeRef = useRef<Promise<WakeLockSentinel | undefined> | null>(null);
+  // Latest rows, so the done write can see a set ticked Done mid-run.
+  const setsRef = useRef(sets);
+  useEffect(() => {
+    setsRef.current = sets;
+  }, [sets]);
 
   const releaseAll = useCallback(() => {
     runRef.current = null;
@@ -70,7 +76,7 @@ export default function PittTimer({ session, sets, plannedReps }: Props) {
   }, [releaseAll]);
 
   function start() {
-    if (!firstOpen) return;
+    if (!firstOpen || paused) return;
     const config: PittConfig = {
       countdownSec: TRAINING.pitt.countdownSec,
       repSec,
@@ -122,7 +128,11 @@ export default function PittTimer({ session, sets, plannedReps }: Props) {
         wakeRef.current = null;
         void wake?.then((s) => s?.release().catch(() => {}));
         setRun(null);
-        void setsRepo.updateSet(run.setId, { reps: run.config.reps });
+        // A set ticked Done during the run keeps what the user logged.
+        const latest = setsRef.current.find((s) => s.id === run.setId);
+        if (latest?.completedAt === undefined) {
+          void setsRepo.updateSet(run.setId, { reps: run.config.reps });
+        }
         return;
       }
       setNow(t);
@@ -131,7 +141,6 @@ export default function PittTimer({ session, sets, plannedReps }: Props) {
   }, [run]);
 
   // Pausing the workout behaves like Stop.
-  const paused = isPaused(session);
   useEffect(() => {
     if (paused) stop();
   }, [paused, stop]);
@@ -190,7 +199,7 @@ export default function PittTimer({ session, sets, plannedReps }: Props) {
             variant="secondary"
             className="flex-1"
             data-testid="pitt-start"
-            disabled={!firstOpen}
+            disabled={!firstOpen || paused}
             onClick={start}
           >
             <Play /> Start PITT timer
