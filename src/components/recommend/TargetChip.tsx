@@ -18,8 +18,9 @@ export default function TargetChip(props: Props) {
   const plan = useSetPlan(props.sessionExercise);
   const unit = useUnit();
   if (plan === undefined) return null;
-  if (plan === null) return <NextTargetChip {...props} />;
-  if (!unit || plan.length === 0) return null;
+  // Ad-hoc exercises, and snapshot ones with no rows to plan, get the next-set target.
+  if (plan === null || plan.length === 0) return <NextTargetChip {...props} />;
+  if (!unit) return null;
   const system = systemOf(props.sessionExercise);
   return (
     <ChipButton
