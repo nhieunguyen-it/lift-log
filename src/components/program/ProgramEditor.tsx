@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
 import ExerciseNote from '@/components/program/ExerciseNote';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -35,7 +36,13 @@ import {
 } from '@/db/programHooks';
 import * as programsRepo from '@/db/programsRepo';
 import * as edit from '@/program/edit';
-import type { Program, ProgramExercise } from '@/program/types';
+import { SYSTEM_INFO, systemOf } from '@/program/systems';
+import {
+  TRAINING_SYSTEMS,
+  type Program,
+  type ProgramExercise,
+  type TrainingSystem,
+} from '@/program/types';
 import BlockPanel from './BlockPanel';
 import CommitInput from './CommitInput';
 import PlanCheckView from './PlanCheckView';
@@ -302,6 +309,8 @@ export default function ProgramEditor({ programId }: Props) {
                           <p className="text-sm">
                             {pe.targetSets} sets
                             {pe.repRange && `, ${pe.repRange.min}-${pe.repRange.max} reps`}
+                            {` · ${SYSTEM_INFO[systemOf(pe)].short}`}
+                            {pe.mainFocus && ' ★ main focus'}
                           </p>
                         ) : (
                           <>
@@ -345,6 +354,43 @@ export default function ProgramEditor({ programId }: Props) {
                               range={pe.repRange}
                               onChange={(r) => update((p) => edit.setRepRange(p, day.id, i, r))}
                             />
+                            <div className="flex w-full flex-wrap items-center gap-x-4 gap-y-1">
+                              <select
+                                className="border-input bg-background h-9 rounded-md border px-2 text-sm"
+                                data-testid="system-select"
+                                aria-label={`System for ${name}`}
+                                value={systemOf(pe)}
+                                onChange={(e) => {
+                                  // Read now: the updater runs after React restores the controlled value.
+                                  const system = e.target.value as TrainingSystem;
+                                  update((p) => edit.setSystem(p, day.id, i, system));
+                                }}
+                              >
+                                {TRAINING_SYSTEMS.map((s) => (
+                                  <option key={s} value={s}>
+                                    {SYSTEM_INFO[s].label}
+                                  </option>
+                                ))}
+                              </select>
+                              {systemOf(pe) === 'progression' && (
+                                <label className="flex items-center gap-2 text-sm">
+                                  <Switch
+                                    aria-label={`Main focus for ${name}`}
+                                    checked={!!pe.mainFocus}
+                                    onCheckedChange={(on) =>
+                                      update((p) => edit.setMainFocus(p, day.id, i, on))
+                                    }
+                                  />
+                                  Main focus
+                                </label>
+                              )}
+                              <p
+                                className="text-muted-foreground w-full text-xs"
+                                data-testid="system-hint"
+                              >
+                                {SYSTEM_INFO[systemOf(pe)].hint}
+                              </p>
+                            </div>
                           </>
                         )}
                       </div>
