@@ -26,8 +26,8 @@ describe('backup v7', () => {
     expect(parseBackup(JSON.stringify(v7)).ok).toBe(true);
     await importData(v7 as unknown as Backup);
     const out = await exportData();
-    expect(BACKUP_VERSION).toBe(7);
-    expect(out.version).toBe(7);
+    expect(BACKUP_VERSION).toBe(8);
+    expect(out.version).toBe(8);
     expect(out.sessionExercises.find((s) => s.note)?.note).toBe('Pause on the chest');
     expect(out.programs?.[0]?.days[0]?.exercises[0]?.note).toBe('Slow eccentric');
   });

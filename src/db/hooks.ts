@@ -8,7 +8,14 @@ import {
 } from './exercisesRepo';
 import { getActiveSession, getSessionDetail, listHistory } from './sessionsRepo';
 import { analysisClient } from './localAnalysisClient';
-import { getEquipment, getTargetOverrides, getUnit, getWeekStartsOn } from './settingsRepo';
+import {
+  getEquipment,
+  getPittSettings,
+  getTargetOverrides,
+  getUnit,
+  getWeekStartsOn,
+  type PittSettings,
+} from './settingsRepo';
 
 /** All hooks return `undefined` while loading. */
 export const useUnit = (): WeightUnit | undefined => useLiveQuery(() => getUnit(), []);
@@ -40,6 +47,8 @@ export const useAlternatives = (exerciseId: string | undefined) =>
 export const useWeekStartsOn = () => useLiveQuery(() => getWeekStartsOn(), []);
 export const useTargetOverrides = () => useLiveQuery(() => getTargetOverrides(), []);
 export const useEquipment = () => useLiveQuery(() => getEquipment(), []);
+export const usePittSettings = (): PittSettings | undefined =>
+  useLiveQuery(() => getPittSettings(), []);
 
 // Phase 3 hooks live next to their repos; re-exported so UI imports one place.
 export * from './programHooks';

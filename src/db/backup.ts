@@ -5,10 +5,12 @@ import {
   EquipmentListSchema,
   TargetOverridesSchema,
   getEquipment,
+  getPittSettings,
   getTargetOverrides,
   getUnit,
   getWeekStartsOn,
   setEquipment,
+  setPittSettings,
   setTargetOverrides,
   setUnit,
   setWeekStartsOn,
@@ -16,11 +18,24 @@ import {
 import type { WeekStartDay } from '@/analysis';
 import { EQUIPMENT, MuscleIdSchema } from '@/data/schema';
 import { TRAINING } from '@/config/training';
+import { TRAINING_SYSTEMS } from '@/program/types';
 import { CARDIO_INTENSITIES } from './types';
 import { CUSTOM_ID_PREFIX } from '@/data/merged';
 import { NOTE_MAX } from '@/program/edit';
 
+const RepRangeSchema = z
+  .object({ min: z.number().int().min(1), max: z.number().int().min(1) })
+  .refine((r) => r.min <= r.max, { message: 'min must be <= max' });
+
 const NoteSchema = z.string().trim().min(1).max(NOTE_MAX).optional();
+// 'progression' is the absence of a system, never stored.
+const StoredSystemSchema = z.enum(
+  TRAINING_SYSTEMS.filter((s) => s !== 'progression') as [
+    'pyramid_up',
+    'pyramid_down',
+    'pitt_force',
+  ],
+);
 import {
   DeloadDismissalsSchema,
   ProgramBlocksSchema,
@@ -39,11 +54,12 @@ import {
  * v2 adds optional phase-2 settings; v3 adds programs, custom exercises and deload
  * dismissals; v4 adds program blocks, the Analyze grouping and session program tags;
  * v5 adds the optional exporting profile's name and optional session `pausedMs`/`pausedAt`
- * timer fields; v6 adds cardio entries; v7 adds optional exercise notes. v1-v6 files still
+ * timer fields; v6 adds cardio entries; v7 adds optional exercise notes; v8 adds training systems (program exercise
+ * and session-exercise snapshots) and PITT timer settings. v1-v7 files still
  * import (missing sections are left untouched; cardio entries are always replaced because
  * sessions are).
  */
-export const BACKUP_VERSION = 7;
+export const BACKUP_VERSION = 8;
 
 const SessionSchema = z
   .object({
@@ -71,6 +87,10 @@ const SessionExerciseSchema = z.object({
   exerciseId: z.string().min(1),
   order: z.number().int(),
   note: NoteSchema,
+  // v8: snapshots of the program exercise's training system / main focus / rep range.
+  system: StoredSystemSchema.optional(),
+  mainFocus: z.literal(true).optional(),
+  repRange: RepRangeSchema.optional(),
 });
 const SetSchema = z.object({
   id: z.string().min(1),
@@ -94,10 +114,6 @@ export const CardioEntrySchema = z.object({
   intensity: z.enum(CARDIO_INTENSITIES),
   completedAt: z.number().optional(),
 });
-
-const RepRangeSchema = z
-  .object({ min: z.number().int().min(1), max: z.number().int().min(1) })
-  .refine((r) => r.min <= r.max, { message: 'min must be <= max' });
 
 export const CustomExerciseSchema = z.object({
   id: z.string().startsWith(CUSTOM_ID_PREFIX),
@@ -139,6 +155,8 @@ export const ProgramSchema = z.object({
           targetSets: z.number().int().min(1),
           repRange: RepRangeSchema.optional(),
           note: NoteSchema,
+          system: StoredSystemSchema.optional(),
+          mainFocus: z.literal(true).optional(),
         }),
       ),
     }),
@@ -156,6 +174,7 @@ export const BackupSchema = z.object({
     z.literal(4),
     z.literal(5),
     z.literal(6),
+    z.literal(7),
     z.literal(BACKUP_VERSION),
   ]),
   exportedAt: z.number(),
@@ -172,6 +191,10 @@ export const BackupSchema = z.object({
     // v4
     programBlocks: ProgramBlocksSchema.optional(),
     analyzeGrouping: z.enum(['muscle', 'group']).optional(),
+    // v8
+    pittRepSec: z.number().int().min(TRAINING.pitt.minSec).max(TRAINING.pitt.maxSec).optional(),
+    pittPauseSec: z.number().int().min(TRAINING.pitt.minSec).max(TRAINING.pitt.maxSec).optional(),
+    pittSound: z.boolean().optional(),
   }),
   sessions: z.array(SessionSchema),
   sessionExercises: z.array(SessionExerciseSchema),
@@ -204,6 +227,7 @@ export async function exportData(now = Date.now()): Promise<Backup> {
     customExerciseMuscles,
     programBlocks,
     analyzeGrouping,
+    pitt,
   ] = await db.transaction('r', USER_TABLES(), () =>
     Promise.all([
       db.sessions.toArray(),
@@ -221,6 +245,7 @@ export async function exportData(now = Date.now()): Promise<Backup> {
       db.customExerciseMuscles.toArray(),
       getProgramBlocks(),
       getAnalyzeGrouping(),
+      getPittSettings(),
     ]),
   );
   return {
@@ -237,6 +262,9 @@ export async function exportData(now = Date.now()): Promise<Backup> {
       deloadDismissals,
       programBlocks,
       analyzeGrouping,
+      pittRepSec: pitt.repSec,
+      pittPauseSec: pitt.pauseSec,
+      pittSound: pitt.sound,
     },
     sessions,
     sessionExercises,
@@ -343,6 +371,17 @@ export async function importData(data: Backup): Promise<void> {
     if (st.deloadDismissals !== undefined) await setDeloadDismissals(st.deloadDismissals);
     if (st.programBlocks !== undefined) await setProgramBlocks(st.programBlocks);
     if (st.analyzeGrouping !== undefined) await setAnalyzeGrouping(st.analyzeGrouping);
+    if (
+      st.pittRepSec !== undefined ||
+      st.pittPauseSec !== undefined ||
+      st.pittSound !== undefined
+    ) {
+      await setPittSettings({
+        ...(st.pittRepSec !== undefined && { repSec: st.pittRepSec }),
+        ...(st.pittPauseSec !== undefined && { pauseSec: st.pittPauseSec }),
+        ...(st.pittSound !== undefined && { sound: st.pittSound }),
+      });
+    }
     if (valid.programs !== undefined) {
       await db.programs.clear();
       await db.programs.bulkAdd(valid.programs);

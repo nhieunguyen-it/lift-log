@@ -144,3 +144,40 @@ export async function getAnalyzeGrouping(): Promise<AnalyzeGrouping> {
 export async function setAnalyzeGrouping(g: AnalyzeGrouping): Promise<void> {
   await db.settings.put({ key: 'analyzeGrouping', value: g });
 }
+
+// PITT timer settings.
+
+export interface PittSettings {
+  repSec: number;
+  pauseSec: number;
+  sound: boolean;
+}
+
+const PittSecSchema = z.number().int().min(TRAINING.pitt.minSec).max(TRAINING.pitt.maxSec);
+const PittPatchSchema = z.object({
+  repSec: PittSecSchema.optional(),
+  pauseSec: PittSecSchema.optional(),
+  sound: z.boolean().optional(),
+});
+
+export async function getPittSettings(): Promise<PittSettings> {
+  const [rep, pause, sound] = await Promise.all([
+    db.settings.get('pittRepSec'),
+    db.settings.get('pittPauseSec'),
+    db.settings.get('pittSound'),
+  ]);
+  const r = PittSecSchema.safeParse(rep?.value);
+  const p = PittSecSchema.safeParse(pause?.value);
+  return {
+    repSec: r.success ? r.data : TRAINING.pitt.repSec,
+    pauseSec: p.success ? p.data : TRAINING.pitt.pauseSec,
+    sound: typeof sound?.value === 'boolean' ? sound.value : true,
+  };
+}
+
+export async function setPittSettings(patch: Partial<PittSettings>): Promise<void> {
+  const v = PittPatchSchema.parse(patch);
+  if (v.repSec !== undefined) await db.settings.put({ key: 'pittRepSec', value: v.repSec });
+  if (v.pauseSec !== undefined) await db.settings.put({ key: 'pittPauseSec', value: v.pauseSec });
+  if (v.sound !== undefined) await db.settings.put({ key: 'pittSound', value: v.sound });
+}

@@ -41,7 +41,7 @@ describe('backup fixtures', () => {
   });
 
   it('v5 fixture carries the profile name and current version', () => {
-    expect(BACKUP_VERSION).toBe(7);
+    expect(BACKUP_VERSION).toBe(8);
     expect(v5.version).toBe(5);
     expect(v5.profile).toEqual({ name: 'Fixture Lifter' });
   });
