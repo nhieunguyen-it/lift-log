@@ -103,3 +103,82 @@ test('program day shows system badges, main focus and pre-filled rows', async ({
     await expect(rows2.nth(i).getByTestId('weight-input')).toHaveValue(w);
   }
 });
+
+test('PITT timer counts, stops early and logs reps; mute persists', async ({ page }) => {
+  // Minimal Web Audio stand-in: headless browsers may refuse to start real audio.
+  await page.addInitScript(() => {
+    const param = () => ({
+      setValueAtTime() {},
+      linearRampToValueAtTime() {},
+    });
+    class FakeAudioContext {
+      destination = {};
+      get currentTime() {
+        return performance.now() / 1000;
+      }
+      createOscillator() {
+        return { frequency: param(), connect() {}, start() {}, stop() {} };
+      }
+      createGain() {
+        return { gain: param(), connect() {} };
+      }
+      resume() {
+        return Promise.resolve();
+      }
+      close() {
+        return Promise.resolve();
+      }
+    }
+    Object.defineProperty(globalThis, 'AudioContext', {
+      configurable: true,
+      value: FakeAudioContext,
+    });
+  });
+  const t0 = new Date('2026-11-09T18:00:00');
+  await page.clock.install({ time: t0 });
+  await importAndActivateExample(page);
+  await page.getByTestId('start-program-day').filter({ hasText: 'Legs #1' }).click();
+
+  const curl = page.getByTestId('exercise-card').filter({ hasText: 'Lying Leg Curl' }).first();
+  const start = curl.getByTestId('pitt-start');
+  await expect(start).toBeEnabled();
+  const reps = curl.getByTestId('set-row').first().getByTestId('reps-input');
+  await expect(reps).toHaveValue('20');
+
+  // From here the clock only moves through runFor(); live queries need a tick to deliver.
+  await page.clock.pauseAt(new Date(t0.getTime() + 10 * 60_000));
+  const quick = expect.configure({ timeout: 50 });
+  const settle = (assertion: () => Promise<void>) =>
+    expect(async () => {
+      await page.clock.runFor(1);
+      await assertion();
+    }).toPass({ intervals: [10] });
+
+  await start.click();
+  await expect(curl.getByTestId('pitt-phase')).toHaveText('3');
+  await page.clock.runFor(9000);
+  await expect(curl.getByTestId('pitt-rep')).toHaveText('Rep 2 / 20');
+  await expect(curl.getByTestId('pitt-phase')).toHaveText('GO');
+
+  await curl.getByTestId('pitt-stop').click();
+  // Rep 1 finished at 5000 ms; rep 2 was still running.
+  const log = curl.getByTestId('pitt-log');
+  await expect(log).toHaveText('Log 1 reps');
+  await log.click();
+  await settle(() => quick(reps).toHaveValue('1'));
+
+  const mute = curl.getByTestId('pitt-mute');
+  await expect(mute).toHaveAttribute('aria-pressed', 'false');
+  await mute.click();
+  await settle(() => quick(mute).toHaveAttribute('aria-pressed', 'true'));
+  await page.reload();
+  await settle(() =>
+    quick(
+      page
+        .getByTestId('exercise-card')
+        .filter({ hasText: 'Lying Leg Curl' })
+        .first()
+        .getByTestId('pitt-mute'),
+    ).toHaveAttribute('aria-pressed', 'true'),
+  );
+});
