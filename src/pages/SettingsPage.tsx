@@ -6,6 +6,9 @@ import EquipmentSettings from '@/components/recommend/EquipmentSettings';
 import TrainingSettings from '@/components/analyze/TrainingSettings';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
+import { TRAINING } from '@/config/training';
 import {
   Dialog,
   DialogContent,
@@ -19,7 +22,7 @@ import ExportPassphraseFields, {
 } from '@/components/backup/ExportPassphraseFields';
 import ImportPassphraseDialog from '@/components/backup/ImportPassphraseDialog';
 import ProfileBadge from '@/components/profile/ProfileBadge';
-import { backup, settingsRepo, useActiveProfileName, useUnit } from '@/db';
+import { backup, settingsRepo, useActiveProfileName, usePittSettings, useUnit } from '@/db';
 import {
   BackupCryptoError,
   decryptBackup,
@@ -29,6 +32,66 @@ import {
 import type { Backup, EncryptedBackupEnvelope } from '@/db/backup';
 import type { WeightUnit } from '@/lib/units';
 import { cn } from '@/lib/utils';
+
+/** Clamps a typed seconds value into the PITT bounds; NaN falls back to `current`. */
+function pittSec(text: string, current: number): number {
+  const n = Math.round(Number(text));
+  if (text.trim() === '' || !Number.isFinite(n)) return current;
+  return Math.min(TRAINING.pitt.maxSec, Math.max(TRAINING.pitt.minSec, n));
+}
+
+function PittSettingsSection() {
+  const pitt = usePittSettings();
+  const fields = [
+    { key: 'repSec', label: 'Rep seconds' },
+    { key: 'pauseSec', label: 'Pause seconds' },
+  ] as const;
+  return (
+    <section className="space-y-2" aria-labelledby="pitt-heading">
+      <h2 id="pitt-heading" className="text-lg font-medium">
+        PITT-Force timer
+      </h2>
+      <p className="text-muted-foreground text-sm">
+        Pacing for PITT-Force exercises: a rep, then a pause, after a 3-second countdown.
+      </p>
+      {pitt && (
+        <>
+          <div className="grid grid-cols-2 gap-2">
+            {fields.map(({ key, label }) => (
+              <label key={key} className="block space-y-1 text-sm">
+                {label}
+                <Input
+                  type="number"
+                  inputMode="numeric"
+                  min={TRAINING.pitt.minSec}
+                  max={TRAINING.pitt.maxSec}
+                  step={1}
+                  aria-label={label}
+                  data-testid={`pitt-${key}`}
+                  defaultValue={pitt[key]}
+                  onBlur={(e) => {
+                    const v = pittSec(e.currentTarget.value, pitt[key]);
+                    e.currentTarget.value = String(v);
+                    if (v !== pitt[key]) void settingsRepo.setPittSettings({ [key]: v });
+                  }}
+                />
+              </label>
+            ))}
+          </div>
+          <label className="flex min-h-11 items-center justify-between gap-2 text-sm">
+            Timer sound
+            <Switch
+              aria-label="Timer sound"
+              data-testid="pitt-sound"
+              checked={pitt.sound}
+              onCheckedChange={(sound) => void settingsRepo.setPittSettings({ sound })}
+            />
+          </label>
+        </>
+      )}
+    </section>
+  );
+}
 
 // Profile management is only loaded when Settings opens.
 const ProfileManager = lazy(() => import('@/components/profile/ProfileManager'));
@@ -163,6 +226,8 @@ export default function SettingsPage() {
       </div>
 
       <TrainingSettings />
+
+      <PittSettingsSection />
 
       <section className="space-y-2" aria-labelledby="equipment-heading">
         <h2 id="equipment-heading" className="text-lg font-medium">

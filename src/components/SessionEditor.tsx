@@ -12,6 +12,7 @@ import SwapExerciseDialog from '@/components/recommend/SwapExerciseDialog';
 import { CustomBadge } from '@/components/custom';
 import CardioEntryItem from '@/components/CardioEntryItem';
 import SetRowItem, { SET_GRID } from '@/components/SetRowItem';
+import PittTimer from '@/components/workout/PittTimer';
 import type { MergedExercise } from '@/data/merged';
 import { isCardio } from '@/analysis';
 import { cardioRepo, sessionsRepo, setsRepo, type SessionDetail } from '@/db';
@@ -150,6 +151,9 @@ export default function SessionEditor({ detail, unit }: Props) {
                 </div>
               </div>
               {!cardioCard && <ExerciseNote note={se.note} />}
+              {!cardioCard && systemOf(se) === 'pitt_force' && (
+                <PittTimer session={session} sets={sets} plannedReps={se.repRange?.max ?? 20} />
+              )}
               {!cardioCard && (
                 <TargetChip
                   exerciseId={se.exerciseId}
