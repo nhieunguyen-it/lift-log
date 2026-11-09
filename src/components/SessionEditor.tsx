@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ArrowDown, ArrowUp, Info, Plus, Repeat2, Trash2 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import ExerciseDetailDialog from '@/components/ExerciseDetailDialog';
@@ -16,6 +17,7 @@ import { isCardio } from '@/analysis';
 import { cardioRepo, sessionsRepo, setsRepo, type SessionDetail } from '@/db';
 import { nameFor, useExerciseLookup } from '@/db/customHooks';
 import type { WeightUnit } from '@/lib/units';
+import { SYSTEM_INFO, systemOf } from '@/program/systems';
 
 interface Props {
   detail: SessionDetail;
@@ -44,8 +46,14 @@ export default function SessionEditor({ detail, unit }: Props) {
           ? nameFor(lookup, se.exerciseId)
           : (exercise?.name ?? se.exerciseId);
         const cardioCard = isCardio(exercise);
+        const showSystem = !!se.system || (!!session.programDayId && !!se.repRange);
         return (
-          <Card key={se.id} data-testid="exercise-card" data-exercise-id={se.exerciseId}>
+          <Card
+            key={se.id}
+            data-testid="exercise-card"
+            data-exercise-id={se.exerciseId}
+            className={se.mainFocus ? 'ring-primary ring-2' : undefined}
+          >
             <CardContent className="space-y-2">
               <div className="flex items-center justify-between gap-1">
                 <div className="min-w-0">
@@ -53,6 +61,20 @@ export default function SessionEditor({ detail, unit }: Props) {
                     {exerciseName}
                     {exercise?.isCustom && <CustomBadge className="ml-2 align-middle" />}
                   </p>
+                  {(showSystem || se.mainFocus) && (
+                    <div className="mt-1 flex flex-wrap items-center gap-1">
+                      {showSystem && (
+                        <Badge variant="secondary" data-testid="system-badge">
+                          {SYSTEM_INFO[systemOf(se)].short}
+                        </Badge>
+                      )}
+                      {se.mainFocus && (
+                        <span className="text-primary text-xs font-medium" data-testid="main-focus">
+                          ★ Main focus
+                        </span>
+                      )}
+                    </div>
+                  )}
                   {cardioCard ? (
                     <p className="text-muted-foreground text-xs">Cardio · minutes and intensity</p>
                   ) : (
