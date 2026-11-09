@@ -182,8 +182,9 @@ export async function importProgram(file: ProgramFile, now = Date.now()): Promis
 }
 
 /**
- * Starts a session from a program day: exercises in order, `targetSets` blank set rows each
- * (reps/weight planned from the training system and the last session). If a session is already active it is returned untouched.
+ * Starts a session from a program day: exercises in order, `targetSets` set rows each, with
+ * reps/weight planned from the training system and the last session (weight stays blank when
+ * there is no history). If a session is already active it is returned untouched.
  * Exercises that no longer exist (deleted customs) are skipped.
  */
 export async function startProgramDay(

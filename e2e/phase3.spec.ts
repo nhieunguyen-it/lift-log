@@ -67,7 +67,9 @@ test('program from template: duplicate, activate, start Day 1', async ({ page })
     const card = cards.nth(i);
     await expect(card.getByTestId('exercise-name')).toHaveText(exerciseNames.get(pe.exerciseId)!);
     await expect(card.getByTestId('set-row')).toHaveCount(pe.targetSets);
-    await expect(card.getByTestId('reps-input').first()).toHaveValue('');
+    // No history: reps are planned from the rep range, weight stays blank.
+    await expect(card.getByTestId('reps-input').first()).toHaveValue(/^[1-9]\d*$/);
+    await expect(card.getByTestId('weight-input').first()).toHaveValue('');
     await expect(card.getByTestId('done-checkbox').first()).not.toHaveAttribute(
       'data-state',
       'checked',
