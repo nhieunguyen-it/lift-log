@@ -127,6 +127,20 @@ describe('program edit helpers', () => {
       });
     });
 
+    it('setSystem to the current system is a no-op and keeps main focus', () => {
+      const on = edit.setMainFocus(base(), 'a', 0, true);
+      expect(edit.setSystem(on, 'a', 0, 'progression')).toBe(on);
+      const pitt = edit.setSystem(base(), 'a', 0, 'pitt_force');
+      expect(edit.setSystem(pitt, 'a', 0, 'pitt_force')).toBe(pitt);
+    });
+
+    it('swapExercise keeps system and main focus but drops rep range', () => {
+      const pitt = edit.swapExercise(edit.setSystem(base(), 'a', 0, 'pitt_force'), 'a', 0, 'q');
+      expect(ex(pitt)).toEqual({ exerciseId: 'q', targetSets: 3, system: 'pitt_force' });
+      const mf = edit.swapExercise(edit.setMainFocus(base(), 'a', 0, true), 'a', 0, 'q');
+      expect(ex(mf)).toEqual({ exerciseId: 'q', targetSets: 3, mainFocus: true });
+    });
+
     it('setMainFocus is a no-op off progression and false deletes the key', () => {
       const pyr = edit.setSystem(base(), 'a', 0, 'pyramid_down');
       expect(edit.setMainFocus(pyr, 'a', 0, true)).toBe(pyr);

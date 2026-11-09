@@ -121,7 +121,7 @@ export function setNote(
   });
 }
 
-/** Replaces the exercise, keeping its sets, note and position. A rep range override is dropped. */
+/** Replaces the exercise, keeping its sets, note, system, main focus and position. A rep range override is dropped. */
 export const swapExercise = (
   p: Program,
   dayId: string,
@@ -132,6 +132,8 @@ export const swapExercise = (
     exerciseId: newExerciseId,
     targetSets: e.targetSets,
     ...(e.note ? { note: e.note } : {}),
+    ...(e.system ? { system: e.system } : {}),
+    ...(e.mainFocus ? { mainFocus: e.mainFocus } : {}),
   }));
 
 /**
@@ -144,6 +146,8 @@ export function setSystem(
   index: number,
   system: TrainingSystem,
 ): Program {
+  const cur = p.days.find((d) => d.id === dayId)?.exercises[index];
+  if (cur && (cur.system ?? 'progression') === system) return p;
   return mapExercise(p, dayId, index, (e) => {
     const { system: _s, mainFocus: _m, ...rest } = e;
     void _s;
