@@ -38,12 +38,12 @@ export function loadStepCategory(ex: Exercise, primaryMuscleIds: MuscleId[]): Lo
 }
 
 /** Shift a kg weight by `delta` (fraction or step) in the user's unit, landing on a loadable value. */
-function loadable(kg: number, unit: WeightUnit): { weightKg: number; displayWeight: number } {
+export function loadable(kg: number, unit: WeightUnit): { weightKg: number; displayWeight: number } {
   const displayWeight = kgToDisplay(kg, unit);
   return { weightKg: unit === 'kg' ? displayWeight : lbsToKg(displayWeight), displayWeight };
 }
 
-function stepped(
+export function stepped(
   kg: number,
   category: LoadStepCategory,
   unit: WeightUnit,

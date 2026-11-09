@@ -3,3 +3,5 @@ export { repRangeFor, loadStepCategory, nextTarget, countMisses } from './progre
 export { volumeSuggestions } from './volume';
 export { alternatives, cosineSimilarity } from './alternatives';
 export { detectDeload } from './deload';
+export { planSets, planReps, resolveRepRange } from './systems';
+export type { PlannedSet, HistorySet } from './systems';
