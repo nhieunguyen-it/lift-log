@@ -1,6 +1,7 @@
 export * from './types';
 export * from './seed';
 export * from './hooks';
+export { fillFromPlan } from './plannedSets';
 export * as sessionsRepo from './sessionsRepo';
 export * as setsRepo from './setsRepo';
 export * as cardioRepo from './cardioRepo';

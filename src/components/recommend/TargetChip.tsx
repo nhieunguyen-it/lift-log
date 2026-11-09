@@ -1,15 +1,40 @@
 import { Target } from 'lucide-react';
-import { setsRepo, useExerciseInsight, type SetRow } from '@/db';
+import { planLabel } from '@/analysis/recommend';
+import type { PlannedSet } from '@/analysis/recommend';
+import type { SessionExercise } from '@/analysis/rows';
+import { fillFromPlan, setsRepo, useExerciseInsight, useSetPlan, useUnit, type SetRow } from '@/db';
+import { SYSTEM_INFO, systemOf } from '@/program/systems';
 
 interface Props {
   exerciseId: string;
   sessionId: string;
   sessionExerciseId: string;
   sets: SetRow[];
+  sessionExercise: SessionExercise;
 }
 
-/** Suggested target for the next set; one tap fills it into the first empty set row. */
-export default function TargetChip({ exerciseId, sessionId, sessionExerciseId, sets }: Props) {
+/** Suggested target (system plan, or next-set target for ad-hoc exercises); one tap fills empty fields. */
+export default function TargetChip(props: Props) {
+  const plan = useSetPlan(props.sessionExercise);
+  const unit = useUnit();
+  if (plan === undefined) return null;
+  if (plan === null) return <NextTargetChip {...props} />;
+  if (!unit || plan.length === 0) return null;
+  const system = systemOf(props.sessionExercise);
+  return (
+    <ChipButton
+      text={planLabel(system, plan, unit)}
+      reason={SYSTEM_INFO[system].hint}
+      onFill={() => fillPlan(props.sets, plan)}
+    />
+  );
+}
+
+async function fillPlan(sets: SetRow[], plan: PlannedSet[]) {
+  for (const { id, patch } of fillFromPlan(sets, plan)) await setsRepo.updateSet(id, patch);
+}
+
+function NextTargetChip({ exerciseId, sessionId, sessionExerciseId, sets }: Props) {
   const insight = useExerciseInsight(exerciseId, sessionId);
   if (!insight) return null;
   const { target } = insight;
@@ -41,20 +66,32 @@ export default function TargetChip({ exerciseId, sessionId, sessionExerciseId, s
     });
   }
 
+  return <ChipButton text={text} reason={target.reason} onFill={fill} />;
+}
+
+function ChipButton({
+  text,
+  reason,
+  onFill,
+}: {
+  text: string;
+  reason?: string;
+  onFill: () => Promise<void>;
+}) {
   return (
     <button
       type="button"
       data-testid="target-chip"
       aria-label={`Fill target: ${text}`}
-      title={target.reason}
-      onClick={() => void fill()}
+      title={reason}
+      onClick={() => void onFill()}
       className="bg-secondary text-secondary-foreground hover:bg-secondary/80 focus-visible:ring-ring flex min-h-11 w-full cursor-pointer flex-col items-start justify-center rounded-lg px-3 py-1 text-left focus-visible:ring-2 focus-visible:outline-none"
     >
       <span className="flex items-center gap-1.5 text-sm font-medium">
         <Target className="size-4 shrink-0" aria-hidden="true" />
         {text}
       </span>
-      {target.reason && <span className="text-muted-foreground text-xs">{target.reason}</span>}
+      {reason && <span className="text-muted-foreground text-xs">{reason}</span>}
     </button>
   );
 }

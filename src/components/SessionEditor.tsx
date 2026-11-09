@@ -134,6 +134,7 @@ export default function SessionEditor({ detail, unit }: Props) {
                   sessionId={session.id}
                   sessionExerciseId={se.id}
                   sets={sets}
+                  sessionExercise={se}
                 />
               )}
               {!cardioCard && <ExerciseDeloadHint exerciseId={se.exerciseId} />}

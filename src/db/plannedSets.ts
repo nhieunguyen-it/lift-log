@@ -1,6 +1,6 @@
 import { planSets, resolveRepRange } from '@/analysis/recommend';
 import type { HistorySet, PlannedSet } from '@/analysis/recommend';
-import type { SessionExercise } from '@/analysis/rows';
+import type { SessionExercise, SetRow } from '@/analysis/rows';
 import { systemOf } from '@/program/systems';
 import { db } from './db';
 import { getExerciseWithMuscles } from './exercisesRepo';
@@ -48,4 +48,24 @@ export async function planForSessionExercise(
     unit,
     deloadWeek: opts.deloadWeek,
   });
+}
+
+/**
+ * Per index, the empty fields of a not-done row that the plan can fill. Done rows, rows beyond
+ * the plan and fields that already hold a value are skipped.
+ */
+export function fillFromPlan(
+  sets: SetRow[],
+  plan: PlannedSet[],
+): { id: string; patch: { weightKg?: number; reps?: number } }[] {
+  const out: { id: string; patch: { weightKg?: number; reps?: number } }[] = [];
+  sets.forEach((row, i) => {
+    const p = plan[i];
+    if (!p || row.completedAt !== undefined) return;
+    const patch: { weightKg?: number; reps?: number } = {};
+    if (p.weightKg !== undefined && row.weightKg === undefined) patch.weightKg = p.weightKg;
+    if (row.reps === 0 && p.reps > 0) patch.reps = p.reps;
+    if (Object.keys(patch).length > 0) out.push({ id: row.id, patch });
+  });
+  return out;
 }

@@ -7,6 +7,9 @@ import {
   recentExerciseIds,
 } from './exercisesRepo';
 import { getActiveSession, getSessionDetail, listHistory } from './sessionsRepo';
+import { planForSessionExercise } from './plannedSets';
+import type { PlannedSet } from '@/analysis/recommend';
+import type { SessionExercise } from '@/analysis/rows';
 import { analysisClient } from './localAnalysisClient';
 import {
   getEquipment,
@@ -39,6 +42,18 @@ export const useExerciseInsight = (exerciseId: string | undefined, excludeSessio
       exerciseId ? await analysisClient.getExerciseInsight(exerciseId, excludeSessionId) : null,
     [exerciseId, excludeSessionId],
   );
+/**
+ * Planned working sets for a session exercise. `null` when it has no training-system snapshot
+ * (ad-hoc exercise), `undefined` while loading.
+ */
+export const useSetPlan = (se: SessionExercise | undefined): PlannedSet[] | undefined | null =>
+  useLiveQuery(async () => {
+    if (!se) return null;
+    if (se.system === undefined && se.mainFocus === undefined && se.repRange === undefined) {
+      return null;
+    }
+    return planForSessionExercise(se);
+  }, [se?.id, se?.system, se?.mainFocus, se?.repRange?.min, se?.repRange?.max]);
 export const useAlternatives = (exerciseId: string | undefined) =>
   useLiveQuery(
     async () => (exerciseId ? await analysisClient.getAlternatives(exerciseId) : null),

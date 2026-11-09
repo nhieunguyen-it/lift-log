@@ -7,6 +7,8 @@ import * as sessions from './sessionsRepo';
 import * as setsRepo from './setsRepo';
 import * as edit from '@/program/edit';
 import type { Program } from '@/program/types';
+import type { SetRow } from '@/analysis/rows';
+import { fillFromPlan } from './plannedSets';
 
 beforeEach(resetDb);
 
@@ -160,5 +162,30 @@ describe('startProgramDay training systems', () => {
     expect(ex[0].mainFocus).toBe(true);
     expect(ex[1].system).toBe('pyramid_up');
     expect(ex[2].system).toBe('pitt_force');
+  });
+});
+
+describe('fillFromPlan', () => {
+  const row = (o: Partial<SetRow>, i = 0): SetRow => ({
+    id: `r${i}`,
+    sessionExerciseId: 'se',
+    order: i,
+    reps: 0,
+    isWarmup: false,
+    ...o,
+  });
+  const rows = (...os: Partial<SetRow>[]) => os.map((o, i) => row(o, i));
+
+  it('fills only empty fields of not-done rows by index', () => {
+    expect(
+      fillFromPlan(rows({ reps: 15, weightKg: 60 }, { reps: 0 }, { reps: 0, completedAt: 1 }), [
+        { weightKg: 60, reps: 15 },
+        { weightKg: 65, reps: 11 },
+        { weightKg: 70, reps: 6 },
+      ]),
+    ).toEqual([{ id: 'r1', patch: { weightKg: 65, reps: 11 } }]);
+    expect(fillFromPlan(rows({ reps: 9 }), [{ weightKg: 50, reps: 12 }])).toEqual([
+      { id: 'r0', patch: { weightKg: 50 } },
+    ]);
   });
 });
