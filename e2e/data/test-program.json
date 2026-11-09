@@ -1,0 +1,57 @@
+{
+  "app": "lift-log",
+  "kind": "program",
+  "version": 1,
+  "program": {
+    "name": "Test program",
+    "days": [
+      {
+        "name": "Lower",
+        "exercises": [
+          {
+            "exerciseId": "barbell-back-squat",
+            "sets": 5,
+            "reps": { "min": 5, "max": 5 },
+            "system": "progression",
+            "mainFocus": true
+          },
+          {
+            "exerciseId": "leg-press",
+            "sets": 3,
+            "reps": { "min": 12, "max": 15 },
+            "system": "pyramid_up"
+          },
+          {
+            "exerciseId": "seated-calf-raise",
+            "sets": 3,
+            "reps": { "min": 8, "max": 12 },
+            "system": "pyramid_down"
+          },
+          {
+            "exerciseId": "lying-leg-curl",
+            "sets": 1,
+            "reps": { "min": 20, "max": 20 },
+            "system": "pitt_force",
+            "note": "pause 3–4 s each"
+          }
+        ]
+      },
+      {
+        "name": "Upper",
+        "exercises": [
+          {
+            "exerciseId": "pull-up",
+            "sets": 3,
+            "system": "progression",
+            "note": "max reps"
+          },
+          {
+            "exerciseId": "barbell-bench-press",
+            "sets": 3,
+            "reps": { "min": 8, "max": 10 }
+          }
+        ]
+      }
+    ]
+  }
+}

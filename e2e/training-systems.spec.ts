@@ -32,7 +32,7 @@ test('picks a system and main focus in the program editor', async ({ page }) => 
   await expect(rows.nth(1).getByRole('switch', { name: /^Main focus for / })).toBeChecked();
 });
 
-const EXAMPLE = 'examples/programs/ppl-alternating.json';
+const EXAMPLE = 'e2e/data/test-program.json';
 
 async function importAndActivateExample(page: Page) {
   await page.goto('/');
@@ -61,7 +61,7 @@ async function importAndActivateExample(page: Page) {
 
 test('program day shows system badges, main focus and pre-filled rows', async ({ page }) => {
   await importAndActivateExample(page);
-  await page.getByTestId('start-program-day').filter({ hasText: 'Legs #1' }).click();
+  await page.getByTestId('start-program-day').filter({ hasText: 'Lower' }).click();
 
   const squat = page.getByTestId('exercise-card').filter({ hasText: 'Barbell Back Squat' }).first();
   await expect(squat.getByTestId('main-focus')).toHaveText('★ Main focus');
@@ -95,7 +95,7 @@ test('program day shows system badges, main focus and pre-filled rows', async ({
     await fillSetRow(rows.nth(i), w, r, '2');
   }
   await finishWorkout(page);
-  await page.getByTestId('start-program-day').filter({ hasText: 'Legs #1' }).click();
+  await page.getByTestId('start-program-day').filter({ hasText: 'Lower' }).click();
   const press2 = page.getByTestId('exercise-card').filter({ hasText: 'Leg Press' }).first();
   const rows2 = press2.getByTestId('set-row');
   await expect(rows2).toHaveCount(3);
@@ -137,7 +137,7 @@ test('PITT timer counts, stops early and logs reps; mute persists', async ({ pag
   const t0 = new Date('2026-11-09T18:00:00');
   await page.clock.install({ time: t0 });
   await importAndActivateExample(page);
-  await page.getByTestId('start-program-day').filter({ hasText: 'Legs #1' }).click();
+  await page.getByTestId('start-program-day').filter({ hasText: 'Lower' }).click();
 
   const curl = page.getByTestId('exercise-card').filter({ hasText: 'Lying Leg Curl' }).first();
   const start = curl.getByTestId('pitt-start');

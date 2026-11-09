@@ -16,7 +16,7 @@ The release has four parts:
 2. **Per-exercise note**: an optional `note` on program exercises, imported from the file,
    editable in the program editor, snapshotted onto the workout when a day is started.
 3. **10 new catalog exercises** so the coach plan maps without approximations.
-4. **The coach plan as `examples/programs/ppl-alternating.json`**, validated in CI.
+4. **A program file fixture**, validated in CI (the coach plan itself is kept outside the repo).
 
 ### Success criteria
 
@@ -189,7 +189,7 @@ triceps pushdown). The curator may adjust them during review; reasons go in `CUR
 ## 5. The coach plan (removed)
 
 The coach's plan was converted to a program file during development. It is personal data, so it
-is no longer kept in this repository.
+is no longer kept in this repository. Tests use the generic fixture `e2e/data/test-program.json`.
 
 ## 6. Testing
 
@@ -203,7 +203,7 @@ is no longer kept in this repository.
 - Notes: `edit.setNote` (trim, empty, >200); `duplicateProgram` copies; `startProgramDay`
   snapshots, including with a running block; swap/move keep the note.
 - Backup: v7 fixture round-trip; existing v1–v6 fixture tests stay green.
-- `examples/programs/ppl-alternating.test.ts` (or in `programFile.test.ts`): the example parses and
+- `src/program/testProgramFixture.test.ts`: the fixture parses and
   has no unknown ids against the shipped seed — catalog drift fails CI.
 - Seed: `node scripts/build-seed.mjs` passes; seed tests updated for `SEED_VERSION` 6.
 - Playwright `e2e/program-import.spec.ts`: import example → editor opens with 6 days → set active →

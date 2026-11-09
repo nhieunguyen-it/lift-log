@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import type { Page } from '@playwright/test';
 import { expect, test } from './fixtures';
 
-const EXAMPLE = 'examples/programs/ppl-alternating.json';
+const EXAMPLE = 'e2e/data/test-program.json';
 const NOTE = 'pause 3–4 s each';
 
 /** A fresh app opens onboarding; clear it first so it can't cover the import dialog. */
@@ -29,7 +29,7 @@ async function importExample(page: Page) {
   await page.goto('/programs');
   await page.getByTestId('import-program-file').setInputFiles(EXAMPLE);
   const preview = page.getByTestId('import-program-preview');
-  await expect(preview).toContainText('6 days · 34 exercises');
+  await expect(preview).toContainText('2 days · 6 exercises');
   await page.getByTestId('import-program-confirm').click();
   await expect(page).toHaveURL(/\/programs\/[^/]+$/);
 }
@@ -39,11 +39,11 @@ test('imports the example program and shows its days', async ({ page }) => {
   await expect(page.getByText('Imported. Set it as active to start using it.')).toBeVisible();
   await page.reload();
   await expect(page.getByText('Imported. Set it as active to start using it.')).toHaveCount(0);
-  await expect(page.getByTestId('program-day')).toHaveCount(6);
-  await expect(page.getByTestId('program-day')).toHaveCount(6);
+  await expect(page.getByTestId('program-day')).toHaveCount(2);
+  await expect(page.getByTestId('program-day')).toHaveCount(2);
   const names = page.getByTestId('day-name');
-  await expect(names).toHaveCount(6);
-  const expected = ['Legs #1', 'Push #1', 'Pull #1', 'Legs #2', 'Push #2', 'Pull #2'];
+  await expect(names).toHaveCount(2);
+  const expected = ['Lower', 'Upper'];
   for (let i = 0; i < expected.length; i++) {
     await expect(names.nth(i)).toHaveValue(expected[i]);
   }
@@ -55,7 +55,7 @@ test('imported note shows on the workout card after starting the day', async ({ 
   await activate.click();
   await expect(activate).toHaveAttribute('aria-pressed', 'true');
   await page.goto('/');
-  await page.getByTestId('start-program-day').filter({ hasText: 'Legs #1' }).click();
+  await page.getByTestId('start-program-day').filter({ hasText: 'Lower' }).click();
   const card = page.getByTestId('exercise-card').filter({ hasText: 'Lying Leg Curl' }).first();
   await expect(card.getByTestId('exercise-note')).toHaveText(NOTE);
 });
