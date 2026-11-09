@@ -271,4 +271,46 @@ describe('toProgram', () => {
       ],
     });
   });
+
+  const withFields = (fields: Record<string, unknown>) => {
+    const raw = valid();
+    raw.program.days[0].exercises[0] = { ...raw.program.days[0].exercises[0], ...fields };
+    return raw;
+  };
+  const toEx = (fields: Record<string, unknown>) =>
+    toProgram(fileOf(withFields(fields)), { programId: 'p', dayIds: ['d'] }, 'X', 0).days[0]
+      .exercises[0];
+
+  it('accepts system and mainFocus and normalises to stored form', () => {
+    const ex = toEx({ system: 'progression', mainFocus: true });
+    expect(ex).toEqual(expect.objectContaining({ mainFocus: true }));
+    expect('system' in ex).toBe(false);
+  });
+
+  it('maps mainFocus false to absent', () => {
+    const ex = toEx({ system: 'pyramid_up', mainFocus: false });
+    expect(ex.system).toBe('pyramid_up');
+    expect('mainFocus' in ex).toBe(false);
+  });
+});
+
+describe('program file systems', () => {
+  const withFields = (fields: Record<string, unknown>) => {
+    const raw = valid();
+    raw.program.days[0].name = 'Legs';
+    raw.program.days[0].exercises[0] = { ...raw.program.days[0].exercises[0], ...fields };
+    return raw;
+  };
+
+  it('rejects an unknown system', () => {
+    expect(errorsOf(withFields({ system: 'drop_set' }))).toEqual([
+      'Day 1 "Legs", exercise 1: system must be one of progression, pyramid_up, pyramid_down, pitt_force',
+    ]);
+  });
+
+  it('rejects mainFocus with a non-progression system', () => {
+    expect(errorsOf(withFields({ system: 'pitt_force', mainFocus: true }))).toEqual([
+      'Day 1 "Legs", exercise 1: mainFocus is only allowed with the progression system',
+    ]);
+  });
 });

@@ -3,7 +3,7 @@ import type { Page } from '@playwright/test';
 import { expect, test } from './fixtures';
 
 const EXAMPLE = 'examples/programs/ppl-alternating.json';
-const NOTE = 'PITT Force – 20 single reps, pause 3–4 s each';
+const NOTE = 'pause 3–4 s each';
 
 /** A fresh app opens onboarding; clear it first so it can't cover the import dialog. */
 async function clearOnboarding(page: Page) {

@@ -2,7 +2,7 @@
 import { z } from 'zod';
 import { PROGRAM_FILE } from '@/config/programFile';
 import { MAX_TARGET_SETS, MIN_TARGET_SETS, NOTE_MAX } from './edit';
-import type { Program } from './types';
+import { TRAINING_SYSTEMS, type Program, type StoredSystem } from './types';
 
 const L = PROGRAM_FILE;
 
@@ -15,22 +15,32 @@ const RepNumber = z
 
 const setsMsg = `sets must be between ${MIN_TARGET_SETS} and ${MAX_TARGET_SETS}`;
 const noteMsg = `note must be at most ${NOTE_MAX} characters`;
+const systemMsg = `system must be one of ${TRAINING_SYSTEMS.join(', ')}`;
+const mainFocusMsg = 'mainFocus must be true or false';
+const mainFocusSystemMsg = 'mainFocus is only allowed with the progression system';
 
-const ExerciseSchema = z.strictObject({
-  exerciseId: z
-    .string({ error: 'exerciseId must be a non-empty string' })
-    .min(1, 'exerciseId must be a non-empty string'),
-  sets: z
-    .number({ error: setsMsg })
-    .int(setsMsg)
-    .min(MIN_TARGET_SETS, setsMsg)
-    .max(MAX_TARGET_SETS, setsMsg),
-  reps: z
-    .strictObject({ min: RepNumber, max: RepNumber })
-    .refine((r) => r.min <= r.max, { error: 'reps min must not be greater than max' })
-    .optional(),
-  note: z.string({ error: noteMsg }).trim().max(NOTE_MAX, noteMsg).optional(),
-});
+const ExerciseSchema = z
+  .strictObject({
+    exerciseId: z
+      .string({ error: 'exerciseId must be a non-empty string' })
+      .min(1, 'exerciseId must be a non-empty string'),
+    sets: z
+      .number({ error: setsMsg })
+      .int(setsMsg)
+      .min(MIN_TARGET_SETS, setsMsg)
+      .max(MAX_TARGET_SETS, setsMsg),
+    reps: z
+      .strictObject({ min: RepNumber, max: RepNumber })
+      .refine((r) => r.min <= r.max, { error: 'reps min must not be greater than max' })
+      .optional(),
+    note: z.string({ error: noteMsg }).trim().max(NOTE_MAX, noteMsg).optional(),
+    system: z.enum(TRAINING_SYSTEMS, { error: systemMsg }).optional(),
+    mainFocus: z.boolean({ error: mainFocusMsg }).optional(),
+  })
+  .refine((ex) => !ex.mainFocus || ex.system === 'progression', {
+    error: mainFocusSystemMsg,
+    path: ['mainFocus'],
+  });
 
 const dayNameMsg = `name must be 1 to ${L.dayNameMax} characters`;
 const exercisesMsg = `exercises must have 1 to ${L.exercisesPerDayMax} entries`;
@@ -169,6 +179,8 @@ export function toProgram(
         targetSets: ex.sets,
         ...(ex.reps ? { repRange: { min: ex.reps.min, max: ex.reps.max } } : {}),
         ...(ex.note ? { note: ex.note } : {}),
+        ...(ex.system && ex.system !== 'progression' ? { system: ex.system as StoredSystem } : {}),
+        ...(ex.mainFocus ? { mainFocus: true as const } : {}),
       })),
     })),
   };
