@@ -11,6 +11,7 @@ import type { RepRange } from '@/config/training';
 import { normalizeNote } from '@/program/edit';
 import type { StoredSystem } from '@/program/types';
 import { db, newId } from './db';
+import { deloadWeekForSession, planForSessionExercise } from './plannedSets';
 import type { CardioEntry, Session, SessionExercise, SessionSummary, SetRow } from './types';
 
 export interface SessionExerciseDetail {
@@ -259,5 +260,45 @@ export async function swapExercise(
   sessionExerciseId: string,
   newExerciseId: string,
 ): Promise<void> {
-  await db.sessionExercises.update(sessionExerciseId, { exerciseId: newExerciseId });
+  await db.transaction(
+    'rw',
+    [
+      db.sessions,
+      db.sessionExercises,
+      db.sets,
+      db.settings,
+      db.exercises,
+      db.exerciseMuscles,
+      db.customExercises,
+      db.customExerciseMuscles,
+    ],
+    async () => {
+      await db.sessionExercises.update(sessionExerciseId, { exerciseId: newExerciseId });
+      const se = await db.sessionExercises.get(sessionExerciseId);
+      if (!se) return;
+      // Ad-hoc exercises keep their rows; snapshot ones re-plan not-done rows for the new lift.
+      if (se.system === undefined && se.mainFocus === undefined && se.repRange === undefined) {
+        return;
+      }
+      const rows = (await db.sets.where('sessionExerciseId').equals(se.id).toArray()).sort(
+        (a, b) => a.order - b.order,
+      );
+      const plan = await planForSessionExercise(se, {
+        sets: rows.length,
+        deloadWeek: await deloadWeekForSession(se.sessionId),
+      });
+      for (const [i, row] of rows.entries()) {
+        const p = plan[i];
+        if (!p || row.completedAt !== undefined) continue;
+        await db.sets
+          .where('id')
+          .equals(row.id)
+          .modify((r) => {
+            r.reps = p.reps;
+            if (p.weightKg === undefined) delete r.weightKg;
+            else r.weightKg = p.weightKg;
+          });
+      }
+    },
+  );
 }

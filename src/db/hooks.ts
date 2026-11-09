@@ -7,7 +7,7 @@ import {
   recentExerciseIds,
 } from './exercisesRepo';
 import { getActiveSession, getSessionDetail, listHistory } from './sessionsRepo';
-import { planForSessionExercise } from './plannedSets';
+import { deloadWeekForSession, planForSessionExercise } from './plannedSets';
 import type { PlannedSet } from '@/analysis/recommend';
 import type { SessionExercise } from '@/analysis/rows';
 import { analysisClient } from './localAnalysisClient';
@@ -52,8 +52,17 @@ export const useSetPlan = (se: SessionExercise | undefined): PlannedSet[] | unde
     if (se.system === undefined && se.mainFocus === undefined && se.repRange === undefined) {
       return null;
     }
-    return planForSessionExercise(se);
-  }, [se?.id, se?.system, se?.mainFocus, se?.repRange?.min, se?.repRange?.max]);
+    // Plans for the current row count, so adding rows reshapes pyramid reps (documented).
+    return planForSessionExercise(se, { deloadWeek: await deloadWeekForSession(se.sessionId) });
+  }, [
+    se?.id,
+    se?.sessionId,
+    se?.exerciseId,
+    se?.system,
+    se?.mainFocus,
+    se?.repRange?.min,
+    se?.repRange?.max,
+  ]);
 export const useAlternatives = (exerciseId: string | undefined) =>
   useLiveQuery(
     async () => (exerciseId ? await analysisClient.getAlternatives(exerciseId) : null),

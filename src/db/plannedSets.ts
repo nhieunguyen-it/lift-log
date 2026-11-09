@@ -1,23 +1,39 @@
 import { planSets, resolveRepRange } from '@/analysis/recommend';
 import type { HistorySet, PlannedSet } from '@/analysis/recommend';
 import type { SessionExercise, SetRow } from '@/analysis/rows';
+import { isDeloadWeek } from '@/program/block';
 import { systemOf } from '@/program/systems';
 import { db } from './db';
 import { getExerciseWithMuscles } from './exercisesRepo';
 import { earlierSessionExerciseIds } from './previousSessions';
-import { getUnit } from './settingsRepo';
+import { getProgramBlocks, getUnit } from './settingsRepo';
 
-/** Working sets of the most recent earlier session that has sets for this exercise, in order. */
+/**
+ * Done (ticked) working sets of the most recent earlier session that has any for this
+ * exercise, in order. Unticked rows (e.g. pre-filled but skipped) are not history.
+ */
 async function previousWorkingSets(sessionExerciseId: string): Promise<HistorySet[]> {
   for (const id of await earlierSessionExerciseIds(sessionExerciseId)) {
-    const rows = await db.sets.where('sessionExerciseId').equals(id).toArray();
+    const rows = (await db.sets.where('sessionExerciseId').equals(id).toArray()).filter(
+      (s) => !s.isWarmup && s.completedAt !== undefined,
+    );
     if (rows.length === 0) continue;
     return rows
       .sort((a, b) => a.order - b.order)
-      .filter((s) => !s.isWarmup)
       .map((s) => ({ weightKg: s.weightKg, reps: s.reps }));
   }
   return [];
+}
+
+/**
+ * Whether a session was started in its program block's deload week, judged against the
+ * program's current block (as startProgramDay does). False for ad-hoc sessions.
+ */
+export async function deloadWeekForSession(sessionId: string): Promise<boolean> {
+  const session = await db.sessions.get(sessionId);
+  if (!session?.programId || session.blockWeek === undefined) return false;
+  const block = (await getProgramBlocks())[session.programId];
+  return !!block && isDeloadWeek(block, session.blockWeek);
 }
 
 /**

@@ -8,7 +8,7 @@ import * as setsRepo from './setsRepo';
 import * as edit from '@/program/edit';
 import type { Program } from '@/program/types';
 import type { SetRow } from '@/analysis/rows';
-import { fillFromPlan } from './plannedSets';
+import { deloadWeekForSession, fillFromPlan } from './plannedSets';
 
 beforeEach(resetDb);
 
@@ -138,6 +138,71 @@ describe('startProgramDay training systems', () => {
     ]);
   });
 
+  it('unticked rows of a skipped session are not history', async () => {
+    const p = await makeProgram();
+    const t0 = Date.now() - 7 * DAY_MS;
+    const s1 = await programs.startProgramDay(p.id, DAY, t0);
+    const squat1 = (await sessionExercisesOf(s1.id))[0];
+    for (const r of await setsOf(squat1.id)) await db.sets.update(r.id, { weightKg: 100 });
+    await sessions.finishSession(s1.id, t0 + 3_600_000);
+    const s2 = await programs.startProgramDay(p.id, DAY, Date.now());
+    const squat = await setsOf((await sessionExercisesOf(s2.id))[0].id);
+    expect(squat.map((r) => r.reps)).toEqual([5, 5, 5, 5, 5]);
+    for (const r of squat) expect('weightKg' in r).toBe(false);
+  });
+
+  it('skips a newest session with only unticked rows and plans from an older ticked one', async () => {
+    const p = await makeProgram();
+    const t0 = Date.now() - 14 * DAY_MS;
+    const s1 = await programs.startProgramDay(p.id, DAY, t0);
+    await finishWith(
+      s1.id,
+      { 'barbell-back-squat': Array.from({ length: 5 }, () => ({ weightKg: 100, reps: 5 })) },
+      t0 + 3_600_000,
+    );
+    const t1 = Date.now() - 7 * DAY_MS;
+    const s2 = await programs.startProgramDay(p.id, DAY, t1);
+    const squat2 = await setsOf((await sessionExercisesOf(s2.id))[0].id);
+    expect(squat2.map((r) => r.weightKg)).toEqual([105, 105, 105, 105, 105]);
+    await sessions.finishSession(s2.id, t1 + 3_600_000);
+    const s3 = await programs.startProgramDay(p.id, DAY, Date.now());
+    const squat3 = await setsOf((await sessionExercisesOf(s3.id))[0].id);
+    expect(squat3.map((r) => r.weightKg)).toEqual([105, 105, 105, 105, 105]);
+  });
+
+  it('swapping a snapshot exercise re-plans not-done rows for the new exercise', async () => {
+    const p = await makeProgram();
+    const t0 = Date.now() - 7 * DAY_MS;
+    const s1 = await programs.startProgramDay(p.id, DAY, t0);
+    await finishWith(
+      s1.id,
+      {
+        'leg-press': [
+          { weightKg: 100, reps: 15 },
+          { weightKg: 100, reps: 13 },
+          { weightKg: 100, reps: 12 },
+        ],
+      },
+      t0 + 3_600_000,
+    );
+    const s2 = await programs.startProgramDay(p.id, DAY, Date.now());
+    const press = (await sessionExercisesOf(s2.id))[1];
+    const before = await setsOf(press.id);
+    await db.sets.update(before[0].id, { completedAt: Date.now() });
+    const doneRow = (await db.sets.get(before[0].id))!;
+    await sessions.swapExercise(press.id, 'dumbbell-lunge');
+    const se = (await db.sessionExercises.get(press.id))!;
+    expect(se).toMatchObject({
+      exerciseId: 'dumbbell-lunge',
+      system: 'pyramid_up',
+      repRange: { min: 12, max: 15 },
+    });
+    const after = await setsOf(press.id);
+    expect(after[0]).toEqual(doneRow);
+    expect(after.slice(1).map((r) => r.reps)).toEqual([14, 12]);
+    for (const r of after.slice(1)) expect('weightKg' in r).toBe(false);
+  });
+
   it('editing the program after start does not change the running snapshot', async () => {
     const p = await makeProgram();
     const s = await programs.startProgramDay(p.id, DAY);
@@ -162,6 +227,24 @@ describe('startProgramDay training systems', () => {
     expect(ex[0].mainFocus).toBe(true);
     expect(ex[1].system).toBe('pyramid_up');
     expect(ex[2].system).toBe('pitt_force');
+  });
+});
+
+describe('deloadWeekForSession', () => {
+  it('is true only for a program session in its block deload week', async () => {
+    const p = await makeProgram();
+    await programs.startBlock(p.id, { weeks: 3, now: Date.now() - 14 * DAY_MS });
+    const deload = await programs.startProgramDay(p.id, DAY, Date.now());
+    expect(deload.blockWeek).toBe(3);
+    expect(await deloadWeekForSession(deload.id)).toBe(true);
+    await sessions.finishSession(deload.id);
+    const week2 = await programs.startProgramDay(p.id, DAY, Date.now() - 7 * DAY_MS);
+    expect(week2.blockWeek).toBe(2);
+    expect(await deloadWeekForSession(week2.id)).toBe(false);
+    await sessions.finishSession(week2.id);
+    const adHoc = await sessions.startSession();
+    expect(await deloadWeekForSession(adHoc.id)).toBe(false);
+    expect(await deloadWeekForSession('missing')).toBe(false);
   });
 });
 
