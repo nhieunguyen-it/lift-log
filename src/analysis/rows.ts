@@ -1,3 +1,6 @@
+import type { RepRange } from '@/config/training';
+import type { StoredSystem } from '@/program/types';
+
 export interface Session {
   id: string;
   startedAt: number;
@@ -21,6 +24,11 @@ export interface SessionExercise {
   order: number;
   /** Snapshot of the program exercise note when started from a program day. */
   note?: string;
+  /** Snapshot of the program exercise's training system (absent = progression). */
+  system?: StoredSystem;
+  mainFocus?: true;
+  /** Snapshot of the program exercise's rep range override. */
+  repRange?: RepRange;
 }
 
 export interface SetRow {

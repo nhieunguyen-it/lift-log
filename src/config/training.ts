@@ -113,6 +113,8 @@ export interface TrainingConfig {
     /** Ramp: chosen exercises gain `setsPerWeek` sets each week, at most `maxExtraSets` above base. */
     ramp: BlockRamp;
   };
+  /** PITT-Force pacing timer, in seconds. */
+  pitt: { countdownSec: number; repSec: number; pauseSec: number; minSec: number; maxSec: number };
   /** Cardio exercises: logged by duration + intensity, credited to muscles as sets. */
   cardio: {
     /** Assumed speed in km/h per profile and intensity. */
@@ -215,6 +217,7 @@ export const TRAINING: TrainingConfig = {
   charts: { minSessions: 2, rangeBarHeadroom: 1.25, sparklineWeeks: 5 },
   analyzeUi: { collapsedRows: 6, transitionMs: 180 },
   blocks: { defaultWeeks: 5, minWeeks: 3, maxWeeks: 8, ramp: { setsPerWeek: 1, maxExtraSets: 3 } },
+  pitt: { countdownSec: 3, repSec: 2, pauseSec: 4, minSec: 1, maxSec: 10 },
   cardio: {
     profiles: {
       running: { relaxed: 8.5714, moderate: 10, hard: 12 },

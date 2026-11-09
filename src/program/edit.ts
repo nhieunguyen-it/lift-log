@@ -1,6 +1,7 @@
 /** Pure, immutable editing helpers for programs. Callers persist the result. */
 import type { RepRange } from '@/config/training';
-import type { Program, ProgramDay, ProgramExercise } from './types';
+import type { Program, ProgramDay, ProgramExercise, TrainingSystem } from './types';
+import { PITT_DEFAULT_RANGE } from './systems';
 
 export const MIN_TARGET_SETS = 1;
 export const MAX_TARGET_SETS = 20;
@@ -132,3 +133,35 @@ export const swapExercise = (
     targetSets: e.targetSets,
     ...(e.note ? { note: e.note } : {}),
   }));
+
+/**
+ * `progression` deletes the key (stored form). Switching system clears main focus,
+ * which is only valid with progression. PITT-Force fills an empty rep range with 20-20.
+ */
+export function setSystem(
+  p: Program,
+  dayId: string,
+  index: number,
+  system: TrainingSystem,
+): Program {
+  return mapExercise(p, dayId, index, (e) => {
+    const { system: _s, mainFocus: _m, ...rest } = e;
+    void _s;
+    void _m;
+    if (system === 'progression') return rest;
+    const next: ProgramExercise = { ...rest, system };
+    if (system === 'pitt_force' && !next.repRange) next.repRange = { ...PITT_DEFAULT_RANGE };
+    return next;
+  });
+}
+
+/** Only valid with progression: a no-op (same object) otherwise. `false` deletes the key. */
+export function setMainFocus(p: Program, dayId: string, index: number, on: boolean): Program {
+  const ex = p.days.find((d) => d.id === dayId)?.exercises[index];
+  if (!ex || ex.system) return p;
+  return mapExercise(p, dayId, index, (e) => {
+    const { mainFocus: _m, ...rest } = e;
+    void _m;
+    return on ? { ...rest, mainFocus: true } : rest;
+  });
+}

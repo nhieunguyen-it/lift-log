@@ -99,4 +99,39 @@ describe('program edit helpers', () => {
     expect(edit.removeDay(p, 'a').days.map((d) => d.id)).toEqual(['b']);
     expect(edit.addDay(p, { id: 'c', name: 'C', exercises: [] }).days).toHaveLength(3);
   });
+
+  describe('training system', () => {
+    const ex = (p: Program, i = 0) => p.days[0].exercises[i];
+
+    it('setSystem stores non-progression systems and clears main focus', () => {
+      let p = edit.setMainFocus(base(), 'a', 0, true);
+      expect(ex(p).mainFocus).toBe(true);
+      p = edit.setSystem(p, 'a', 0, 'pyramid_up');
+      expect(ex(p)).toMatchObject({ system: 'pyramid_up' });
+      expect('mainFocus' in ex(p)).toBe(false);
+    });
+
+    it('setSystem progression deletes the key', () => {
+      const p = edit.setSystem(edit.setSystem(base(), 'a', 0, 'pitt_force'), 'a', 0, 'progression');
+      expect('system' in ex(p)).toBe(false);
+    });
+
+    it('setSystem pitt_force fills an empty rep range with 20-20 and keeps an existing one', () => {
+      expect(ex(edit.setSystem(base(), 'a', 1, 'pitt_force'), 1).repRange).toEqual({
+        min: 20,
+        max: 20,
+      });
+      expect(ex(edit.setSystem(base(), 'a', 0, 'pitt_force')).repRange).toEqual({
+        min: 5,
+        max: 8,
+      });
+    });
+
+    it('setMainFocus is a no-op off progression and false deletes the key', () => {
+      const pyr = edit.setSystem(base(), 'a', 0, 'pyramid_down');
+      expect(edit.setMainFocus(pyr, 'a', 0, true)).toBe(pyr);
+      const on = edit.setMainFocus(base(), 'a', 0, true);
+      expect('mainFocus' in ex(edit.setMainFocus(on, 'a', 0, false))).toBe(false);
+    });
+  });
 });

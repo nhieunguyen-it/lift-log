@@ -3,6 +3,16 @@ import type { MuscleId } from '@/data';
 import type { BlockRamp, RepRange, VolumeTarget } from '@/config/training';
 import type { MuscleStatus } from '@/analysis/engine/types';
 
+export const TRAINING_SYSTEMS = [
+  'progression',
+  'pyramid_up',
+  'pyramid_down',
+  'pitt_force',
+] as const;
+export type TrainingSystem = (typeof TRAINING_SYSTEMS)[number];
+/** Stored form: `progression` is the default and is never written (absent key). */
+export type StoredSystem = Exclude<TrainingSystem, 'progression'>;
+
 export interface ProgramExercise {
   exerciseId: string;
   targetSets: number;
@@ -10,6 +20,10 @@ export interface ProgramExercise {
   repRange?: RepRange;
   /** Free-text cue for this exercise (max 200 chars). */
   note?: string;
+  /** Absent = progression. */
+  system?: StoredSystem;
+  /** Only stored as `true`, and only valid with progression. */
+  mainFocus?: true;
 }
 
 export interface ProgramDay {
